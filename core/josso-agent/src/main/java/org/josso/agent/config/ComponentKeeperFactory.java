@@ -69,19 +69,24 @@ public abstract class ComponentKeeperFactory {
         if (System.getProperty(COMPONENT_KEEKPER_FACTORY) != null) {
             factoryClass = System.getProperty(COMPONENT_KEEKPER_FACTORY);
             try {
-                logger.info("Attempting to create configured factory ["+factoryClass+"]");
+                if(logger.isInfoEnabled()) {
+                    logger.info("Attempting to create configured factory ["+factoryClass+"]");
+                }
                 return getInstance(factoryClass);
             } catch (FactoryConfigurationError e) {
                 logger.error (e.getMessage(), e);
             }
         }
-
-        logger.info("Attempting to create default factories ...");
+        if(logger.isInfoEnabled()) {
+            logger.info("Attempting to create default factories ...");
+        }
 
         // 2. Try spring factory
         factoryClass = springFactoryClass;
         try {
-            logger.info("Attempting to create Spring factory ["+factoryClass+"]");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Attempting to create Spring factory ["+factoryClass+"]");
+            }
             return getInstance(factoryClass);
         } catch (FactoryConfigurationError e) {
             logger.warn(e.getMessage(), e);
@@ -90,7 +95,9 @@ public abstract class ComponentKeeperFactory {
         //3. Try blueprint factory
         factoryClass = blueprintsFactoryClass;
         try {
-            logger.info("Attempting to create Blueprints factory ["+factoryClass+"]");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Attempting to create Blueprints factory ["+factoryClass+"]");
+            }
             return getInstance(factoryClass);
         } catch (FactoryConfigurationError e) {
             logger.warn(e.getMessage(), e);

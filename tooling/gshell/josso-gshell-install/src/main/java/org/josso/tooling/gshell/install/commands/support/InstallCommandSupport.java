@@ -125,8 +125,8 @@ public abstract class InstallCommandSupport extends JOSSOCommandSupport {
         try {
 
             log.debug("Creating installer for " + getTargetPlatformId());
-            Map beans = getApplicationContext().getBeansOfType(Installer.class);
-            Iterator it = beans.values().iterator();
+            Map<?,?> beans = getApplicationContext().getBeansOfType(Installer.class);
+            Iterator<?> it = beans.values().iterator();
 
             if (!(idpType.equals("josso") || idpType.equals("atricore-idbus"))) {
                 throw new RuntimeException("idp-type should be 'josso' or 'atricore-idbus'");

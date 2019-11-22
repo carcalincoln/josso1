@@ -91,7 +91,6 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
             <scope>provided</scope>
         </dependency>
 
@@ -102,37 +101,47 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.6.1</version>
+            <!-- //RPBA <version>1.6.1</version>-->
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>3.0</version>
+            <!--//RPBA<version>3.0</version>-->
             <scope>runtime</scope>
         </dependency>
 
-        <dependency>
+        <!-- //RPBA <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>1.5</version>
             <scope>runtime</scope>
-        </dependency>
+        </dependency> -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-digester3</artifactId>
+		</dependency>
 
         <dependency>
             <groupId>commons-discovery</groupId>
             <artifactId>commons-discovery</artifactId>
-            <version>0.2</version>
+            <!--//RPBA <version>0.2</version>-->
             <scope>runtime</scope>
         </dependency>
 
+		<!-- //RPBA
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.0</version>
             <scope>runtime</scope>
         </dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
     </dependencies>
 
@@ -143,7 +152,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.5</source>
-                    <target>1.5</target>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>

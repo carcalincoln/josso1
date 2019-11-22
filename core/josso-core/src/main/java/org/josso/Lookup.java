@@ -91,7 +91,9 @@ public class Lookup {
      * @param configResourceName the name of the resource holding josso configuration (agent or gateway)
      */
     public void init(String configResourceName) {
-        logger.info("Init resourceName <" + configResourceName + ">");
+        if(logger.isInfoEnabled()) {
+            logger.info("Init resourceName <" + configResourceName + ">");
+        }
         this.configResourceName = configResourceName;
     }
 
@@ -180,7 +182,9 @@ public class Lookup {
 
             factory.setResourceFileName(this.configResourceName);
             _componentKeeper = factory.newComponentKeeper();
-            logger.info("Using ComponentKeeper : " + this._componentKeeper.getClass().getName());
+            if(logger.isInfoEnabled()) {
+        	logger.info("Using ComponentKeeper : " + this._componentKeeper.getClass().getName());
+            }
         }
 
         return this._componentKeeper;

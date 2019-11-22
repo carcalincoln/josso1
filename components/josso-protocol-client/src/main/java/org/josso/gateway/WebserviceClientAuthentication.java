@@ -57,9 +57,9 @@ public class WebserviceClientAuthentication extends BasicHandler {
         try {
 
             if (_username != null && _password != null) {
-                logger.debug("Injecting identity to SOAP request, username='" + _username + "' " +
-                        "password='" + _password + "'"
-                );
+        	if(logger.isDebugEnabled()) {
+        	    logger.debug("Injecting identity to SOAP request, username='" + _username + "' " +"password='" + _password + "'");
+        	}
 
                 msgContext.setUsername(_username);
                 msgContext.setPassword(_password);

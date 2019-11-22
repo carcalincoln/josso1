@@ -1,9 +1,19 @@
 package org.josso.tooling.gshell.install.installer;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.josso.tooling.gshell.install.JOSSOArtifact;
 import org.josso.tooling.gshell.install.TargetPlatform;
@@ -15,14 +25,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xmldb.common.xml.queries.XUpdateQuery;
 import org.xmldb.xupdate.lexus.XUpdateQueryImpl;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
-import java.io.*;
 
 /**
  * @version $Id$

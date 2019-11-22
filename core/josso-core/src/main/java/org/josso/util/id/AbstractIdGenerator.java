@@ -95,9 +95,11 @@ public abstract class AbstractIdGenerator implements IdGenerator {
                         _random.setSeed(seed);
                     }
                     // Log a debug msg if this is taking too long ...
-                    long t2 = System.currentTimeMillis();
-                    if ((t2 - t1) > 100)
-                        logger.debug("Delay getting Random with class : " + _randomClass + " [getRandom()] " + (t2 - t1) + " ms.");
+                    if(logger.isDebugEnabled()) {
+                	long t2 = System.currentTimeMillis();
+                	if ((t2 - t1) > 100)
+                	    logger.debug("Delay getting Random with class : " + _randomClass + " [getRandom()] " + (t2 - t1) + " ms.");
+                    }
                 }
             }
         }
@@ -118,7 +120,9 @@ public abstract class AbstractIdGenerator implements IdGenerator {
 
             try {
                 digest = MessageDigest.getInstance(_algorithm);
-                logger.debug("Using hash algorithm/encoding : " + _algorithm);
+                if(logger.isDebugEnabled()) {
+                    logger.debug("Using hash algorithm/encoding : " + _algorithm);
+                }
             } catch (NoSuchAlgorithmException e) {
                 logger.error("Algorithm not supported : " + _algorithm, e);
                 try {

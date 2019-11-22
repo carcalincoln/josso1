@@ -84,7 +84,9 @@ public class WebserviceGatewayServiceLocator extends GatewayServiceLocator {
     public SSOIdentityManagerService getSSOIdentityManager() throws Exception {
         SSOIdentityManagerWSLocator ssoIdentityManagerServiceLocator = new SSOIdentityManagerWSLocator();
         String imEndpoint = getSSOIdentityManagerEndpoint();
-        logger.debug("Using SSOIdentityManager endpoint '" + imEndpoint + "'");
+        if(logger.isDebugEnabled()) {
+            logger.debug("Using SSOIdentityManager endpoint '" + imEndpoint + "'");
+        }
         ssoIdentityManagerServiceLocator.setSSOIdentityManagerSoapEndpointAddress(imEndpoint);
 
         // Lookup
@@ -103,7 +105,9 @@ public class WebserviceGatewayServiceLocator extends GatewayServiceLocator {
     public SSOIdentityProviderService getSSOIdentityProvider() throws Exception {
         SSOIdentityProviderWSLocator ssoIdentityProviderServiceLocator = new SSOIdentityProviderWSLocator();
         String ipEndpoint = getSSOIdentityProviderEndpoint();
-        logger.debug("Using SSOIdentityProvider endpoint '" + ipEndpoint + "'");
+        if(logger.isDebugEnabled()) {
+            logger.debug("Using SSOIdentityProvider endpoint '" + ipEndpoint + "'");
+        }
         ssoIdentityProviderServiceLocator.setSSOIdentityProviderSoapEndpointAddress(ipEndpoint);
 
         // Lookup

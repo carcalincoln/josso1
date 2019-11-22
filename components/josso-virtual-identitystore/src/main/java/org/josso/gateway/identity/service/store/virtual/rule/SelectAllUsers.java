@@ -1,13 +1,12 @@
 package org.josso.gateway.identity.service.store.virtual.rule;
 
+import java.util.Collection;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.josso.gateway.identity.service.BaseUser;
-import org.josso.gateway.identity.service.store.virtual.UserMappingRule;
-import org.josso.gateway.identity.service.store.virtual.BaseRoleMappingRule;
 import org.josso.gateway.identity.service.store.virtual.BaseUserMappingRule;
-
-import java.util.Collection;
+import org.josso.gateway.identity.service.store.virtual.UserMappingRule;
 
 /**
  * @author <a href="mailto:gbrigand@josso.org">Gianluca Brigandi</a>

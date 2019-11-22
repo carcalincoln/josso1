@@ -22,7 +22,6 @@
 
 package org.josso.auth.scheme;
 
-import org.josso.auth.Credential;
 import org.josso.auth.BaseCredential;
 
 /**

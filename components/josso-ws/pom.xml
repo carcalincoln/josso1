@@ -52,49 +52,51 @@
         <artifactId>components</artifactId>
         <version>1.8.12</version>
     </parent>
+    <properties>
+    	<axis2.version>1.7.9</axis2.version>
+    	<axis.version>1.4</axis.version>
+    </properties>
 
     <artifactId>josso-ws</artifactId>
     <packaging>jar</packaging>
     <name>JOSSO :: Web Services</name>
     <description>Web Services</description>
-
     <dependencies>
-        <!--
+       <!--
         <dependency>
             <groupId>org.josso</groupId>
             <artifactId>josso-core</artifactId>
         </dependency>
         -->
-
+       
         <dependency>
             <groupId>org.apache.axis</groupId>
             <artifactId>axis</artifactId>
-            <version>1.4</version>
+			<version>${axis.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.axis</groupId>
             <artifactId>axis-jaxrpc</artifactId>
-            <version>1.4</version>
+            <version>${axis.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.axis</groupId>
             <artifactId>axis-ant</artifactId>
-            <version>1.4</version>
+			<version>${axis.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.axis</groupId>
             <artifactId>axis-saaj</artifactId>
-            <version>1.4</version>
+			<version>${axis.version}</version>
         </dependency>
 
-        <!-- Only needed at runtime -->
+ <!-- Only needed at runtime -->
         <dependency>
             <groupId>axis</groupId>
             <artifactId>axis-wsdl4j</artifactId>
             <version>1.5.1</version>
         </dependency>
-
-
+		
     </dependencies>
     <build>
         <plugins>
@@ -105,7 +107,7 @@
                     <wsdlFiles>
                         <wsdlFile>josso-1.2.wsdl</wsdlFile>
                     </wsdlFiles>
-                    <!-- Provide specific mapping rules from XML Namespaces to Java packages -->
+                    <!--  Provide specific mapping rules from XML Namespaces to Java packages--> 
                     <fileNamespaceToPackage>${basedir}/src/main/resources/NSToPkg.properties</fileNamespaceToPackage>
                     <testCases>false</testCases>
                     <serverSide>false</serverSide>
@@ -120,13 +122,12 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.4</source>
-                    <target>1.4</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
 

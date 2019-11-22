@@ -95,7 +95,9 @@ public class AuthenticatorImpl implements Authenticator {
         _as = new ArrayList<AuthenticationScheme>();
         for (int i = 0; i < as.length; i++) {
             AuthenticationScheme a = as[i];
-            logger.info("[setAuthenticationScheme()] : " + a.getName() + "," + a.getClass().getName());
+            if(logger.isInfoEnabled()) {
+        	logger.info("[setAuthenticationScheme()] : " + a.getName() + "," + a.getClass().getName());
+            }
             _as.add(a);
         }
 

@@ -22,25 +22,25 @@
 
 package org.josso.tooling.gshell.install.installer;
 
-import org.apache.commons.vfs.Selectors;
-import org.josso.tooling.gshell.install.TargetPlatform;
-import org.josso.tooling.gshell.install.JOSSOArtifact;
-import org.josso.tooling.gshell.install.util.XUpdateUtil;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileType;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Document;
-import org.xmldb.common.xml.queries.XUpdateQuery;
-import org.xmldb.xupdate.lexus.XUpdateQueryImpl;
+import java.io.IOException;
 
 import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathFactory;
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathConstants;
-import java.io.IOException;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileType;
+import org.josso.tooling.gshell.install.JOSSOArtifact;
+import org.josso.tooling.gshell.install.TargetPlatform;
+import org.josso.tooling.gshell.install.util.XUpdateUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xmldb.common.xml.queries.XUpdateQuery;
+import org.xmldb.xupdate.lexus.XUpdateQueryImpl;
 
 /**
  * @org.apache.xbean.XBean element="jboss-installer"

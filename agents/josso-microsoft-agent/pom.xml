@@ -64,15 +64,16 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.6.1</version>
+            <!-- //RPBA <version>1.6.1</version>-->
+			<version>1.9.3</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
+            <version>1.2.17</version>
         </dependency>
-
 
         <!-- =================================================== -->
         <!-- Compile dependencies, provided by the container     -->
@@ -103,25 +104,25 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- //RPBA
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.0</version>
             <scope>runtime</scope>
         </dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
         </dependency>
-
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
@@ -181,9 +182,9 @@
                             <outputDirectory>${basedir}/target/classes</outputDirectory>
                         </artifactItem>
                         <artifactItem>
-                            <groupId>commons-lang</groupId>
-                            <artifactId>commons-lang</artifactId>
-                            <version>2.0</version>
+							<groupId>org.apache.commons</groupId>
+                            <artifactId>commons-lang3</artifactId>
+							<version>3.9</version>
                             <type>jar</type>
                             <overWrite>true</overWrite>
                             <outputDirectory>${basedir}/target/classes</outputDirectory>
@@ -199,7 +200,7 @@
                         <artifactItem>
                             <groupId>commons-beanutils</groupId>
                             <artifactId>commons-beanutils</artifactId>
-                            <version>1.6.1</version>
+                            <version>1.9.3</version>
                             <type>jar</type>
                             <overWrite>true</overWrite>
                             <outputDirectory>${basedir}/target/classes</outputDirectory>
@@ -215,7 +216,7 @@
                         <artifactItem>
                             <groupId>commons-collections</groupId>
                             <artifactId>commons-collections</artifactId>
-                            <version>3.0</version>
+							<version>3.2.2</version>
                             <type>jar</type>
                             <overWrite>true</overWrite>
                             <outputDirectory>${basedir}/target/classes</outputDirectory>
@@ -236,10 +237,18 @@
                             <overWrite>true</overWrite>
                             <outputDirectory>${basedir}/target/classes</outputDirectory>
                         </artifactItem>
+						<artifactItem>
+							<groupId>org.apache.logging.log4j</groupId>
+							<artifactId>log4j-api</artifactId>
+							<version>2.12.0</version>
+                            <type>jar</type>
+                            <overWrite>true</overWrite>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                        </artifactItem>						
                         <artifactItem>
-                            <groupId>log4j</groupId>
-                            <artifactId>log4j</artifactId>
-                            <version>1.2.14</version>
+							<groupId>org.apache.logging.log4j</groupId>
+							<artifactId>log4j-core</artifactId>
+							<version>2.12.0</version>
                             <type>jar</type>
                             <overWrite>true</overWrite>
                             <outputDirectory>${basedir}/target/classes</outputDirectory>
@@ -299,15 +308,12 @@
                             <descriptors>
                                 <descriptor>src/main/assembly/windows-src.xml</descriptor>
                             </descriptors>
-                            <finalName>${pom.artifactId}-${pom.version}</finalName>
+                            <finalName>${pom.artifactId}-${project.version}</finalName>
                             <tarLongFileMode>gnu</tarLongFileMode>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
-
         </plugins>
     </build>
-
 </project>

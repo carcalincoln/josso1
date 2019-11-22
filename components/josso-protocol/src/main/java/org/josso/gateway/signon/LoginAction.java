@@ -22,7 +22,7 @@
 package org.josso.gateway.signon;
 
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.*;
@@ -97,7 +97,7 @@ public abstract class LoginAction extends SignonBaseAction {
 		            	backToHost = backToHost.substring(backToHost.lastIndexOf("@")+1);
             		} catch (MalformedURLException e) {
             			if (logger.isDebugEnabled())
-            	            logger.debug("BackTo URL is malformed : [backTo=" + backTo + "]");
+            			    logger.debug("BackTo URL is malformed : [backTo=" + backTo + "]");
         			}
             	}
             	for (String trustedHost : cfg.getTrustedHosts()) {
@@ -246,7 +246,7 @@ public abstract class LoginAction extends SignonBaseAction {
 
                 // logs the error
                 ActionErrors errors = new ActionErrors();
-                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("sso.login.failed"));
+                errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("sso.login.failed"));
                 saveErrors(request, errors);
 
                 // Invalid login attempt, redirect to ON ERROR URL, if any.
@@ -391,7 +391,7 @@ public abstract class LoginAction extends SignonBaseAction {
         // Fatal error ...
         logger.error(e.getMessage(), e);
         ActionErrors errors = new ActionErrors();
-        errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("sso.error", e.getMessage() != null ? e.getMessage() : e.toString()));
+        errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("sso.error", e.getMessage() != null ? e.getMessage() : e.toString()));
         saveErrors(request, errors);
         return false;
     }

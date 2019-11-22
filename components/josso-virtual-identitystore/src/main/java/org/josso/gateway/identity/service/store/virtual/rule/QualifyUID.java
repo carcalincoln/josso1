@@ -2,10 +2,8 @@ package org.josso.gateway.identity.service.store.virtual.rule;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.josso.gateway.identity.service.store.virtual.UIDMappingRule;
 import org.josso.gateway.identity.service.store.virtual.BaseUIDMappingRule;
-
-import java.util.Collection;
+import org.josso.gateway.identity.service.store.virtual.UIDMappingRule;
 
 /**
  * @author <a href="mailto:gbrigand@josso.org">Gianluca Brigandi</a>

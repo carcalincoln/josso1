@@ -1,70 +1,89 @@
-<%--
-  ~ JOSSO: Java Open Single Sign-On
-  ~
-  ~ Copyright 2004-2009, Atricore, Inc.
-  ~
-  ~ This is free software; you can redistribute it and/or modify it
-  ~ under the terms of the GNU Lesser General Public License as
-  ~ published by the Free Software Foundation; either version 2.1 of
-  ~ the License, or (at your option) any later version.
-  ~
-  ~ This software is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  ~ Lesser General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Lesser General Public
-  ~ License along with this software; if not, write to the Free
-  ~ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-  ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
-  ~
-  --%>
 
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ taglib uri="/WEB-INF/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/tlds/struts-bean.tld" prefix="bean" %>
+<%@page import="admApli.Configuracion"%>
+<%@page contentType="text/html; charset=UTF-8"  language="java"  errorPage="/Error.jsp"%>
 
-        <div id="authentication">
-
-                <html:errors/>
-
-                <div id="subwrapper">
-
-                    <div class="main">
-                        <h2><bean:message key="sso.title.userLogin"/></h2>
-
-                        <p><bean:message key="sso.text.userLogin"/></p>
-
-
-                        <html:form action="/signon/usernamePasswordLogin" focus="josso_username" >
-
-                            <fieldset>
-                                <html:hidden property="josso_cmd" value="login"/>
-                                <html:hidden property="josso_back_to"/>
-
-                                <div><label for="username"><bean:message key="sso.label.username"/> </label> <html:text styleClass="text" property="josso_username" />
-                                </div>
-                                <div><label for="password"><bean:message key="sso.label.password"/> </label> <html:password styleClass="text error" property="josso_password" /></div>
-                                <div class="indent"><html:checkbox property="josso_rememberme" styleClass="checkbox"/><bean:message key="sso.label.rememberme"/></div>
-                            </fieldset>
-
-                            <div><input class="button indent" type="submit" value="Login"/></div>
-                        </html:form>
-                        <p class="indent"><a href="<%=request.getContextPath()%>/selfservices/lostpassword/lostPassword.do?josso_cmd=lostPwd"><bean:message key="sso.label.forgotPassword"/></a></p>
-
-                        <div class="highlight">
-                            <h3 class="help"><bean:message key="sso.title.help"/></h3>
-
-                            <p><bean:message key="sso.text.login.help"/>.</p>
-
-                            <div class="footer"></div>
-
-                        </div>
-                        <!-- /highlight -->
-
-                    </div>
-                    <!-- /main -->
-                </div>
-
-            </div> <!-- /authentication -->
-        
+<%@ taglib uri="http://rpba.gov.ar/tagLib/comun" prefix="comun"%>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<html>
+<head>
+	<c:remove var="usuario" scope="session" />
+	<script type="text/javascript" src="<%=admApli.Path.getRecurso()%>/script/comun/teclado.js" >
+	</script>
+	<meta name="volver" content="/">
+	<title>Login</title>
+	<html:javascript formName="usernamePasswordLoginForm" staticJavascript="false" />
+</head>
+<body id="login">
+    <div id="login" >
+		<html:form action="/signon/usernamePasswordLogin" focus="josso_username"  styleClass="formulario" onsubmit="return validateUsernamePasswordLoginForm(this);" method="post">
+			<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD %>" value="login"/>
+			<logic:equal value="externos" name="org.josso.gateway.securityDomainName">
+				<html:hidden property="RPBAExterno" value="externo"/>
+				<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO %>" value="/RegPropNew/signon/?RPBAExterno=externo"/>
+			</logic:equal>
+			<logic:notEqual value="externos" name="org.josso.gateway.securityDomainName">
+				<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO %>" value="/RegPropNew/signon/"/>
+			</logic:notEqual>
+			<div class="titulo">
+				Portal de Servicios para Usuarios Suscriptos
+			</div>
+			<table class="formulario">
+				<tr>
+					<td class="nombreFormulario"> 
+						Usuario
+					</td>
+					<td class="separadorCampoFormulario">
+						:
+					</td>
+					<td class="campoFormulario"> 
+						<html:text  property="josso_username"  size="10" maxlength="10" tabindex="1"  value=""/>
+					</td>
+				</tr>
+				<tr> 
+					<td class="nombreFormulario"> 
+						Contraseña
+					</td>
+					<td class="separadorCampoFormulario">
+						:
+					</td>
+					<td class="campoFormulario"> 
+						<html:password property="josso_password" styleId="josso_password"  size="10" maxlength="10" tabindex="2" redisplay="false"/>
+					</td>
+				</tr>
+			</table>
+			<div id="botonera">
+				<input name="enviar" type="submit" tabindex="5" value="Enviar" size="20"/>
+			</div>
+			<hr/>
+			<div>
+				<div id="botones" style="display:none;">
+				</div>
+				<script>
+					var letras="";
+					var p=0;
+					for (a=0;a<Tletras.length;a++){
+						letras=letras+"<input  type='Button' value="+Tletras[a]+" onclick=anadir('"+Tletras[a]+"','josso_password')>&nbsp;";
+						p=p+1;
+						if(p==10){
+							p=0;
+							letras=letras+"<br><br>";
+						}
+					}
+					var botones =document.getElementById("botones");
+					botones.innerHTML=letras+"<input alt='Borrar' type='Button' value='Borrar' onClick=anadir('<<','josso_password')><br><input type='Button' value='Espacio' onclick=anadir('&#160','josso_password')><input alt='Limpiar' type='Button' value='Limpiar' onClick=anadir('!!','josso_password')><br></br><input type='checkbox' name='mayusculas' onclick='cambiomayus(this)' checked>Mayusculas";
+				</script>
+				<a id="pregunta" href="javascript:mostrar()">Mostrar teclado</a><br/>
+			</div>
+		</html:form>
+	</div>
+	<script type="JavaScript">
+		anadir('!!','josso_password');
+	</script>
+	<div class="mensaje">
+		Sr. Escribano: Para activar su cuenta en el nuevo portal, por unica vez, haga click <a href='<%=admApli.Path.getRecurso()+"/admUsuario/activacion/jsp/habilitar.jsp" %>'>aqui</a>
+	</div>
+</body>
+</html>

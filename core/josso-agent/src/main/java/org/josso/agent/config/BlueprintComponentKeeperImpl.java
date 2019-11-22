@@ -27,8 +27,9 @@ public class BlueprintComponentKeeperImpl implements org.josso.agent.config.Comp
     public BlueprintComponentKeeperImpl(String resource) {
 
         try {
-
-            logger.info("Initializing Blueprint Component Keeper with configuration " + resource);
+            if(logger.isInfoEnabled()) {
+        	logger.info("Initializing Blueprint Component Keeper with configuration " + resource);
+            }
             // Try class classloader
             URL url = getClass().getClassLoader().getResource(resource);
 
@@ -40,8 +41,9 @@ public class BlueprintComponentKeeperImpl implements org.josso.agent.config.Comp
                 throw new RuntimeException("Cannot find agent config " + resource);
 
             container = new BlueprintContainerImpl(getClass().getClassLoader(), Arrays.asList(url));
-            logger.info("Initialized Blueprint Component Keeper");
-
+            if(logger.isInfoEnabled()) {
+        	logger.info("Initialized Blueprint Component Keeper");
+            }
         } catch (Exception e) {
             logger.error("Initializing container: " + e.getMessage(), e);
             throw new RuntimeException(e.getMessage(), e);

@@ -21,8 +21,9 @@
   --%>
 
 <%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
-<%@ taglib uri="/WEB-INF/tlds/struts-html.tld" prefix="html" %>
-<%@ taglib uri="/WEB-INF/tlds/struts-bean.tld" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
     <table width="100%" cellpadding="0" cellspacing="0">
         <tr>

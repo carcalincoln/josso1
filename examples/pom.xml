@@ -58,16 +58,16 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>josso-partner-jboss</module>
+        <!--<module>josso-partner-jboss</module>
         <module>josso-partner-jboss5</module>
-        <module>josso-partner-jboss7</module>
+        <module>josso-partner-jboss7</module>-->
         <module>josso-partner-tomcat</module>
-        <module>josso-partner-jetty</module>
+        <!--<module>josso-partner-jetty</module>-->
         <module>josso-partner-php</module>
-        <module>josso-partner-asp</module>
+        <!--<module>josso-partner-asp</module>
         <module>josso-partner-wasce</module>
         <module>josso-partner-applet</module>
-        <!--module>josso-partner-gae</module-->
+        <module>josso-partner-gae</module-->
         <module>spring-security-contacts</module>
         <module>spring-security-v3-contacts</module>
     </modules>
@@ -75,10 +75,10 @@
         <profile>
             <id>all</id>
             <modules>
-                <!--module>josso-partner-wl81</module-->
+                <!--<module>josso-partner-wl81</module>
                 <module>josso-partner-wl10</module>
                 <module>josso-partner-wl92</module>
-                <module>josso-partner-wl12</module>
+                <module>josso-partner-wl12</module>-->
             </modules>
         </profile>
     </profiles>

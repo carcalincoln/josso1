@@ -56,22 +56,30 @@
     <artifactId>josso-common</artifactId>
     <packaging>jar</packaging>
     <name>JOSSO :: Common</name>
-
     <dependencies>
-
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
+            <!-- //RPBA<version>1.1.1</version> -->
+            <version>1.2</version>
         </dependency>
+        <!-- //RPBA 
+        <dependency>
+			<groupId>commons-logging</groupId>
+  			<artifactId>commons-logging-api</artifactId>
+  			<version>1.1</version>
+		</dependency>
+		-->
 
         <!-- TODO : Remove JMX Dependencies -->
         <dependency>
             <groupId>commons-modeler</groupId>
             <artifactId>commons-modeler</artifactId>
-            <version>1.1</version>
-
-            <!-- JMX Infrastructure must be provided by the container ! -->
+            <version>2.0.1</version>
+		</dependency>
+            <!-- //RPBA 
+	
+            <JMX Infrastructure must be provided by the container ! >
             <exclusions>
                 <exclusion>
                     <groupId>mx4j</groupId>
@@ -82,23 +90,19 @@
                     <artifactId>xml-apis</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
+        </dependency>-->
         <!-- Spring must be provided -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -106,12 +110,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.4</source>
-                    <target>1.4</target>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
-    </build>
-    
-
-
+    </build> 
 </project>

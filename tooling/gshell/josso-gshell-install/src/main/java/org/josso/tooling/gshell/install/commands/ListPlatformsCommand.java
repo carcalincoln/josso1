@@ -22,14 +22,13 @@
 
 package org.josso.tooling.gshell.install.commands;
 
-import org.josso.tooling.gshell.core.support.JOSSOCommandSupport;
-import org.josso.tooling.gshell.install.installer.Installer;
-import org.josso.tooling.gshell.install.TargetPlatform;
-import org.apache.geronimo.gshell.command.annotation.CommandComponent;
-
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Iterator;
+
+import org.apache.geronimo.gshell.command.annotation.CommandComponent;
+import org.josso.tooling.gshell.core.support.JOSSOCommandSupport;
+import org.josso.tooling.gshell.install.TargetPlatform;
 
 /**
  * @org.apache.xbean.XBean element="list-platforms"
@@ -46,12 +45,12 @@ public class ListPlatformsCommand extends JOSSOCommandSupport {
 
     protected Object doExecute() throws Exception {
 
-        Map platforms = getApplicationContext().getBeansOfType(TargetPlatform.class);
-        Set keys = platforms.keySet();
+        Map<?,?> platforms = getApplicationContext().getBeansOfType(TargetPlatform.class);
+        Set<?> keys = platforms.keySet();
 
         io.out.println("Available Installers for Platform ID");
 
-        for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+        for (Iterator<?> iterator = keys.iterator(); iterator.hasNext();) {
             String platformId = (String) iterator.next();
             TargetPlatform platform = (TargetPlatform) platforms.get(platformId);
 

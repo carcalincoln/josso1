@@ -104,7 +104,11 @@
             <groupId>org.josso</groupId>
             <artifactId>josso-basic-authscheme</artifactId>
         </dependency>
-
+		<dependency>
+			<groupId>org.josso</groupId>
+			<artifactId>josso-rpba-authenticator</artifactId>
+			<version>1.8.12</version>
+		</dependency>
         <dependency>
             <groupId>org.josso</groupId>
             <artifactId>josso-bind-authscheme</artifactId>
@@ -134,6 +138,20 @@
         <dependency>
             <groupId>org.josso</groupId>
             <artifactId>josso-protocol</artifactId>
+            <exclusions>
+            	<!-- <exclusion>
+            		<groupId>commons-collections</groupId>
+            		<artifactId>commons-collections</artifactId>
+            	</exclusion>
+            	<exclusion>
+            		<groupId>commons-digester</groupId>
+            		<artifactId>commons-digester</artifactId>
+            	</exclusion>
+            	<exclusion>
+            		<groupId>javax.servlet</groupId>
+            		<artifactId>jstl</artifactId>
+            	</exclusion>-->
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -154,7 +172,13 @@
 		<dependency>
             <groupId>org.josso</groupId>
             <artifactId>josso-virtual-identitystore</artifactId>
-        </dependency>
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+            	</exclusion>
+            </exclusions>
+		</dependency>
         
         <dependency>
             <groupId>org.josso</groupId>
@@ -190,6 +214,11 @@
             <groupId>org.josso</groupId>
             <artifactId>josso-vhost-secdomainmatcher</artifactId>
         </dependency>
+		<dependency>
+			<groupId>org.josso</groupId>
+			<artifactId>josso-ip-secdomainmatcher</artifactId>
+			<version>1.8.12</version>
+		</dependency>
 
         <dependency>
             <groupId>org.josso</groupId>
@@ -237,6 +266,16 @@
         <dependency>
             <groupId>org.josso</groupId>
             <artifactId>josso-email-passworddistributor</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-lang</groupId>
+            		<artifactId>commons-lang</artifactId>
+            	</exclusion>
+            	<exclusion>
+            		<groupId>commons-collections</groupId>
+            		<artifactId>commons-collections</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -246,7 +285,7 @@
 
         <dependency>
             <groupId>org.josso</groupId>
-            <artifactId>josso-ws</artifactId>
+            <artifactId>josso-ws-v1_2</artifactId>
         </dependency>
 
         <!-- 3rd party dependencies -->
@@ -254,30 +293,58 @@
         <dependency>
             <groupId>commons-discovery</groupId>
             <artifactId>commons-discovery</artifactId>
-            <version>0.2</version>
+            <!-- //RPBA  <version>0.2</version>-->
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
-
-
         <dependency>
             <groupId>org.apache.xbean</groupId>
             <artifactId>xbean-spring</artifactId>
@@ -286,32 +353,93 @@
                     <groupId>org.springframework</groupId>
                     <artifactId>spring</artifactId>
                 </exclusion>
+                <exclusion>
+                	<groupId>commons-logging</groupId>
+                	<artifactId>commons-logging</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
-
-
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
-            <version>1.1</version>
+            <version>1.1.1</version>
         </dependency>
-
+        <dependency>
+        	<groupId>rpba</groupId>
+        	<artifactId>comun2</artifactId>
+        	<scope>provided</scope>
+        	<version>0.0.1</version>
+        </dependency>
+		<dependency>
+			<groupId>rpba</groupId>
+			<artifactId>admApli</artifactId>
+			<scope>provided</scope>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>rpba</groupId>
+			<artifactId>utils</artifactId>
+			<scope>provided</scope>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>rpba</groupId>
+			<artifactId>StrutsRpba</artifactId>
+			<version>0.0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>jstl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>sitemesh</artifactId>
+			<version>2.4.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
+			<version>1.2.5</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-jstlel</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.taglibs</groupId>
+			<artifactId>taglibs-standard-impl</artifactId>
+			<version>1.2.5</version>
+		</dependency>
     </dependencies>
-
     <build>
+    	<finalName>RegPropNew</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
                 <configuration>
                     <warSourceDirectory>src/main/webapp/</warSourceDirectory>
                 </configuration>

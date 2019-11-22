@@ -44,13 +44,13 @@
     <properties>
         <josso-version>${project.parent.version}</josso-version>
 
-        <commons-lang-version>2.0</commons-lang-version>
         <commons-logging-version>1.0.4</commons-logging-version>
-        <commons-beanutils-version>1.6.1</commons-beanutils-version>
-        <commons-collections-version>3.0</commons-collections-version>
+        <commons-beanutils-version>1.9.3</commons-beanutils-version>
+        <commons-collections-version>3.2.2</commons-collections-version>
         <commons-httpclient-version>3.1</commons-httpclient-version>
         <commons-modeler-version>1.1</commons-modeler-version>
-        <commons-digester-version>1.5</commons-digester-version>
+        <!-- //rpba <commons-digester-version>1.5</commons-digester-version>-->
+		<commons-digester-version>3.2</commons-digester-version>
         <axis-version>1.4</axis-version>
         <axis-jaxrpc-version>1.4</axis-jaxrpc-version>
         <axis-saaj-version>1.4</axis-saaj-version>
@@ -108,10 +108,9 @@
             <artifactId>josso-tomcat60-agent</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons-lang-version}</version>
-            <type>jar</type>
+            <!-- //RPBA <groupId>commons-lang</groupId>-->
+			<groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -128,13 +127,11 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>${commons-beanutils-version}</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
-            <version>${commons-collections-version}</version>
+            <!-- //RPBA <version>${commons-collections-version}</version>-->
             <type>jar</type>
         </dependency>
         <dependency>
@@ -152,19 +149,17 @@
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
-            <version>${commons-digester-version}</version>
+            <!--//RPBA<version>${commons-digester-version}</version>-->
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>${commons-codec-version}</version>
-            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>commons-discovery</groupId>
             <artifactId>commons-discovery</artifactId>
-            <version>${commons-discovery-version}</version>
+            <!-- //RPBA <version>${commons-discovery-version}</version>-->
             <type>jar</type>
         </dependency>
         <dependency>

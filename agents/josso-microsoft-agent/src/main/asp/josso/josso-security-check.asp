@@ -48,7 +48,7 @@ if assertionId <> "" then
     if isNull(ssoSession) then
         askForLogin(backToUrl)
     else 
-        Response.Cookies("JOSSO_SESSIONID") = ssoSession
+        Response.Cookies("RPBA_SESSIONID") = ssoSession
         Response.Redirect(backToUrl)
     end if
 else

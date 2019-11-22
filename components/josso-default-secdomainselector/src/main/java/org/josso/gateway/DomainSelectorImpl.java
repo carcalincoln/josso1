@@ -22,12 +22,12 @@
 
 package org.josso.gateway;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.josso.SecurityDomain;
 import org.josso.gateway.identity.exceptions.NoSuchDomainException;
-
-import java.util.List;
 
 /**
  *
@@ -49,20 +49,18 @@ public class DomainSelectorImpl implements SSOSecurityDomainSelector {
      * 2. The GWY uses the configured domain selector to find the domain.
      */
     public SecurityDomain selectDomain(SSORequest req, List<SecurityDomain> domains) throws NoSuchDomainException {
-
-        SecurityDomain sd = matchDomain(req, domains);
-        if (sd == null)
-            sd = selectByName(req, domains);
-
-        if (logger.isDebugEnabled())
+	SecurityDomain sd=selectByName(req, domains);
+	if (sd == null) {
+	    sd= matchDomain(req, domains);
+	}
+	if (logger.isDebugEnabled()) {
             logger.debug("Selected domain is " + (sd != null ? sd.getName() : null));
+	}
 
         if (sd == null)
             throw new NoSuchDomainException(req);
 
-        return sd;
-
-
+        return sd;	
     }
 
 
@@ -82,7 +80,6 @@ public class DomainSelectorImpl implements SSOSecurityDomainSelector {
             logger.debug("SecurityDomain by request: " + req);
 
         for (SecurityDomain sd : domains) {
-
             boolean match = true;
             for (SecurityDomainMatcher matcher : sd.getMatchers()) {
                 if (!matcher.match(req)) {
@@ -108,6 +105,7 @@ public class DomainSelectorImpl implements SSOSecurityDomainSelector {
      * <ol>
      * <li>SSO request parameter</li>
      * <li>SSO request attribute</li>
+     * <li>SSO cookie attribute</li>
      * </ol>
      * <p/>
      * If no name is found, this method returns null.
@@ -119,18 +117,18 @@ public class DomainSelectorImpl implements SSOSecurityDomainSelector {
      * @see org.josso.gateway.signon.Constants#KEY_JOSSO_SECURITY_DOMAIN_NAME
      */
     protected SecurityDomain selectByName(SSORequest req, List<SecurityDomain> domains) throws NoSuchDomainException {
-
-        String name = req.getAttribute(org.josso.gateway.signon.Constants.KEY_JOSSO_SECURITY_DOMAIN_NAME);
-        if (logger.isDebugEnabled())
-            logger.debug("SecurityDomain by name : " + name);
-
-        if (name == null)
-            return null;
-
-        for (SecurityDomain sd : domains) {
-            if (name.equals(sd.getName())) return sd;
+	String name = req.getAttribute(org.josso.gateway.signon.Constants.KEY_JOSSO_SECURITY_DOMAIN_NAME);
+        if (logger.isDebugEnabled()) {
+            logger.debug("SecurityDomain by name : " + name + " req "+ req);
         }
-
+        if(name==null) {
+            return null;
+        }
+        else {
+            for (SecurityDomain sd : domains) {
+        	if (name.equals(sd.getName())) return sd;
+            }
+        }
         throw new NoSuchDomainException(name);
 
     }

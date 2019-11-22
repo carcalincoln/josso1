@@ -22,17 +22,20 @@
 package org.josso.auth.scheme;
 
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.josso.auth.*;
-import org.josso.auth.exceptions.SSOAuthenticationException;
-import org.josso.gateway.identity.exceptions.SSOIdentityException;
-import org.josso.gateway.identity.service.store.SimpleIdentityStoreKeyAdapter;
+import java.security.Principal;
+import java.util.Set;
 
 import javax.security.auth.Subject;
-import java.security.Principal;
-import java.security.cert.X509Certificate;
-import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.josso.auth.Credential;
+import org.josso.auth.CredentialKey;
+import org.josso.auth.CredentialProvider;
+import org.josso.auth.CredentialStore;
+import org.josso.auth.CredentialStoreKeyAdapter;
+import org.josso.auth.exceptions.SSOAuthenticationException;
+import org.josso.gateway.identity.exceptions.SSOIdentityException;
 
 /**
  * Specific authentiation schemes can extend this base implementation providing
@@ -95,18 +98,18 @@ public abstract class AbstractAuthenticationScheme implements AuthenticationSche
         Credential[] pc = null;
 
         // Populate the Subject
-        Set principals = _subject.getPrincipals();
+        Set<Principal> principals = _subject.getPrincipals();
         principals.add(principal);
 
         // Private credentials :
-        Set privateCredentials = _subject.getPrivateCredentials();
+        Set<Object> privateCredentials = _subject.getPrivateCredentials();
         pc = getPrivateCredentials();
         for (int i = 0; i < pc.length; i++) {
             privateCredentials.add(pc[i]);
         }
 
         // Public credentials :
-        Set publicCredentials = _subject.getPublicCredentials();
+        Set<Object> publicCredentials = _subject.getPublicCredentials();
         pc = getPublicCredentials();
         for (int i = 0; i < pc.length; i++) {
             publicCredentials.add(pc[i]);

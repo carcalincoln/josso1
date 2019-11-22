@@ -78,22 +78,36 @@
             <scope>test</scope>
         </dependency>
         
-        <dependency>
-            <groupId>log4j</groupId>
+        <!--//RPBA
+		<dependency>
+            <groupId>apache-log4j</groupId>
             <artifactId>log4j</artifactId>
-            <scope>test</scope>
+            <version>${log4j.version}</version>
         </dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+			
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		
+		</dependency>
 
     </dependencies>
-    
     <build>
         <resources>
             <resource>
                 <directory>src/main/wsdl</directory>
             </resource>
         </resources>
+        <!--<pluginManagement>-->
         <plugins>
+        	
             <plugin>
+            	
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-codegen-plugin</artifactId>
                 <version>${cxf-version}</version>
@@ -127,6 +141,7 @@
                 </executions>
             </plugin>
         </plugins>
+<!--        </pluginManagement>-->
     </build>
 
 </project>

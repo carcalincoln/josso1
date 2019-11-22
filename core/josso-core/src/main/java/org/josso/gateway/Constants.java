@@ -33,12 +33,13 @@ public interface Constants {
     /**
      * The name of the cookie that holds the JOSSO Session id.
      */
-    public static final String JOSSO_SINGLE_SIGN_ON_COOKIE = "JOSSO_SESSIONID";
+    //RPBA
+    public static final String JOSSO_SINGLE_SIGN_ON_COOKIE = "RPBA_SESSIONID";
 
     /**
      * The name of the cookie that holds the JOSSO Remember me token value
      */
-    public static final String JOSSO_REMEMBERME_TOKEN= "JOSSO_REMEMBERME";
+    public static final String JOSSO_REMEMBERME_TOKEN= "RPBA_REMEMBERME";
 
     /**
      * @deprecated JOSSO Reverse proxy is no longer supported.

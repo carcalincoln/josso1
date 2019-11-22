@@ -51,7 +51,7 @@ public abstract class AbstractSSOAgent implements SSOAgent {
     /**
      * The name of the cookie that holds the JOSSO Session id.
      */
-    // private static final String JOSSO_SINGLE_SIGN_ON_COOKIE = "JOSSO_SESSIONID";
+    // private static final String JOSSO_SINGLE_SIGN_ON_COOKIE = "RPBA_SESSIONID";
 
     public static final long DEFAULT_SESSION_ACCESS_MIN_INTERVAL = 1000;
 

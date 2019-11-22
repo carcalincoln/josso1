@@ -69,7 +69,9 @@ public class JAXWSWebserviceGatewayServiceLocator extends GatewayServiceLocator 
         SSOSessionManager port = new SSOSessionManagerWS(getWsdl(SSOSessionManagerWS.WSDL_LOCATION)).getSSOSessionManagerSoap();
 
         String smEndpoint = getSSOSessionManagerEndpoint();
-        logger.debug("Using SSOSessionManager endpoint '" + smEndpoint + "'");
+        if(logger.isDebugEnabled()) {
+            logger.debug("Using SSOSessionManager endpoint '" + smEndpoint + "'");
+        }
         setEndpointAddress(port, smEndpoint);
 
         WebserviceSSOSessionManager wsm = new WebserviceSSOSessionManager(port);
@@ -87,7 +89,9 @@ public class JAXWSWebserviceGatewayServiceLocator extends GatewayServiceLocator 
         SSOIdentityManager port = new SSOIdentityManagerWS(getWsdl(SSOIdentityManagerWS.WSDL_LOCATION)).getSSOIdentityManagerSoap();
 
         String imEndpoint = getSSOIdentityManagerEndpoint();
-        logger.debug("Using SSOIdentityManager endpoint '" + imEndpoint + "'");
+        if(logger.isDebugEnabled()) {
+            logger.debug("Using SSOIdentityManager endpoint '" + imEndpoint + "'");
+        }
         setEndpointAddress(port, imEndpoint);
 
         WebserviceSSOIdentityManager wim = new WebserviceSSOIdentityManager(port);
@@ -105,7 +109,9 @@ public class JAXWSWebserviceGatewayServiceLocator extends GatewayServiceLocator 
         SSOIdentityProvider port = new SSOIdentityProviderWS(getWsdl(SSOIdentityProviderWS.WSDL_LOCATION)).getSSOIdentityProviderSoap();
 
         String ipEndpoint = getSSOIdentityProviderEndpoint();
-        logger.debug("Using SSOIdentityProvider endpoint '" + ipEndpoint + "'");
+        if(logger.isDebugEnabled()) {
+            logger.debug("Using SSOIdentityProvider endpoint '" + ipEndpoint + "'");
+        }
         setEndpointAddress(port, ipEndpoint);
 
         WebserviceSSOIdentityProvider wip = new WebserviceSSOIdentityProvider(port);

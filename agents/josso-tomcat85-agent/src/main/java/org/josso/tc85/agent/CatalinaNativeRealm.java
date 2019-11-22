@@ -60,8 +60,8 @@ public class CatalinaNativeRealm extends RealmBase {
             if (im == null)
                 im = agent.getSSOIdentityManager();
 			
-			String requester = "";
-			// Check for nulls ?
+            String requester = "";
+            // Check for nulls ?
 
             if (request != null)
             	requester = request.getRequester();

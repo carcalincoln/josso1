@@ -46,45 +46,45 @@ public class LoggerAuditTrailHandler extends BaseAuditTrailHandler {
 
     public int handle(SSOAuditTrail trail) {
 
-        StringBuffer line = new StringBuffer();
-
-        // Append TIME : CATEGORY - SEVERITY -
-        line.append(trail.getTime()).append(" - ").append(trail.getCategory()).append(" - ").append(trail.getSeverity());
-
-        // Append SUBJECT - ACTION=OUTCOME
-        line.append(" - ").append(trail.getSubject() == null ? "" : trail.getSubject()).append(" - ").append(trail.getAction()).append("=").append(trail.getOutcome());
-
-
-        // Append properties PROPERTIES:p1=v1,p2=v2
-        Properties properties = trail.getProperties();
-        Enumeration names = properties.propertyNames();
-
-        if (names.hasMoreElements()) {
-            line.append(" - ");
-        }
-
-        while (names.hasMoreElements()) {
-            String key = (String) names.nextElement();
-            String value = properties.getProperty(key);
-            line.append(key).append("=").append(value);
-
-            if (names.hasMoreElements())
-                line.append(",");
-        }
-
-        // Log error information !?
-        // Append error informatino if any : ERROR:<message><classname>
-        if (trail.getError() != null) {
-            line.append(" - ERROR:").append(trail.getError().getMessage()).append(":").append(trail.getError().getClass().getName());
-            // Append error cause informatino if any : ERROR_CAUSE:<message><classname>
-            if (trail.getError().getCause() != null) {
-                line.append(" ERROR_CAUSE:").append(trail.getError().getCause().getMessage()).append(":").append(trail.getError().getClass().getName());
+	if (trailsLogger.isInfoEnabled()) {
+            StringBuffer line = new StringBuffer();
+    
+            // Append TIME : CATEGORY - SEVERITY -
+            line.append(trail.getTime()).append(" - ").append(trail.getCategory()).append(" - ").append(trail.getSeverity());
+    
+            // Append SUBJECT - ACTION=OUTCOME
+            line.append(" - ").append(trail.getSubject() == null ? "" : trail.getSubject()).append(" - ").append(trail.getAction()).append("=").append(trail.getOutcome());
+    
+            // Append properties PROPERTIES:p1=v1,p2=v2
+            Properties properties = trail.getProperties();
+            Enumeration<?> names = properties.propertyNames();
+    
+            if (names.hasMoreElements()) {
+                line.append(" - ");
             }
-        }
-
-        // Logging the proper line :
-        trailsLogger.info(line);
-
+    
+            while (names.hasMoreElements()) {
+                String key = (String) names.nextElement();
+                String value = properties.getProperty(key);
+                line.append(key).append("=").append(value);
+    
+                if (names.hasMoreElements())
+                    line.append(",");
+            }
+    
+            // Log error information !?
+            // Append error informatino if any : ERROR:<message><classname>
+            if (trail.getError() != null) {
+                line.append(" - ERROR:").append(trail.getError().getMessage()).append(":").append(trail.getError().getClass().getName());
+                // Append error cause informatino if any : ERROR_CAUSE:<message><classname>
+                if (trail.getError().getCause() != null) {
+                    line.append(" ERROR_CAUSE:").append(trail.getError().getCause().getMessage()).append(":").append(trail.getError().getClass().getName());
+                }
+            }
+    
+            // Logging the proper line :
+            trailsLogger.info(line);
+	}
         return CONTINUE_PROCESS;
     }
 

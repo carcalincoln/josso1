@@ -22,22 +22,30 @@
 
 package org.josso.selfservices.password;
 
-import org.apache.struts.action.*;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
-import org.josso.gateway.SSOContext;
-import org.josso.gateway.SSOException;
-import org.josso.selfservices.password.lostpassword.Constants;
-import org.josso.selfservices.password.lostpassword.LostPasswordProcessState;
-import org.josso.selfservices.password.lostpassword.LostPasswordUrlProvider;
-import org.josso.selfservices.ChallengeResponseCredential;
-import org.josso.selfservices.ProcessRequest;
-import org.josso.selfservices.ProcessResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionMessage;
+import org.apache.struts.action.ActionMessages;
+import org.apache.struts.action.DynaActionForm;
+import org.josso.gateway.SSOContext;
+import org.josso.selfservices.ChallengeResponseCredential;
+import org.josso.selfservices.ProcessRequest;
+import org.josso.selfservices.ProcessResponse;
+import org.josso.selfservices.password.lostpassword.Constants;
+import org.josso.selfservices.password.lostpassword.LostPasswordProcessState;
+import org.josso.selfservices.password.lostpassword.LostPasswordUrlProvider;
 
 /**
  * @author <a href="mailto:sgonzalez@josso.org">Sebastian Gonzalez Oyuela</a>
@@ -49,7 +57,7 @@ public class LostPasswordAction extends SelfServicesBaseAction {
 
     public static final String JOSSO_CMD_LOST_PASSWORD = "lostPwd";
 
-    public static final String PARAM_JOSSO_CMD = "josso_cmd";
+    //public static final String PARAM_JOSSO_CMD = "josso_cmd";
 
     public static final String PARAM_JOSSO_PROCESS_ID = "josso_pidId";
 
@@ -79,16 +87,17 @@ public class LostPasswordAction extends SelfServicesBaseAction {
 
             // We are starting a new lost password process.
             if (josso_cmd != null && josso_cmd.equals(JOSSO_CMD_LOST_PASSWORD)) {
-
-                log.debug("Initializing lost password process");
+        	if(log.isDebugEnabled()) {
+        	    log.debug("Initializing lost password process");
+        	}
                 ProcessResponse pr = pwdService.startProcess("josso-simple-lostpassword");
                 processId = pr.getProcessId();
 
                 // Register a new url provider for this process
                 final String pid = pr.getProcessId();
                 final String baseUrl = request.getScheme() + "://" + request.getHeader("Host") +
-                        request.getContextPath() + mapping.findForward("requestConfirmPassword").getPath() +
-                        "?josso_cmd=" + JOSSO_CMD_CONFIRM_PASSWORD;
+                        request.getContextPath() + mapping.findForward("requestConfirmPassword").getPath() + 
+                        "?"+org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD +"=" + JOSSO_CMD_CONFIRM_PASSWORD;
 
                 // This will create a URL that will 
                 LostPasswordUrlProvider lostPaswordUrlProvider = new LostPasswordUrlProvider() {
@@ -100,7 +109,9 @@ public class LostPasswordAction extends SelfServicesBaseAction {
                 pwdService.register(processId, Constants.EXT_URL_PROVIDER, lostPaswordUrlProvider);
 
                 // Store process state and render view
-                log.debug("Process First Step (forward) : " + pr.getNextStep());
+                if(log.isDebugEnabled()) {
+                    log.debug("Process First Step (forward) : " + pr.getNextStep());
+                }
                 session.setAttribute(ATTR_LAST_PROCESS_RESPONSE, pr);
 
                 return mapping.findForward(pr.getNextStep());
@@ -130,12 +141,13 @@ public class LostPasswordAction extends SelfServicesBaseAction {
 
             ProcessResponse processResponse = pwdService.handleRequest(processRequest);
             session.setAttribute(ATTR_LAST_PROCESS_RESPONSE, processResponse);
-
-            log.debug("Process Next Step (forward) : " + processResponse.getNextStep() + ". Final " + processResponse.isNextStepFinal());
+            if(log.isDebugEnabled()) {
+        	log.debug("Process Next Step (forward) : " + processResponse.getNextStep() + ". Final " + processResponse.isNextStepFinal());
+            }
 
             if (processResponse.getNextStep().equals(Constants.STEP_FATAL_ERROR) && processResponse.getAttribute("error") != null) {
                 ActionErrors errors = new ActionErrors();
-                errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("sso.error", ((Exception)processResponse.getAttribute("error")).getMessage() ));
+                errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("sso.error", ((Exception)processResponse.getAttribute("error")).getMessage() ));
                 saveErrors(request, errors);
 
             }
@@ -150,7 +162,7 @@ public class LostPasswordAction extends SelfServicesBaseAction {
 
             // logs the error
             ActionErrors errors = new ActionErrors();
-            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("sso.error", e.getMessage()));
+            errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("sso.error", e.getMessage()));
             saveErrors(request, errors);
 
             return mapping.findForward("fatalError");
@@ -191,9 +203,22 @@ public class LostPasswordAction extends SelfServicesBaseAction {
 
             if (challengeResponse == null && form instanceof DynaActionForm ) {
                 DynaActionForm dForm = (DynaActionForm) form;
-                try { challengeResponse = (String) dForm.get(challengeId); } catch (IllegalArgumentException e) { log.debug("Form does not have field " + challengeId ); }
+                try { 
+                    challengeResponse = (String) dForm.get(challengeId); 
+                    } 
+                catch (IllegalArgumentException e) {
+                    if(log.isDebugEnabled()) {
+                	log.debug("Form does not have field " + challengeId );
+                    }
+                }
                 if (challengeResponse == null)
-                    try { challengeResponse = (String) dForm.get("josso_" + challengeId); } catch (IllegalArgumentException e) { log.debug("Form does not have field " + challengeId ); }
+                    try { 
+                	challengeResponse = (String) dForm.get("josso_" + challengeId); 
+                    } catch (IllegalArgumentException e) {
+                	if(log.isDebugEnabled()) {
+                	    log.debug("Form does not have field " + challengeId );
+                	}
+                    }
             }
 
             if (challengeResponse != null) {
@@ -212,7 +237,7 @@ public class LostPasswordAction extends SelfServicesBaseAction {
      * Gets the received SSO Command. If command is empty (""), returns null.
      */
     protected String getSSOCmd(HttpServletRequest request) {
-        String cmd = request.getParameter(PARAM_JOSSO_CMD);
+        String cmd = request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD);
         if ("".equals(cmd))
             cmd = null;
         return cmd;

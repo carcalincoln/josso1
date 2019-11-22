@@ -124,8 +124,8 @@ function validate_session_josso(&$user)
 		return true;
 	} else {
 		// Clear SSO Cookie
-		setcookie("JOSSO_SESSIONID", '', 0, "/");
-		$_COOKIE['JOSSO_SESSIONID'] = '';
+		setcookie("RPBA_SESSIONID", '', 0, "/");
+		$_COOKIE['RPBA_SESSIONID'] = '';
 		return false;
 	}
 }

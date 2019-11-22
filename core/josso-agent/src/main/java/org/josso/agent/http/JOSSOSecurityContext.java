@@ -75,12 +75,12 @@ public class JOSSOSecurityContext implements Serializable {
      */
     public JOSSOSecurityContext(Subject subject) {
 
-        Set principals = subject.getPrincipals();
+        Set<Principal> principals = subject.getPrincipals();
         roles = new HashMap();
 
-        for (Iterator it = principals.iterator(); it.hasNext();) {
+        for (Iterator<Principal> it = principals.iterator(); it.hasNext();) {
 
-            Principal p = (Principal) it.next();
+            Principal p = it.next();
             if (p instanceof SSOUser) {
                 if (ssoUser != null)
                     throw new IllegalArgumentException("Subject cannot contain multiple SSOUser instances");

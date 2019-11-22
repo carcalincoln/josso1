@@ -97,7 +97,9 @@ public class SSOAuditManagerImpl implements SSOAuditManager, SSOEventListener {
     }
 
     public void addHandler(SSOAuditTrailHandler handler) {
-        logger.info("Adding handler : " + handler.getClass().getName());
+	if(logger.isInfoEnabled()) {
+	    logger.info("Adding handler : " + handler.getClass().getName());
+	}
         handlers.add(handler);
     }
 
@@ -190,7 +192,7 @@ public class SSOAuditManagerImpl implements SSOAuditManager, SSOEventListener {
 
             SSOSessionEvent se = (SSOSessionEvent) event;
             subject = se.getUsername();
-
+            
             props.setProperty("ssoSessionId", se.getSessionId());
 
             if (se.getData() != null)

@@ -21,6 +21,11 @@
  */
 package org.josso.gateway.identity.service;
 
+import java.security.Principal;
+import java.util.Set;
+
+import javax.security.auth.Subject;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.josso.Lookup;
@@ -43,10 +48,6 @@ import org.josso.gateway.session.SSOSession;
 import org.josso.gateway.session.exceptions.NoSuchSessionException;
 import org.josso.gateway.session.exceptions.SSOSessionException;
 import org.josso.gateway.session.service.SSOSessionManager;
-
-import javax.security.auth.Subject;
-import java.security.Principal;
-import java.util.Set;
 
 /**
  * @org.apache.xbean.XBean element="identity-provider"

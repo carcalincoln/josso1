@@ -46,12 +46,12 @@ public class ListInstallersCommand extends JOSSOCommandSupport {
 
     protected Object doExecute() throws Exception {
 
-        Map installers = getApplicationContext().getBeansOfType(Installer.class);
-        Set keys = installers.keySet();
+        Map<?,?> installers = getApplicationContext().getBeansOfType(Installer.class);
+        Set<?> keys = installers.keySet();
 
         io.out.println("Available Installers for Platform ID");
 
-        for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+        for (Iterator<?> iterator = keys.iterator(); iterator.hasNext();) {
             String isntallerId = (String) iterator.next();
             Installer installer = (Installer) installers.get(isntallerId);
 

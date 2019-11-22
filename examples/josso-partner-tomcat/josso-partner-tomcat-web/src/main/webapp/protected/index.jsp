@@ -104,13 +104,13 @@
 
                                 <%
                                  out.println("<ul>");
-                                 java.util.Enumeration names = request.getHeaderNames();
+                                 java.util.Enumeration<String> names = request.getHeaderNames();
                                  while (names.hasMoreElements()) {
-                                   String name = (String) names.nextElement();
-                                   Enumeration values = request.getHeaders(name);
+                                   String name =  names.nextElement();
+                                   Enumeration<String> values = request.getHeaders(name);
 
                                    while (values.hasMoreElements()) {
-                                       String value = (String)values.nextElement();
+                                       String value = values.nextElement();
 
                                        out.println(" <li><strong>" + name + "=</strong>" + value +"</li>");
                                    }

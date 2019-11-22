@@ -111,8 +111,9 @@ public class BotAutomaticLoginStrategy extends AbstractAutomaticLoginStrategy {
             		value = null;
             	}
             }
-            
-            log.info("Loaded bots file: " + file);
+            if(log.isInfoEnabled()) {
+        	log.info("Loaded bots file: " + file);
+            }
         } catch (IOException e) {
             log.error("Cannot load bot properties from " + file + " : " + e.getMessage(), e);
             bots = null;

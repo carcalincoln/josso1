@@ -320,8 +320,9 @@ public abstract class AbstractLostPasswordProcess extends BasePasswordManagement
                 log.debug("Already created password assertion challenge, value is " + getChallenge(CHALLENGE_PWD_ASSERTION_ID).getValue());
             return null;
         }
-
-        log.debug("Creating password assertion challenge");
+        if(log.isDebugEnabled()) {
+            log.debug("Creating password assertion challenge");
+        }
 
         ChallengeResponseCredential c = new ChallengeResponseCredential (CHALLENGE_PWD_ASSERTION_ID, "Password Assertion");
         return new ChallengeResponseCredential [] {c};

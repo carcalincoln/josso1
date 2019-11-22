@@ -87,14 +87,14 @@ public class SSOSessionManagerImpl implements SSOSessionManager {
      * Initializes the manager.
      */
     public synchronized void initialize() {
-
-        logger.info("[initialize()] : IdGenerator.................=" + _idGen.getClass().getName());
-        logger.info("[initialize()] : Store.......................=" + _store.getClass().getName());
-        logger.info("[initialize()] : MaxInactive.................=" + _maxInactiveInterval);
-        logger.info("[initialize()] : MaxSessionsPerUser..........=" + _maxSessionsPerUser);
-        logger.info("[initialize()] : InvalidateExceedingSessions.=" + _invalidateExceedingSessions);
-        logger.info("[initialize()] : SesisonMonitorInteval.......=" + _sessionMonitorInterval);
-
+	if(logger.isInfoEnabled()) {
+	    logger.info("[initialize()] : IdGenerator.................=" + _idGen.getClass().getName());
+	    logger.info("[initialize()] : Store.......................=" + _store.getClass().getName());
+	    logger.info("[initialize()] : MaxInactive.................=" + _maxInactiveInterval);
+	    logger.info("[initialize()] : MaxSessionsPerUser..........=" + _maxSessionsPerUser);
+	    logger.info("[initialize()] : InvalidateExceedingSessions.=" + _invalidateExceedingSessions);
+	    logger.info("[initialize()] : SesisonMonitorInteval.......=" + _sessionMonitorInterval);
+	}
         // Start session monitor.
         _monitor = new SessionMonitor(this, getSessionMonitorInterval());
 
@@ -104,7 +104,9 @@ public class SSOSessionManagerImpl implements SSOSessionManager {
         _monitorThread.start();
 
         // Register sessions in security domain !
-        logger.info("[initialize()] : Restore Sec.Domain Registry.=" + _securityDomainName);
+        if(logger.isInfoEnabled()) {
+            logger.info("[initialize()] : Restore Sec.Domain Registry.=" + _securityDomainName);
+        }
 
         try {
             SecurityDomainRegistry registry = Lookup.getInstance().lookupSecurityDomainRegistry();
@@ -214,7 +216,7 @@ public class SSOSessionManagerImpl implements SSOSessionManager {
     /**
      * Gets all SSO sessions.
      */
-    public Collection getSessions() throws SSOSessionException {
+    public Collection<?> getSessions() throws SSOSessionException {
         return Arrays.asList(_store.loadAll());
     }
 
@@ -225,14 +227,14 @@ public class SSOSessionManagerImpl implements SSOSessionManager {
      * @throws org.josso.gateway.session.exceptions.NoSuchSessionException
      *          if the session id is not related to any sso session.
      */
-    public Collection getUserSessions(String username) throws NoSuchSessionException, SSOSessionException {
+    public Collection<?> getUserSessions(String username) throws NoSuchSessionException, SSOSessionException {
         BaseSession s[] = _store.loadByUsername(username);
         if (s.length < 1) {
             throw new NoSuchSessionException(username);
         }
 
         // Build the result
-        List result = new ArrayList(s.length);
+        List<BaseSession> result = new ArrayList<BaseSession>(s.length);
         for (int i = 0; i < s.length; i++) {
             result.add(s[i]);
         }

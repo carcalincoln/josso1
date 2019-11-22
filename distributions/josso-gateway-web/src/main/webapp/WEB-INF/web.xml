@@ -21,13 +21,16 @@
   ~
   -->
 
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web
-Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
-
-<web-app>
-
-    <display-name>Java Open Single Sign-On</display-name>
-
+<web-app id="RegPropNew" 
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+    version="3.1">
+    <display-name>RegPropNew</display-name>
+	<filter>
+		<filter-name>sitemesh</filter-name>
+		<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+	</filter>
     <filter>
         <filter-name>ProtocolHandlerFilter</filter-name>
         <filter-class>org.josso.gateway.filter.ProtocolHandlerFilter</filter-class>
@@ -37,7 +40,10 @@ Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 		<filter-name>ProtocolHandlerFilter</filter-name>
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
-
+	<filter-mapping>
+		<filter-name>sitemesh</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
     <listener>
         <listener-class>org.apache.axis.transport.http.AxisHTTPSessionListener</listener-class>
@@ -102,7 +108,7 @@ Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 
     <servlet>
         <servlet-name>AxisServlet</servlet-name>
-        <display-name>Apache-Axis Servlet</display-name>
+        <!-- <display-name>Apache-Axis Servlet</display-name>-->
         <servlet-class>
         org.apache.axis.transport.http.AxisServlet
         </servlet-class>
@@ -110,7 +116,7 @@ Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 
     <servlet>
         <servlet-name>AdminServlet</servlet-name>
-        <display-name>Axis Admin Servlet</display-name>
+        <!-- <display-name>Axis Admin Servlet</display-name>-->
         <servlet-class>
         org.apache.axis.transport.http.AdminServlet
         </servlet-class>
@@ -119,7 +125,7 @@ Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
 
     <servlet>
         <servlet-name>SOAPMonitorService</servlet-name>
-        <display-name>SOAPMonitorService</display-name>
+        <!-- <display-name>SOAPMonitorService</display-name>-->
         <servlet-class>
         org.apache.axis.monitor.SOAPMonitorService
         </servlet-class>
@@ -168,11 +174,6 @@ Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
        <url-pattern>/servlet/AdminServlet</url-pattern>
      </servlet-mapping>
     -->
-
-    <session-config>
-        <!-- Default to 5 minute session timeouts -->
-        <session-timeout>5</session-timeout>
-    </session-config>
 
 
     <!-- currently the W3C havent settled on a media type for WSDL;
@@ -232,4 +233,49 @@ Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
        <realm-name>Protected Web Services</realm-name>
     </login-config>
     -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>public-resources</web-resource-name>
+			<url-pattern>/public/*</url-pattern>
+			<url-pattern>/StaticJavascript.jsp</url-pattern>
+			<url-pattern>/login-redirect.jsp</url-pattern>
+			<url-pattern>/signon/login.do</url-pattern>
+			<url-pattern>/signon/usernamePasswordLogin.do</url-pattern>
+			<url-pattern>/signon/usernamePasswordLogin.jsp</url-pattern>
+			<url-pattern>/signon/LDAPPasswordLogin.do</url-pattern>
+			<url-pattern>/signon/LDAPPasswordLogin.jsp</url-pattern>
+			<url-pattern>/services/*</url-pattern>
+			<url-pattern>/resources/*</url-pattern>
+			<url-pattern>/signon/cambiarPassword.do</url-pattern>
+			<url-pattern>/signon/SiteMeshCabecera.jsp</url-pattern>
+		</web-resource-collection>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>protected-resources</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		 <auth-constraint>
+            <role-name>externo</role-name>
+			<role-name>intranet</role-name>			
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login-redirect.jsp</form-login-page>
+			<form-error-page>/login-redirect.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
+	<security-role >
+        <description>UsuariosExternos</description>
+        <role-name>externo</role-name>
+    </security-role>
+	<security-role >
+        <description>UsuariosInternos</description>
+        <role-name>intranet</role-name>
+    </security-role>    
 </web-app>

@@ -44,8 +44,8 @@ $user->setup();
 if (isset($_REQUEST['josso_assertion_id'])) {
     $assertionId = $_REQUEST['josso_assertion_id'];
     $ssoSessionId = $josso_agent->resolveAuthenticationAssertion($assertionId);
-	setcookie("JOSSO_SESSIONID", $ssoSessionId, 0, "/"); // session cookie ...
-	$_COOKIE['JOSSO_SESSIONID'] = $ssoSessionId;
+	setcookie("RPBA_SESSIONID", $ssoSessionId, 0, "/"); // session cookie ...
+	$_COOKIE['RPBA_SESSIONID'] = $ssoSessionId;
 	if ($config['auth_method'] == 'josso') {
 		$jossoUser = $josso_agent->getUserInSession();
 		if (isset($jossoUser)) {

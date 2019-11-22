@@ -74,7 +74,7 @@ public class LogoutAction extends SignonBaseAction {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             ActionErrors errors = new ActionErrors();
-            errors.add(ActionErrors.GLOBAL_ERROR, new ActionError("sso.login.failed"));
+            errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("sso.login.failed"));
             saveErrors(request, errors);
         }
 

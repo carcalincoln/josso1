@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+ <!DOCTYPE tiles-definitions PUBLIC
+              "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+              "http://struts.apache.org/dtds/tiles-config_1_3.dtd">	   
+<!-- ====================================================== -->
+<!--                                                        -->
+<!-- Definitions for Tiles :                                -->
+<!-- This file contains definitions for Josso Web App.      -->
+<!--                                                        -->
+<!-- ====================================================== -->
+<tiles-definitions>
+	<!-- ============================================================= -->
+	<!-- Singon General layout definition                              -->
+	<!-- ============================================================= -->
+	<definition name="josso.signon.layout" template="/signon/layout.jsp">
+		<put name="josso.page.title" value="Signon" type="string"/>
+		
+	</definition>
+	<definition name="josso.signon.layoutLogin" template="/signon/layoutLogin.jsp">
+		<put name="josso.page.title" value="Signon" type="string"/>
+	</definition>
+	<definition name="josso.signon.layouterror" template="/signon/layout.jsp">
+		<put name="josso.page.title" value="Signon" type="string"/>
+	</definition>
+	<definition name="josso.signon.loginResult" extends="josso.signon.layout">
+		<put name="josso.signon.page.title" value="Login Result" type="string"/>
+		<put name="josso.signon.body" value="/signon/loginResult.jsp"/>
+		<put name="josso.signon.menu" value="/signon/menu.jsp"/>
+	</definition>
+	<definition name="josso.signon.error" extends="josso.signon.layouterror">
+		<put name="josso.signon.page.title" value="Info" type="string"/>
+		<put name="josso.signon.body" value="/signon/error.jsp"/>
+		<put name="josso.signon.menu" value="/signon/menu.jsp"/>
+	</definition>
+	<definition name="josso.signon.usernamePasswordLogin" extends="josso.signon.layoutLogin">
+		<put name="josso.signon.page.title" value="Login" type="string"/>
+		<put name="josso.signon.body" value="/WEB-INF/signon/usernamePasswordLogin.jsp"/>
+	</definition>
+	<definition name="desabilitado" extends="josso.signon.layoutLogin">
+		<put name="josso.signon.page.title" value="Desabilitado" type="string"/>
+		<put name="josso.signon.body" value="/WEB-INF/signon/desabilitado.jsp"/>
+	</definition>
+	<definition name="habilitado" extends="josso.signon.layout">
+		<put name="josso.signon.page.title" value="Login" type="string"/>
+		<put name="josso.signon.body" value="/WEB-INF/signon/habilitado.jsp"/>
+		<put name="josso.signon.menu" value="/signon/menu.jsp"/>
+	</definition>
+	<definition name="suspendido" extends="josso.signon.layoutLogin">
+		<put name="josso.signon.page.title" value="Suspendido" type="string"/>
+		<put name="josso.signon.body" value="/WEB-INF/signon/suspendido.jsp"/>
+	</definition>
+	<definition name="cambiarPassword" extends="josso.signon.layout">
+		<put name="josso.signon.page.title" value="Cambiar Password" type="string"/>
+		<put name="josso.signon.body" value="/WEB-INF/signon/cambiarPassword.jsp"/>
+		<put name="josso.signon.menu" value="/signon/menu.jsp"/>
+	</definition>
+	<definition name="josso.signon.LdapLogin" extends="josso.signon.layoutLogin">
+		<put name="josso.signon.page.title" value="Login Interno" type="string"/>
+		<put name="josso.signon.body" value="/WEB-INF/signon/usernamePasswordLoginLdap.jsp"/>
+	</definition>
+	
+</tiles-definitions>

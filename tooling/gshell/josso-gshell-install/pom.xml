@@ -64,13 +64,12 @@
         <dependency>
             <groupId>org.josso</groupId>
             <artifactId>josso-gshell-core</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.josso</groupId>
             <artifactId>josso-core</artifactId>
-            <version>${pom.version}</version>
         </dependency>
 
 
@@ -254,11 +253,22 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>log4j</groupId>
+        <!--//RPBA
+		<dependency>
+            <groupId>apache-log4j</groupId>
             <artifactId>log4j</artifactId>
-            <scope>test</scope>
+            <version>${log4j.version}</version>
         </dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+			
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
         <!-- commons http client -->
         <dependency>
             <groupId>commons-httpclient</groupId>
@@ -266,11 +276,17 @@
             <version>2.0.2</version>
         </dependency>
         <!-- OPS4J maven protocol handler -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.ops4j.pax.url</groupId>
             <artifactId>pax-url-mvn</artifactId>
-            <version>0.3.2</version>
-        </dependency>
+            <version>1.3.7</version>
+        </dependency>-->
+
+		<dependency>
+			<groupId>org.ops4j.pax.url</groupId>
+			<artifactId>pax-url-obr</artifactId>
+			<version>2.6.1</version>
+		</dependency>
 
         <dependency>
             <groupId>diff_match_patch</groupId>
@@ -281,17 +297,15 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>1.3</version>
         </dependency>
     </dependencies>
 
-    <repositories>
+	<repositories>
         <repository>
             <id>diff_match_patch</id>
-            <url>http://google-diff-match-patch.googlecode.com/svn/trunk/maven</url>
+			<url>https://maven.repository.redhat.com/ga/</url>
         </repository>
     </repositories>
-
     <build>
         <resources>
             <resource>
@@ -343,7 +357,6 @@
             <plugin>
                 <groupId>org.apache.xbean</groupId>
                 <artifactId>maven-xbean-plugin</artifactId>
-                <version>${xbean-version}</version>
                 <executions>
                     <execution>
                         <configuration>

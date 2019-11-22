@@ -53,12 +53,16 @@ public class SecurityDomainRegistryImpl implements SecurityDomainRegistry {
     }
 
     public synchronized void register(SecurityDomain sd) {
-        logger.info("Registering SecurityDomain : " + sd.getName());
+        if(logger.isInfoEnabled()) {
+            logger.info("Registering SecurityDomain : " + sd.getName());
+        }
         domainRecords.put(sd.getName(), new SecurityDomainRecord(sd));
     }
 
     public synchronized void unregister(String securityDomainName) {
-        logger.info("Unregistering SecurityDomain : " + securityDomainName);
+        if(logger.isInfoEnabled()) {
+            logger.info("Unregistering SecurityDomain : " + securityDomainName);
+        }
         domainRecords.remove(securityDomainName);
     }
 

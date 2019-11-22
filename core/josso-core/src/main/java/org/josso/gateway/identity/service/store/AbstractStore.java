@@ -25,8 +25,6 @@ package org.josso.gateway.identity.service.store;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.josso.auth.CredentialStore;
-import org.josso.auth.CredentialProvider;
-import org.josso.auth.scheme.AuthenticationScheme;
 import org.josso.gateway.identity.exceptions.NoSuchUserException;
 import org.josso.gateway.identity.exceptions.SSOIdentityException;
 

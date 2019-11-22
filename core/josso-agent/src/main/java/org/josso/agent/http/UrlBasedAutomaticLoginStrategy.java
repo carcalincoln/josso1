@@ -69,10 +69,11 @@ public class UrlBasedAutomaticLoginStrategy extends AbstractAutomaticLoginStrate
     			Pattern p = Pattern.compile(urlPattern);
     			Matcher m = p.matcher(requestURL);
     			if (m.matches()) {
-    				if (log.isDebugEnabled())
-                        log.debug("Autologin is not required! Ignored url pattern: " + urlPattern);
-    				autoLoginRequired = false;
-    				break;
+    			    if (log.isDebugEnabled()) {
+    				log.debug("Autologin is not required! Ignored url pattern: " + urlPattern);
+    			    }
+    			    autoLoginRequired = false;
+    			    break;
     			}
     		}
     	}

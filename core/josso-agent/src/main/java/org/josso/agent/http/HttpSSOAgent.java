@@ -22,26 +22,35 @@
 
 package org.josso.agent.http;
 
-import org.josso.agent.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.security.auth.login.LoginException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpUtils;
+
+import org.josso.agent.AbstractSSOAgent;
+import org.josso.agent.Constants;
+import org.josso.agent.SSOAgentRequest;
+import org.josso.agent.SSOPartnerAppConfig;
 import org.josso.auth.util.CipherUtil;
 import org.josso.gateway.SSONameValuePair;
 import org.josso.gateway.identity.SSORole;
 import org.josso.gateway.identity.SSOUser;
 import org.josso.gateway.identity.exceptions.SSOIdentityException;
 import org.josso.gateway.identity.service.SSOIdentityManagerService;
-
-import javax.security.auth.login.LoginException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpUtils;
-import javax.servlet.http.Cookie;
-import java.security.Principal;
-import java.util.*;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 /**
  * @author <a href="mailto:sgonzalez@atricore.org">Sebastian Gonzalez Oyuela</a>
@@ -148,15 +157,15 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
 
             if (binding.equalsIgnoreCase("HTTP_HEADERS")) {
 
-                HashMap headers = new HashMap();
-                List users = new ArrayList();
+                HashMap<String,List<String>> headers = new HashMap<String,List<String>>();
+                List<String> users = new ArrayList<String>();
                 users.add(user);
                 headers.put(userPlaceHolder, users);
 
                 if (debug > 0)
                     log("Propagated user [" + user + "] onto HTTP Header [" + userPlaceHolder + "]");
 
-                List roles = new ArrayList();
+                List<String> roles = new ArrayList<String>();
                 for (int i = 0; i < roleSets.length; i++) {
                     SSORole roleSet = roleSets[i];
 
@@ -174,7 +183,7 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
 
             } else if (binding.equalsIgnoreCase("HREQ_ATTRS")) {
 
-                HashMap attrs = new HashMap();
+                HashMap<String,String> attrs = new HashMap<String,String>();
                 attrs.put(userPlaceHolder, user);
 
                 for (int i = 0; i < roleSets.length; i++) {
@@ -330,7 +339,7 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
         }
 
         String backto = buildBackToURL(hreq, backToPath);
-        logoutUrl = logoutUrl + (logoutUrl.indexOf('?') >= 0 ? "&" : "?") + "josso_back_to=" + (backto != null ? backto : "NA");
+        logoutUrl = logoutUrl + (logoutUrl.indexOf('?') >= 0 ? "&" : "?") + org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO +"=" + (backto != null ? backto : "NA");
         logoutUrl += buildLogoutUrlParams(hreq);
 
         return logoutUrl;
@@ -353,7 +362,8 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
         }
 
         if (hreq.getParameter("josso_force_authn") != null && Boolean.parseBoolean(hreq.getParameter("josso_force_authn"))) {
-            loginUrl = loginUrl + (loginUrl.indexOf('?') >= 0 ? "&" : "?") +  "josso_cmd=login_force";
+            
+            loginUrl = loginUrl + (loginUrl.indexOf('?') >= 0 ? "&" : "?") +  org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD+"=login_force";
         }
 
         if (hreq.getParameter("josso_authn_ctx") != null) {
@@ -361,7 +371,8 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
         }
 
         String backto = buildBackToURL(hreq, getJossoSecurityCheckUri());
-        loginUrl = loginUrl + (loginUrl.indexOf('?') >= 0 ? "&" : "?") + "josso_back_to=" + (backto != null ? backto : "NA");
+        
+        loginUrl = loginUrl + (loginUrl.indexOf('?') >= 0 ? "&" : "?") + org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO +"=" + (backto != null ? backto : "NA");
 
         // Add login URL parameters
         loginUrl += buildLoginUrlParams(hreq);
@@ -385,11 +396,13 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
 
         // Add back_to param if available
         String backto = buildBackToURL(hreq, getJossoSecurityCheckUri());
-        loginUrl = loginUrl + (loginUrl.indexOf('?') >= 0 ? "&" : "?") +  "josso_cmd=login_optional";
-        if (backto != null)
-            loginUrl += "&josso_back_to=" + backto;
-        else
-            loginUrl += "&josso_back_to=NA";
+        loginUrl = loginUrl + (loginUrl.indexOf('?') >= 0 ? "&" : "?") + org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD +"=login_optional";
+        if (backto != null) {
+            loginUrl += "&"+org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO +"=" + backto;
+        }
+        else {
+            loginUrl += "&"+org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO +"=NA";
+        }
 
         // Add login URL parameters
         loginUrl += buildLoginUrlParams(hreq);
@@ -429,13 +442,13 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
         if (singlePointOfAccess != null) {
             // Using single-point of access configuration.
             if (debug >= 1)
-                log("josso_back_to option : singlePointOfAccess: " + singlePointOfAccess);
+                log(org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO + " option : singlePointOfAccess: " + singlePointOfAccess);
             backto = singlePointOfAccess + contextPath + uri;
 
         } else if (reverseProxyHost != null) {
             // Using reverse proxy host header.
             if (debug >= 1)
-                log("josso_back_to option : reverse-proxy-host: " + reverseProxyHost);
+                log(org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO+ " option : reverse-proxy-host: " + reverseProxyHost);
             backto = reverseProxyHost + contextPath + uri;
 
         } else {
@@ -484,10 +497,9 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
             path = _ssoCookiePath;
 
         Cookie ssoCookie = new Cookie(org.josso.gateway.Constants.JOSSO_SINGLE_SIGN_ON_COOKIE, value);
-        ssoCookie.setMaxAge(-1);
+        //RPBA ssoCookie.setMaxAge(-1);
         ssoCookie.setPath(path);
         ssoCookie.setSecure(secure);
-
         // TODO : Check domain ?
         //ssoCookie.setDomain(cfg.getSessionTokenScope());
 
@@ -618,7 +630,7 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
                         + "        <div>");
 
         //copy all submitted parameters into hidden fields
-        Enumeration paramNames = hreq.getParameterNames();
+        Enumeration<?> paramNames = hreq.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String paramName = (String) paramNames.nextElement();
             String paramValue = hreq.getParameter(paramName);
@@ -857,6 +869,7 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
      * @param name attribute name
      * @param value attribute value
      */
+    @SuppressWarnings("unchecked")
     public void setAttribute(HttpServletRequest hreq,
                                   HttpServletResponse hres,
                                   String name,
@@ -913,6 +926,7 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
      * @param name attribute name
      * @return attribute value
      */
+    @SuppressWarnings("unchecked")
     public String getAttribute(HttpServletRequest hreq, String name) {
         if (isStateOnClient()) {
 
@@ -967,6 +981,7 @@ public abstract class HttpSSOAgent extends AbstractSSOAgent {
      * @param hres http response
      * @param name attribute name
      */
+    @SuppressWarnings("unchecked")
     public void removeAttribute(HttpServletRequest hreq, HttpServletResponse hres, String name) {
         if (isStateOnClient()) {
 

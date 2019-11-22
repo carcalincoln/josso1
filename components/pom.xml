@@ -62,6 +62,7 @@
         
         <module>josso-default-secdomainselector</module>
         <module>josso-default-secdomainregistry</module>
+		<module>josso-ip-secdomainmatcher</module>
         <module>josso-appctx-secdomainmatcher</module>
         <module>josso-vhost-secdomainmatcher</module>
         <module>josso-simple-secdomainmatcher</module>
@@ -69,6 +70,7 @@
         <module>josso-default-authenticator</module>
         <module>josso-strong-authscheme</module>
         <module>josso-basic-authscheme</module>
+		<module>josso-rpba-authenticator</module>
         <module>josso-ntlm-authscheme</module>
         <module>josso-bind-authscheme</module>
         <module>josso-rememberme-authscheme</module>

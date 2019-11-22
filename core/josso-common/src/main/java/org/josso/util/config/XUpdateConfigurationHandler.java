@@ -22,12 +22,13 @@
 package org.josso.util.config;
 
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This is a base configuration handler that uses XUpdate to add, update and remove elements from a XML files.

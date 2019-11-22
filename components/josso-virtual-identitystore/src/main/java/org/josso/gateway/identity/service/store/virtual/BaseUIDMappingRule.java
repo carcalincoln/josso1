@@ -1,7 +1,6 @@
 package org.josso.gateway.identity.service.store.virtual;
 
 import java.util.Collection;
-import java.util.ArrayList;
 
 /**
  * @author <a href="mailto:gbrigand@josso.org">Gianluca Brigandi</a>

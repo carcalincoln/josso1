@@ -22,7 +22,9 @@
 
 package org.josso.gateway;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author <a href="mailto:sgonzalez@atricore.org">Sebastian Gonzalez Oyuela</a>
@@ -32,6 +34,7 @@ public class SSORequestImpl implements SSORequest {
 
     private HttpServletRequest hreq;
 
+    
     public SSORequestImpl(HttpServletRequest hreq) {
         this.hreq = hreq;
     }
@@ -46,9 +49,19 @@ public class SSORequestImpl implements SSORequest {
 
     public String getAttribute(String name) {
         String value = (String) hreq.getAttribute(name);
-        if (value == null)
+        if (value == null) {
             value = (String) hreq.getSession().getAttribute(name);
-
+        }
+        if(value==null) {
+            Cookie[] cookies = hreq.getCookies();
+            if(cookies!=null) {
+        	for (Cookie cookie : cookies) {
+		    if (cookie.getName().equals(name)) {
+			return cookie.getValue();
+		    }
+		}
+            }
+        }
         return value;
     }
 
@@ -57,6 +70,11 @@ public class SSORequestImpl implements SSORequest {
     }
 
     public String toString() {
-        return "QS=" + hreq.getQueryString();
+	String id=null;
+	HttpSession session = hreq.getSession(false);
+	if(session!=null) {
+	    id=session.getId();
+	}
+        return "QS=" + hreq.getQueryString() + " SESSIONID= "+id;
     }
 }

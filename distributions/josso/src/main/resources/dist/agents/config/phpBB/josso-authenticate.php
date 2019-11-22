@@ -44,8 +44,8 @@ if (isset($user->data['username']) && utf8_clean_string($user->data['username'])
 		if (isset($assertionId) && $assertionId != '') {
 			$ssoSessionId = $josso_agent->resolveAuthenticationAssertion($assertionId);
 			if (isset($ssoSessionId)) {
-				setcookie("JOSSO_SESSIONID", $ssoSessionId, 0, "/"); // session cookie ...
-				$_COOKIE['JOSSO_SESSIONID'] = $ssoSessionId;
+				setcookie("RPBA_SESSIONID", $ssoSessionId, 0, "/"); // session cookie ...
+				$_COOKIE['RPBA_SESSIONID'] = $ssoSessionId;
 				$auth->login($user->data['username'], '', false, 1, true);
 				if (isset($_SESSION['JOSSO_ORIGINAL_URL'])) {
 					$backToUrl = $_SESSION['JOSSO_ORIGINAL_URL'];

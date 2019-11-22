@@ -15,88 +15,69 @@ public class ScriptingUserExistsMappingExpression extends BaseExpressionMappingR
     private static final Log logger = LogFactory.getLog(ScriptingUserExistsMappingExpression.class);
 
     public Collection<UserExistsOutcome> select(Collection<UserExistsOutcome> sourceOutcomes) {
-        if (selectExpression != null) {
-            Collection<ScriptingRuleParameter> selectParams = new ArrayList<ScriptingRuleParameter>();
-
-            selectParams.add(new ScriptingRuleParameterImpl("sourceOutcomes", sourceOutcomes, Collection.class));
-
-            ScriptingRuleEngine sre = new ScriptingRuleEngine();
-            ScriptingRuleExecutionOutcome outcome;
-
-            try {
-                outcome = sre.evaluate(selectExpression, language, selectParams);
-                return (Collection<UserExistsOutcome>) outcome.getObject();
-            } catch (Exception e) {
-                logger.error("Outcome Mapping Expression Failed...ignoring", e);
-            }
-        }
-
-        return sourceOutcomes;
+	if (selectExpression != null) {
+	    Collection<ScriptingRuleParameter> selectParams = new ArrayList<ScriptingRuleParameter>();
+	    selectParams.add(new ScriptingRuleParameterImpl("sourceOutcomes", sourceOutcomes, Collection.class));
+	    ScriptingRuleEngine sre = new ScriptingRuleEngine();
+	    ScriptingRuleExecutionOutcome outcome;
+	    try {
+		outcome = sre.evaluate(selectExpression, language, selectParams);
+		return (Collection<UserExistsOutcome>) outcome.getObject();
+	    } catch (Exception e) {
+		logger.error("Outcome Mapping Expression Failed...ignoring", e);
+	    }
+	}
+	return sourceOutcomes;
     }
 
     public UserExistsOutcome join(Collection<UserExistsOutcome> selectedOutcomes) {
-
-        if (joinExpression != null) {
-            Collection<ScriptingRuleParameter> joinParams = new ArrayList<ScriptingRuleParameter>();
-
-            joinParams.add(new ScriptingRuleParameterImpl("selectedOutcomes", selectedOutcomes, Collection.class));
-
-            ScriptingRuleEngine sre = new ScriptingRuleEngine();
-            ScriptingRuleExecutionOutcome outcome;
-
-            try {
-                outcome = sre.evaluate(joinExpression, language, joinParams);
-                return (UserExistsOutcome) outcome.getObject();
-            } catch (Exception e) {
-                logger.error("Outcome Mapping Expression Failed...ignoring", e);
-            }
-        }
-
-        return null;
+	if (joinExpression != null) {
+	    Collection<ScriptingRuleParameter> joinParams = new ArrayList<ScriptingRuleParameter>();
+	    joinParams.add(new ScriptingRuleParameterImpl("selectedOutcomes", selectedOutcomes, Collection.class));
+	    ScriptingRuleEngine sre = new ScriptingRuleEngine();
+	    ScriptingRuleExecutionOutcome outcome;
+	    try {
+		outcome = sre.evaluate(joinExpression, language, joinParams);
+		return (UserExistsOutcome) outcome.getObject();
+	    } catch (Exception e) {
+		logger.error("Outcome Mapping Expression Failed...ignoring", e);
+	    }
+	}
+	return null;
     }
 
     public UserExistsOutcome transform(UserExistsOutcome jointOutcome) {
-        if (transformExpression != null) {
-            Collection<ScriptingRuleParameter> transformParams = new ArrayList<ScriptingRuleParameter>();
-
-            transformParams.add(new ScriptingRuleParameterImpl("jointOutcome", jointOutcome, UserExistsOutcome.class));
-
-            ScriptingRuleEngine sre = new ScriptingRuleEngine();
-            ScriptingRuleExecutionOutcome outcome;
-
-            try {
-                outcome = sre.evaluate(transformExpression, language, transformParams);
-                return (UserExistsOutcome) outcome.getObject();
-            } catch (Exception e) {
-                logger.error("Outcome Mapping Expression Failed...ignoring", e);
-            }
-        }
-
-        return null;
+	if (transformExpression != null) {
+	    Collection<ScriptingRuleParameter> transformParams = new ArrayList<ScriptingRuleParameter>();
+	    transformParams.add(new ScriptingRuleParameterImpl("jointOutcome", jointOutcome, UserExistsOutcome.class));
+	    ScriptingRuleEngine sre = new ScriptingRuleEngine();
+	    ScriptingRuleExecutionOutcome outcome;
+	    try {
+		outcome = sre.evaluate(transformExpression, language, transformParams);
+		return (UserExistsOutcome) outcome.getObject();
+	    } catch (Exception e) {
+		logger.error("Outcome Mapping Expression Failed...ignoring", e);
+	    }
+	}
+	return null;
     }
 
     public void validate(UserExistsOutcome transformedOutcome) {
-        if (validateExpression != null) {
-            Collection<ScriptingRuleParameter> validateParams = new ArrayList<ScriptingRuleParameter>();
-
-            validateParams.add(new ScriptingRuleParameterImpl("transformedOutcome", transformedOutcome, UserExistsOutcome.class));
-
-            ScriptingRuleEngine sre = new ScriptingRuleEngine();
-            ScriptingRuleExecutionOutcome outcome;
-
-            try {
-                outcome = sre.evaluate(validateExpression, language, validateParams);
-                Boolean error = (Boolean) outcome.getObject();
-
-                if (error) {
-                    throw new IllegalArgumentException("Error validating mapped outcome entry");
-                }
-
-            } catch (Exception e) {
-                logger.error("Outcome Mapping Expression Failed...ignoring", e);
-            }
-        }
+	if (validateExpression != null) {
+	    Collection<ScriptingRuleParameter> validateParams = new ArrayList<ScriptingRuleParameter>();
+	    validateParams.add(
+		    new ScriptingRuleParameterImpl("transformedOutcome", transformedOutcome, UserExistsOutcome.class));
+	    ScriptingRuleEngine sre = new ScriptingRuleEngine();
+	    ScriptingRuleExecutionOutcome outcome;
+	    try {
+		outcome = sre.evaluate(validateExpression, language, validateParams);
+		Boolean error = (Boolean) outcome.getObject();
+		if (error) {
+		    throw new IllegalArgumentException("Error validating mapped outcome entry");
+		}
+	    } catch (Exception e) {
+		logger.error("Outcome Mapping Expression Failed...ignoring", e);
+	    }
+	}
     }
-
-
 }

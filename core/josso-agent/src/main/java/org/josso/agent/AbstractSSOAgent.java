@@ -21,23 +21,21 @@
  */
 package org.josso.agent;
 
-import org.josso.gateway.GatewayServiceLocator;
-import org.josso.gateway.assertion.exceptions.AssertionNotValidException;
-import org.josso.gateway.identity.service.SSOIdentityManagerService;
-import org.josso.gateway.identity.service.SSOIdentityProvider;
-import org.josso.gateway.identity.service.SSOIdentityProviderService;
-import org.josso.gateway.session.exceptions.FatalSSOSessionException;
-import org.josso.gateway.session.exceptions.NoSuchSessionException;
-import org.josso.gateway.session.exceptions.SSOSessionException;
-import org.josso.gateway.session.service.SSOSessionManager;
-import org.josso.gateway.session.service.SSOSessionManagerService;
-
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.josso.gateway.GatewayServiceLocator;
+import org.josso.gateway.assertion.exceptions.AssertionNotValidException;
+import org.josso.gateway.identity.service.SSOIdentityManagerService;
+import org.josso.gateway.identity.service.SSOIdentityProviderService;
+import org.josso.gateway.session.exceptions.FatalSSOSessionException;
+import org.josso.gateway.session.exceptions.NoSuchSessionException;
+import org.josso.gateway.session.exceptions.SSOSessionException;
+import org.josso.gateway.session.service.SSOSessionManagerService;
 
 /**
  * Represents a partial implementation of an Single Sign-on Agent.
@@ -54,7 +52,7 @@ public abstract class AbstractSSOAgent implements SSOAgent {
     /**
      * The name of the cookie that holds the JOSSO Session id.
      */
-    // private static final String JOSSO_SINGLE_SIGN_ON_COOKIE = "JOSSO_SESSIONID";
+    // private static final String JOSSO_SINGLE_SIGN_ON_COOKIE = "RPBA_SESSIONID";
 
     public static final long DEFAULT_SESSION_ACCESS_MIN_INTERVAL = 1000;
 

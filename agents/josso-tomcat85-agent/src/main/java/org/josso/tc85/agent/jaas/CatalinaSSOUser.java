@@ -79,14 +79,14 @@ public class CatalinaSSOUser extends GenericPrincipal implements SSOUser {
     public static CatalinaSSOUser newInstance(Realm realm, Subject subject) {
         // Prepare to scan the Principals for this Subject
         String password = null; // Will not be carried forward
-        ArrayList roles = new ArrayList();
+        ArrayList<String> roles = new ArrayList<String>();
         SSOUser ssoUser = null;
         String username = null;
 
         // Scan the Principals for this Subject
-        Iterator principals = subject.getPrincipals().iterator();
+        Iterator<Principal> principals = subject.getPrincipals().iterator();
         while (principals.hasNext()) {
-            Principal principal = (Principal) principals.next();
+            Principal principal =  principals.next();
             // No need to look further - that's our own stuff
             if (principal instanceof CatalinaSSOUser) {
                 if (logger.isDebugEnabled())
@@ -110,9 +110,9 @@ public class CatalinaSSOUser extends GenericPrincipal implements SSOUser {
             if ((principal instanceof Group) &&
                     "Roles".equals(principal.getName())) {
                 Group grp = (Group) principal;
-                Enumeration en = grp.members();
+                Enumeration<? extends Principal> en = grp.members();
                 while (en.hasMoreElements()) {
-                    Principal roleP = (Principal) en.nextElement();
+                    Principal roleP =  en.nextElement();
                     roles.add(roleP.getName());
                 }
 

@@ -22,11 +22,6 @@
 
 package org.josso.tooling.gshell.install;
 
-import org.josso.tooling.gshell.install.commands.support.InstallCommandSupport;
-import org.josso.tooling.gshell.install.TargetPlatform;
-import org.apache.commons.vfs.FileObject;
-import org.apache.commons.vfs.FileType;
-
 /**
  * The execution method is a template method used to deploy samples</br>
  *

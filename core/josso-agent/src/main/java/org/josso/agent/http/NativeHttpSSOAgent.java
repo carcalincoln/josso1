@@ -30,7 +30,6 @@ import org.josso.agent.SSOAgentRequest;
 import org.josso.gateway.identity.SSOUser;
 import org.josso.gateway.identity.exceptions.SSOIdentityException;
 import org.josso.gateway.identity.service.SSOIdentityManagerService;
-import org.josso.gateway.session.service.SSOSessionManagerService;
 
 /**
  * Native Agent implementation.
@@ -51,7 +50,9 @@ public class NativeHttpSSOAgent extends HttpSSOAgent {
 		String ssoSessionId = request.getSessionId();
         try {
             if (ssoSessionId == null) {
-            	log.debug("Session authentication failed : " + ssoSessionId);
+        	if(log.isDebugEnabled()) {
+            		log.debug("Session authentication failed : " + ssoSessionId);
+        	}
                 return null;
             }
 
@@ -60,8 +61,9 @@ public class NativeHttpSSOAgent extends HttpSSOAgent {
                 im = getSSOIdentityManager();
 
             SSOUser ssoUser = im.findUserInSession(request.getRequester(), ssoSessionId);
-            
-            log.debug("Session authentication succeeded : " + ssoSessionId);
+            if(log.isDebugEnabled()) {
+        	log.debug("Session authentication succeeded : " + ssoSessionId);
+            }
             return ssoUser;
         } catch (SSOIdentityException e) {
             // Ignore this ... (user does not exist for this session)

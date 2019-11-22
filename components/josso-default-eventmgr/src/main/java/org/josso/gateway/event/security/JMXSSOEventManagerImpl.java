@@ -135,7 +135,9 @@ public class JMXSSOEventManagerImpl extends SSOSecurityEventManagerImpl {
         }
 
         try {
-            logger.info("Adding listener : " + listener + " for : " + mbeanOname);
+            if(logger.isInfoEnabled()) {
+        	logger.info("Adding listener : " + listener + " for : " + mbeanOname);
+            }
             getMBeanServer().addNotificationListener(mbeanOname, new NotificationSSOEventListener(listener), null, null);
 
         } catch (Exception e) {

@@ -22,11 +22,10 @@
 package org.josso.gateway;
 
 
-import org.josso.SecurityDomain;
-import org.josso.Lookup;
-import org.josso.gateway.session.SSOSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.josso.SecurityDomain;
+import org.josso.gateway.session.SSOSession;
 
 /**
  * @author <a href="mailto:sgonzalez@josso.org">Sebastian Gonzalez Oyuela</a>

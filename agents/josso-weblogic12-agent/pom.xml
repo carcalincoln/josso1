@@ -31,7 +31,6 @@
         <artifactId>agents</artifactId>
         <version>1.8.12</version>
     </parent>
-
     <artifactId>josso-weblogic12-agent</artifactId>
     <packaging>jar</packaging>
     <name>JOSSO :: WebLogic 12 Agent</name>
@@ -69,12 +68,24 @@
             <artifactId>activation</artifactId>
             <version>1.1</version>
         </dependency>
-        <dependency>
+        <!-- //RPBA
+		<dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.14</version>
         </dependency>
-
+		-->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+			
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>			
+		</dependency>
         <dependency>
             <groupId>weblogic12</groupId>
             <artifactId>apache-felix</artifactId>

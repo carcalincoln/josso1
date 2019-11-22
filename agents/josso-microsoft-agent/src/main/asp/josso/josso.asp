@@ -227,7 +227,7 @@ end function
 ' --------------------------------------------------------------------------------------
 function getJOSSOToken()
     ' Return JOSSO Token
-    set getJOSSOToken = Request.Cookies("JOSSO_SESSIONID")
+    set getJOSSOToken = Request.Cookies("RPBA_SESSIONID")
 end function
 
 ' --------------------------

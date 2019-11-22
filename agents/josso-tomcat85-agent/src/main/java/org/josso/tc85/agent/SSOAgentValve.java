@@ -48,6 +48,7 @@ import java.util.*;
  *
  * @author <a href="mailto:gbrigand@josso.org">Gianluca Brigandi</a>
  * @version $Id: SSOAgentValve.java 1657 2010-10-13 20:48:21Z sgonzalez $
+ * //RPBA ver de mejorar la parte del metodo log 
  */
 public class SSOAgentValve extends ValveBase
         implements Lifecycle, SessionListener, ContainerListener {
@@ -94,11 +95,10 @@ public class SSOAgentValve extends ValveBase
             LOG.error("JOSSO: SESSION PURGE EXCEPTION: ", ex);
         }
 
-        if (LOG.isDebugEnabled())
+        if (LOG.isDebugEnabled()) {
             LOG.debug("JOSSO: SSOAgentValve.sessionEvent: sessionMap.size remaining: " + _sessionMap.size());
-
-        if (LOG.isDebugEnabled())
             LOG.debug("JOSSO: SSOAgentValve.sessionEvent: complete");
+        }
    }
 
     // ------------------------------------------------------ ContainerListener Methods
@@ -124,11 +124,10 @@ public class SSOAgentValve extends ValveBase
             }
 
         }
-        if (LOG.isDebugEnabled())
+        if (LOG.isDebugEnabled()) {
             LOG.debug("JOSSO: SSOAgentValve.containerEvent: sessionMap.size remaining: " + _sessionMap.size());
-
-        if (LOG.isDebugEnabled())
             LOG.debug("JOSSO: SSOAgentValve.containerEvent: complete");
+        }
     }
 
     // ------------------------------------------------------ Lifecycle Methods
@@ -257,7 +256,8 @@ public class SSOAgentValve extends ValveBase
                 hreq.setCharacterEncoding(_agent.getUriEncoding());
                 hres.setCharacterEncoding(_agent.getUriEncoding());
             }
-
+            
+            //RPBA request.getSession().setAttribute(org.josso.gateway.signon.Constants.KEY_JOSSO_SECURITY_DOMAIN_NAME, ctx.getSecurityDomain().getName());
             String nodeId = hreq.getParameter("josso_node");
             if (nodeId != null) {
                 log("Storing JOSSO Node id : " + nodeId);
@@ -343,6 +343,9 @@ public class SSOAgentValve extends ValveBase
             if (cookies == null)
                 cookies = new Cookie[0];
             for (int i = 0; i < cookies.length; i++) {
+                if (cookies[i].getName().startsWith(org.josso.gateway.Constants.JOSSO_SINGLE_SIGN_ON_COOKIE)) {
+                    LOG.debug("RPBA - "+cookies[i].getName() + cookies[i].getValue());
+                }
                 if (org.josso.gateway.Constants.JOSSO_SINGLE_SIGN_ON_COOKIE.equals(cookies[i].getName())) {
                     cookie = cookies[i];
                     break;
@@ -614,9 +617,13 @@ public class SSOAgentValve extends ValveBase
             // propagate the login and logout URLs to
             // partner applications.
             hreq.setAttribute("org.josso.agent.gateway-login-url", _agent.getGatewayLoginUrl());
+            //RPBA aca ver de poner el parametro
+            /*hreq.getSession().getAttribute("org.josso.gateway.securityDomainName")
+            org.josso.gateway.securityDomainName*/
             hreq.setAttribute("org.josso.agent.gateway-logout-url", _agent.getGatewayLogoutUrl());
             hreq.setAttribute("org.josso.agent.ssoSessionid", jossoSessionId);
             hreq.setAttribute("org.josso.agent.requester", r.getRequester());
+
 
             // ------------------------------------------------------------------
             // Invoke the next Valve in our pipeline
@@ -777,18 +784,18 @@ public class SSOAgentValve extends ValveBase
             for (int i = 0; i < cookies.length; i++)
                 saved.addCookie(cookies[i]);
         }
-        Enumeration names = request.getHeaderNames();
+        Enumeration<String> names = request.getHeaderNames();
         while (names.hasMoreElements()) {
-            String name = (String) names.nextElement();
-            Enumeration values = request.getHeaders(name);
+            String name =  names.nextElement();
+            Enumeration<String> values = request.getHeaders(name);
             while (values.hasMoreElements()) {
-                String value = (String) values.nextElement();
+                String value =  values.nextElement();
                 saved.addHeader(name, value);
             }
         }
-        Enumeration locales = request.getLocales();
+        Enumeration<Locale> locales = request.getLocales();
         while (locales.hasMoreElements()) {
-            Locale locale = (Locale) locales.nextElement();
+            Locale locale =  locales.nextElement();
             saved.addLocale(locale);
         }
 

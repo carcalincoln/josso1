@@ -83,7 +83,9 @@ public final class AdminPermissionController implements MessageSourceAware{
 
     @InitBinder("addPermission")
     public void initBinder(WebDataBinder binder) {
-        binder.setAllowedFields("recipient", "permission");
+	//RPBA
+        String[] aux= {"recipient", "permission"};
+	binder.setAllowedFields(aux);
     }
 
     /**

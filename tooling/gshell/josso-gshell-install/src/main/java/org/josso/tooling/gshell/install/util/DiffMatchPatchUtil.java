@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -61,8 +62,9 @@ public class DiffMatchPatchUtil {
                 File sourceFile = new File(source_dir + fStr);
                 count++;
 
-                String content_target = FileUtils.readFileToString(targetFile, null);
-                String content_source = FileUtils.readFileToString(sourceFile, null);
+                Charset charset=null;
+		String content_target = FileUtils.readFileToString(targetFile, charset);
+                String content_source = FileUtils.readFileToString(sourceFile, charset);
 
                 if (content_target != null && content_source != null) {
                     // An array of differences is computed which describe the 
@@ -75,7 +77,7 @@ public class DiffMatchPatchUtil {
                     sbResult.append(dmp.patch_toText(patches) + "\n");
                 }
             }
-            FileUtils.writeStringToFile(filePatch, sbResult.toString());
+            FileUtils.writeStringToFile(filePatch, sbResult.toString(), Charset.defaultCharset());
 
         } catch (FileNotFoundException e) {
             log.debug(e.getMessage());
@@ -92,7 +94,8 @@ public class DiffMatchPatchUtil {
         HashMap<String, List<diff_match_patch.Patch>> resultMap = new HashMap<String, List<diff_match_patch.Patch>>();
         File srcFile = new File(fileName);
         try {
-            String patchFileStr = FileUtils.readFileToString(srcFile, null);
+            Charset charset=null;
+	    String patchFileStr = FileUtils.readFileToString(srcFile, charset);
             String REGEX = "--------------------------------------------------\n";
             Pattern p = Pattern.compile(REGEX);
             String[] items = p.split(patchFileStr, 0);
@@ -127,7 +130,8 @@ public class DiffMatchPatchUtil {
         boolean statusOk = true;
 
         try {
-            String patchFileStr = FileUtils.readFileToString(targetFile, null);
+            Charset charset=null;
+	    String patchFileStr = FileUtils.readFileToString(targetFile, charset);
             Object[] resultArr = dmp.patch_apply(llPatches, patchFileStr);
             String patchedText = (String) resultArr[0];
             boolean[] pResults = (boolean[]) resultArr[1];
@@ -135,7 +139,7 @@ public class DiffMatchPatchUtil {
                 statusOk = statusOk && pResults[i];
             }
             if (statusOk) {
-                FileUtils.writeStringToFile(targetFile, patchedText);
+                FileUtils.writeStringToFile(targetFile, patchedText, Charset.defaultCharset());
             } else return false;
         } catch (IOException e) {
             log.debug(e.getMessage());
@@ -147,9 +151,9 @@ public class DiffMatchPatchUtil {
         HashMap<String, List<diff_match_patch.Patch>> patchesMap = DiffMatchPatchUtil.getInstance().
                 getPatchesFromFile("/home/fish/tmp/patch.file");
         String tgDir = "/home/fish/tmp/original/phpBB3";
-        Iterator kIter = patchesMap.keySet().iterator();
+        Iterator<String> kIter = patchesMap.keySet().iterator();
         while (kIter.hasNext()) {
-            String fName = (String) kIter.next();
+            String fName =  kIter.next();
             List<diff_match_patch.Patch> patches = patchesMap.get(fName);
             boolean statusOk = DiffMatchPatchUtil.getInstance().applyPatch(new String(tgDir+fName), patches);
             System.out.println("Filename: " + fName);

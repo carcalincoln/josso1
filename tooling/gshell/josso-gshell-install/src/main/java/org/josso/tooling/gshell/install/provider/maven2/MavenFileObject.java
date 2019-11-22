@@ -22,26 +22,17 @@
 
 package org.josso.tooling.gshell.install.provider.maven2;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.Properties;
 
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
-import org.apache.commons.vfs.provider.UriParser;
-import org.ops4j.pax.url.mvn.internal.Configuration;
-import org.ops4j.pax.url.mvn.internal.ConfigurationImpl;
-import org.ops4j.pax.url.mvn.internal.Connection;
-import org.ops4j.util.property.PropertiesPropertyResolver;
-import org.ops4j.util.property.PropertyResolver;
 
 public class MavenFileObject extends AbstractFileObject
 implements FileObject {

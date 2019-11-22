@@ -17,7 +17,6 @@
         <jstl.version>1.2</jstl.version>
         <jetty.version>6.1.26</jetty.version>
         <ehcache.version>1.6.2</ehcache.version>
-        <log4j.version>1.2.14</log4j.version>
         <hsqldb.version>1.8.0.10</hsqldb.version>
     </properties>
 
@@ -49,7 +48,7 @@
         <dependency>
             <groupId>commons-discovery</groupId>
             <artifactId>commons-discovery</artifactId>
-            <version>0.2</version>
+            <!-- //RPBA <version>0.2</version>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -132,7 +131,7 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <!-- //RPBA <version>2.5</version>-->
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -179,12 +178,24 @@
             <version>1.6.0</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
+       <!--//RPBA
+		<dependency>
+            <groupId>apache-log4j</groupId>
             <artifactId>log4j</artifactId>
-            <scope>runtime</scope>
             <version>${log4j.version}</version>
         </dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+			
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>			
+		</dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -233,7 +244,7 @@
                                    <dependency>
                                        <groupId>org.josso</groupId>
                                        <artifactId>josso-jetty6-agent</artifactId>
-                                       <version>${pom.version}</version>
+                                       <version>${project.version}</version>
                                        <scope>runtime</scope>
                                    </dependency>
         <dependency>

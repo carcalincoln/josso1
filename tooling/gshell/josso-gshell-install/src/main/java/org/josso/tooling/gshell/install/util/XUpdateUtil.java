@@ -22,23 +22,8 @@
 package org.josso.tooling.gshell.install.util;
 
 
-import org.w3c.dom.Node;
-import org.xmldb.common.xml.queries.XUpdateQuery;
-import org.xmldb.xupdate.lexus.XUpdateQueryImpl;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author <a href="mailto:sgonzalez@josso.org">Sebastian Gonzalez Oyuela</a>

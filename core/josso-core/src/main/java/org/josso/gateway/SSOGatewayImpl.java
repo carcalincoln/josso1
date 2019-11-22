@@ -92,7 +92,9 @@ public class SSOGatewayImpl implements SSOGateway {
 
         // Check security domain selector
         if (securityDomainSelector == null) {
-            logger.info("Finishing setup, using default SecurityDomainSelector");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Finishing setup, using default SecurityDomainSelector");
+            }
 
             try {
                 securityDomainSelector = (SSOSecurityDomainSelector) loadClass("org.josso.gateway.DomainSelectorImpl").newInstance();
@@ -104,7 +106,9 @@ public class SSOGatewayImpl implements SSOGateway {
 
         // Check security domain registry
         if (securityDomainRegistry == null) {
-            logger.info("Finishing setup, using default SecurityDomainRegistry");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Finishing setup, using default SecurityDomainRegistry");
+            }
             try {
                 securityDomainRegistry = (SecurityDomainRegistry) loadClass("org.josso.gateway.SecurityDomainRegistryImpl").newInstance();
             } catch (Exception e) {
@@ -120,7 +124,9 @@ public class SSOGatewayImpl implements SSOGateway {
 
             // Check assertion manager
             if (sd.getIdentityProvider() == null) {
-                logger.info("Finishing setup [" + name + "], using default IdentityProvider");
+                if(logger.isInfoEnabled()) {
+                    logger.info("Finishing setup [" + name + "], using default IdentityProvider");
+                }
                 try {
                     sd.setIdentityProvider((SSOIdentityProvider) loadClass("org.josso.gateway.identity.service.SSOIdentityProviderImpl").newInstance());
                 } catch (Exception e) {
@@ -130,7 +136,9 @@ public class SSOGatewayImpl implements SSOGateway {
 
             // Check assertion manager
             if (sd.getAssertionManager() == null) {
-                logger.info("Finishing setup [" + name + "], using default AssertionManager");
+                if(logger.isInfoEnabled()) {
+                    logger.info("Finishing setup [" + name + "], using default AssertionManager");
+                }
                 try {
                     sd.setAssertionManager((AssertionManager) loadClass("org.josso.gateway.assertion.AssertionManagerImpl").newInstance());
                 } catch (Exception e) {
@@ -140,7 +148,9 @@ public class SSOGatewayImpl implements SSOGateway {
 
             // Check SecurityDomain Matcher
             if (sd.getMatchers().size() == 0) {
-                logger.info("Finishing setup [" + name + "], using default SecurityDomainMatcher");
+                if(logger.isInfoEnabled()) {
+                    logger.info("Finishing setup [" + name + "], using default SecurityDomainMatcher");
+                }
                 try {
                     sd.getMatchers().add((SecurityDomainMatcher) loadClass("org.josso.gateway.SimpleSecurityDomainMatcher").newInstance());
                 } catch (Exception e) {
@@ -163,49 +173,68 @@ public class SSOGatewayImpl implements SSOGateway {
             securityDomainRegistry.register(sd);
 
             // This compoment should be initialized first ...
-            logger.info("Initializing [" + name + " ] SSOEventManager ...");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Initializing [" + name + " ] SSOEventManager ...");
+            }
             sd.getEventManager().initialize();
-            logger.info("Initializing [" + name + " ] SSOEventManager ... DONE");
-
-            logger.info("Initializing [" + name + " ] SSOAssertionManager ...");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Initializing [" + name + " ] SSOEventManager ... DONE");
+            	logger.info("Initializing [" + name + " ] SSOAssertionManager ...");
+            }
             sd.getAssertionManager().setSecurityDomainName(name);
             sd.getAssertionManager().initialize();
-            logger.info("Initializing [" + name + " ] SSOAssertionManager ... DONE");
-
-            logger.info("Initializing [" + name + " ] SSOAssertionManager ...");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Initializing [" + name + " ] SSOAssertionManager ... DONE");
+        	logger.info("Initializing [" + name + " ] SSOAssertionManager ...");
+            }
             sd.getIdentityProvider().initialize();
-            logger.info("Initializing [" + name + " ] SSOAssertionManager ... DONE");
-
-            logger.info("Initializing [" + name + " ] SSOIdentityManager ...");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Initializing [" + name + " ] SSOAssertionManager ... DONE");
+            	logger.info("Initializing [" + name + " ] SSOIdentityManager ...");
+            }
             sd.getIdentityManager().initialize();
-            logger.info("Initializing [" + name + " ] SSOIdentityManager ... DONE");
-
-            logger.info("Initializing [" + name + " ] SSOSessionManager ...");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Initializing [" + name + " ] SSOIdentityManager ... DONE");
+        	logger.info("Initializing [" + name + " ] SSOSessionManager ...");
+            }
             sd.getSessionManager().setSecurityDomainName(name);
             sd.getSessionManager().initialize();
-            logger.info("Initializing [" + name + " ] SSOSessionManager ... DONE");
-
-            logger.info("Initializing [" + name + " ] SSOAuditManager ...");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Initializing [" + name + " ] SSOSessionManager ... DONE");
+        	logger.info("Initializing [" + name + " ] SSOAuditManager ...");
+            }
             sd.getAuditManager().initialize();
-            logger.info("Initializing [" + name + " ] SSOAuditManager ... DONE");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Initializing [" + name + " ] SSOAuditManager ... DONE");
+            }
 
             if (sd.getProtocolManager() != null) {
-                logger.info("Initializing [" + name + " ] SSOProtocolManager ...");
+                if(logger.isInfoEnabled()) {
+                    logger.info("Initializing [" + name + " ] SSOProtocolManager ...");
+                }
                 sd.getProtocolManager().initialize();
-                logger.info("Initializing [" + name + " ] SSOProtocolManager ... DONE");
+                if(logger.isInfoEnabled()) {
+                    logger.info("Initializing [" + name + " ] SSOProtocolManager ... DONE");
+                }
             }
 
             for (SecurityDomainMatcher matcher : sd.getMatchers()) {
-                logger.info("Initializing [" + name + " ] SecurityDomainMatcher ...");
+                if(logger.isInfoEnabled()) {
+                    logger.info("Initializing [" + name + " ] SecurityDomainMatcher ...");
+                }
                 matcher.init();
-                logger.info("Initializing [" + name + " ] SecurityDomainMatcher ... DONE");
+                if(logger.isInfoEnabled()) {
+                    logger.info("Initializing [" + name + " ] SecurityDomainMatcher ... DONE");
+                }
             }
 
             if (sd.getSSOWebConfiguration().getTrustedHosts().size() == 0) {
                 logger.warn("No trusted hosts defined, any 'back_to' value will be accepted!");
             } else {
-                for (String trustedHost : sd.getSSOWebConfiguration().getTrustedHosts()) {
-                    logger.info("Trusted HOST : [" + trustedHost + "]");
+                if(logger.isInfoEnabled()) {
+                    for (String trustedHost : sd.getSSOWebConfiguration().getTrustedHosts()) {
+                	logger.info("Trusted HOST : [" + trustedHost + "]");
+                    }
                 }
             }
         }
@@ -221,14 +250,18 @@ public class SSOGatewayImpl implements SSOGateway {
         for (int i = 0; i < securityDomains.size(); i++) {
             SecurityDomain sd = securityDomains.get(i);
             String name = sd.getName();
-
-            logger.info("Destroying [" + name + " ] SSOAssertionManager ...");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Destroying [" + name + " ] SSOAssertionManager ...");
+            }
             sd.getAssertionManager().destroy();
-            logger.info("Destroying [" + name + " ] SSOAssertionManager ... DONE");
-
-            logger.info("Destroying [" + name + " ] SSOSessionManager ...");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Destroying [" + name + " ] SSOAssertionManager ... DONE");
+        	logger.info("Destroying [" + name + " ] SSOSessionManager ...");
+            }
             sd.getSessionManager().destroy();
-            logger.info("Destroying [" + name + " ] SSOSessionManager ... DONE");
+            if(logger.isInfoEnabled()) {
+        	logger.info("Destroying [" + name + " ] SSOSessionManager ... DONE");
+            }
         }
 
         _initialized = false;
@@ -243,9 +276,9 @@ public class SSOGatewayImpl implements SSOGateway {
         ctx.setScheme("unknown");
         ctx.setSecurityDomain(this.securityDomainSelector.selectDomain(req, securityDomains));
 
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug("SSOContext created from request for SecurityDomain " + (ctx.getSecurityDomain() != null ? ctx.getSecurityDomain().getName() : "null"));
-
+        }
         return ctx;
     }
 
@@ -261,7 +294,9 @@ public class SSOGatewayImpl implements SSOGateway {
         SecurityDomain sd = this.securityDomainRegistry.lookup(tokenType, tokenValue);
         if (sd == null) {
             sd = prepareDefaultSSOContext().getSecurityDomain();
-            logger.debug("No security domain found for token : [" + tokenType + "/" + tokenValue + "], using default one : " + sd.getName());
+            if(logger.isDebugEnabled()) {
+        	logger.debug("No security domain found for token : [" + tokenType + "/" + tokenValue + "], using default one : " + sd.getName());
+            }
         }
 
         MutableSSOContext ctx = new MutableSSOContext();
@@ -272,12 +307,12 @@ public class SSOGatewayImpl implements SSOGateway {
 
         if (tokenType.equals(SSOSessionManager.TOKEN_TYPE)) {
         	try {
-        		SSOSessionManager sm = sd.getSessionManager();
-        		SSOSession session = sm.getSession(tokenValue);
-				ctx.setCurrentSession(session);
-			} catch (Exception e) {
-				// ignore all errors
-			}
+        	    SSOSessionManager sm = sd.getSessionManager();
+        	    SSOSession session = sm.getSession(tokenValue);
+        	    ctx.setCurrentSession(session);
+		} catch (Exception e) {
+			// ignore all errors
+		}
         }
         
         return ctx;

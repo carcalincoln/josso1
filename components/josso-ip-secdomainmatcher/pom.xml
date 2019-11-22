@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~ JOSSO: Java Open Single Sign-On ~ ~ Copyright 2004-2009, Atricore, 
+	Inc. ~ ~ This is free software; you can redistribute it and/or modify it 
+	~ under the terms of the GNU Lesser General Public License as ~ published 
+	by the Free Software Foundation; either version 2.1 of ~ the License, or 
+	(at your option) any later version. ~ ~ This software is distributed in the 
+	hope that it will be useful, ~ but WITHOUT ANY WARRANTY; without even the 
+	implied warranty of ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+	See the GNU ~ Lesser General Public License for more details. ~ ~ You should 
+	have received a copy of the GNU Lesser General Public ~ License along with 
+	this software; if not, write to the Free ~ Software Foundation, Inc., 51 
+	Franklin St, Fifth Floor, Boston, MA ~ 02110-1301 USA, or see the FSF site: 
+	http://www.fsf.org. ~ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<!-- ~ JOSSO: Java Open Single Sign-On ~ ~ Copyright 2004-2008, Atricore, 
+		Inc. ~ ~ This is free software; you can redistribute it and/or modify it 
+		~ under the terms of the GNU Lesser General Public License as ~ published 
+		by the Free Software Foundation; either version 2.1 of ~ the License, or 
+		(at your option) any later version. ~ ~ This software is distributed in the 
+		hope that it will be useful, ~ but WITHOUT ANY WARRANTY; without even the 
+		implied warranty of ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+		See the GNU ~ Lesser General Public License for more details. ~ ~ You should 
+		have received a copy of the GNU Lesser General Public ~ License along with 
+		this software; if not, write to the Free ~ Software Foundation, Inc., 51 
+		Franklin St, Fifth Floor, Boston, MA ~ 02110-1301 USA, or see the FSF site: 
+		http://www.fsf.org. -->
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.josso</groupId>
+		<artifactId>components</artifactId>
+		<version>1.8.12</version>
+	</parent>
+	<artifactId>josso-ip-secdomainmatcher</artifactId>
+	<packaging>jar</packaging>
+	<name>JOSSO :: IP Security Domain Matcher</name>
+	<description>IP Security Domain Matcher</description>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.xbean</groupId>
+				<artifactId>maven-xbean-plugin</artifactId>
+				<executions>
+					<execution>
+						<configuration>
+							<namespace>urn:org:josso:ip:secdomainmatcher</namespace>
+						</configuration>
+						<goals>
+							<goal>mapping</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.xbean</groupId>
+										<artifactId>maven-xbean-plugin</artifactId>
+										<versionRange>[3.4.3,)</versionRange>
+										<goals>
+											<goal>mapping</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.josso</groupId>
+			<artifactId>josso-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>rpba</groupId>
+			<artifactId>utils</artifactId>
+			<version>0.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>commons</id>
+			<url>https://mvnrepository.com/artifact/commons-net/commons-net</url>
+		</repository>
+	</repositories>
+</project>

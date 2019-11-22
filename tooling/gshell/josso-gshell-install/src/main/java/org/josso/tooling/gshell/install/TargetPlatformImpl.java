@@ -22,10 +22,6 @@
 
 package org.josso.tooling.gshell.install;
 
-import org.josso.tooling.gshell.install.TargetPlatform;
-
-import java.util.Properties;
-
 /**
  * @org.apache.xbean.XBean element="platform"
  *

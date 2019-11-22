@@ -165,9 +165,9 @@ public class DefaultAutomaticLoginStrategy extends AbstractAutomaticLoginStrateg
             }
 
         } catch (MalformedURLException e) {
-            this.log.debug("Error creating Referer URL : "+ e.getMessage(), e);
+            log.debug("Error creating Referer URL : "+ e.getMessage(), e);
         } catch (Exception e) {
-            this.log.debug("Cannot verify request for automatic login : " + e.getMessage(), e);
+            log.debug("Cannot verify request for automatic login : " + e.getMessage(), e);
         }
 
         if (log.isDebugEnabled())
