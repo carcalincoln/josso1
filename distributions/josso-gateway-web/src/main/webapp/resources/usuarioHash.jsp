@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@page import="admApli.modelo.Ambiente"%>
 <%@ page language="java" errorPage="/Error.jsp" import="admApli.modelo.dtos.Error,admApli.*"%>
 <%@ page import="admApli.modelo.OrganismoProfesional"%>
@@ -16,7 +17,16 @@
 	if (!new admApli.modelo.Intranet().controlar(ambiente)){
 		response.sendRedirect((String)request.getAttribute("Host")+admApli.Configuracion.getString("DEFAULT_CONTEXT")+"/signon/login.do");
 	}
-	pageContext.setAttribute("usuarios",admApli.dao.AdministradorFactory.get(AdministradorUsuario.Constante,AdministradorUsuario.class).getUsuariosOnLine().values());
+	AdministradorUsuario administradorUsuario=admApli.dao.AdministradorFactory.get(AdministradorUsuario.Constante,AdministradorUsuario.class);
+	HashMap<Integer,DtoHash> aux=administradorUsuario.getUsuariosOnLine();
+	if((request.getParameter("idLogon")!=null)){
+	    Integer idUsu=Integer.parseInt(request.getParameter("idLogon"));
+	    DtoHash usu=aux.get(idUsu);
+		if (usu!=null){
+			aux.remove(idUsu);		
+		}
+	}
+	pageContext.setAttribute("usuarios",aux.values());
 %>
 <html>
 <head>
@@ -30,13 +40,32 @@
 				Pool
 			</html:link>
 		</div>
-		<display:table  name="pageScope.usuarios" export="true">
-			<display:column title="Usuario" property="dato.logon" sortable="true"/>
+		<display:table id="usuario" name="pageScope.usuarios" export="true">
+			<display:column title="Usuario" sortable="true">
+				<html:link href="BuscarUsuario.jsp">
+					<html:param name="logon">
+						<bean:write name="usuario" property="dato.logon" ignore="true"/>
+					</html:param>
+					<bean:write name="usuario" property="dato.logon" ignore="true"/>
+				</html:link>
+			</display:column>
 			<display:column title="Estado" property="dato.estadoUsuario" sortable="true"/>
-			<display:column title="Acceso anterior" property="dato.fechaUltimoAcceso" format="{0,date,dd/MM/yy HH:mm}"/>
-			<display:column title="Ultima lectura" property="ultimoAcceso" format="{0,date,dd/MM/yy HH:mm}"/>
-			<display:column title="Hora Login" property="dato.fechaLogin" format="{0,date,dd/MM/yy HH:mm}" sortable="true"/>
+			<display:column title="Acceso anterior" property="dato.fechaUltimoAcceso" format="{0,date,dd/MM/yy HH:mm:ss a}"/>
+			<display:column title="Ultima lectura" property="ultimoAcceso" format="{0,date,dd/MM/yy HH:mm:ss a}"/>
+			<display:column title="Hora Login" property="dato.fechaLogin" format="{0,date,dd/MM/yy HH:mm:ss a}" sortable="true"/>
+			<display:column title="Acción">
+				<html:link href="usuarioHash.jsp">
+					<html:param name="logon">
+						<bean:write name="usuario" property="dato.logon" ignore="true"/>
+					</html:param>
+					<html:param name="idLogon">
+						<bean:write name="usuario" property="dato.id" ignore="true"/>
+					</html:param>					
+					Sacar
+				</html:link>
+			</display:column>			
 		</display:table>
+		<br></br>
 		<logic:notPresent parameter="organismo">
 			<html:link page="/resources/usuarioHash.jsp">
 				<html:param name="organismo" value="1"/>
@@ -44,7 +73,7 @@
 			</html:link>
 		</logic:notPresent>
 		<logic:present parameter="organismo">
-			<html:link page="/resources/usuarioHash.jsp">Ocultar Organismos</html:link>
+			<html:link page="/resources/usuarioHash.jsp">Ocultar Organismos</html:link><br>
 			<%
 				java.util.List<OrganismoProfesional> organismos=admApli.dao.AdministradorFactory.get(AdministradorOrganismo.Constante,AdministradorOrganismo.class).getCollection();
 				BeanComparator.Sort(organismos,OrganismoProfesional.class,"descripcion");

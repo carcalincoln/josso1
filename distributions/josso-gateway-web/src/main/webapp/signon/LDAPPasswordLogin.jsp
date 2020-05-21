@@ -47,7 +47,7 @@
 		<html:form action="/signon/usernamePasswordLogin"
 			focus="josso_username"
 		>
-			<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD %>" value="login"/>
+			<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD  %>" value="login"/>
 			<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO %>" value="/RegPropNew/signon/"/>
 			<div class="titulo">Portal de Servicios para Usuarios Internos
 			</div>

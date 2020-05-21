@@ -1,4 +1,3 @@
-<%@page import="com.softwareag.entirex.xml.me.he"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="org.apache.commons.validator.GenericValidator"%>
