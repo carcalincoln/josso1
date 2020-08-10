@@ -64,11 +64,18 @@ public class IPSecurityDomainMatcher implements SecurityDomainMatcher {
 
 	public boolean getDomainInSession(SSORequest req) {
 		boolean ok = false;
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug(isCheckDomainInSession() ? "Check" : "NOT Chock " + " Domain by cookie ");
+		}
 		if (isCheckDomainInSession()) {
 			ok = (req.getAttribute(org.josso.gateway.Constants.JOSSO_SINGLE_SIGN_ON_COOKIE + "_" + getId()) != null);
 			if (logger.isDebugEnabled()) {
 				logger.debug(ok ? "Selecet " : "NOT select " + " Domain by cookie : " + getId() + " req " + req);
 			}
+		}
+		else {
+
 		}
 		return ok;
 	}

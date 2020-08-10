@@ -4,8 +4,8 @@
     <!-- Any urls that are excluded will never be decorated by Sitemesh -->
     <excludes>
     	<pattern>*/cabecera.jsp*</pattern>
-        <pattern>*/SiteMeshCabecera.jsp*</pattern>
         <pattern>/exclude/*</pattern>
+        <pattern>/services/*</pattern>
         <pattern>*.css</pattern>
         <pattern>*.gif</pattern>
         <pattern>*.html</pattern>

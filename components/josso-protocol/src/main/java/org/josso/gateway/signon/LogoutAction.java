@@ -66,7 +66,9 @@ public class LogoutAction extends SignonBaseAction {
             g.logout();
 
             removeJossoSessionId(request, response);
-
+            ActionMessages errors = new ActionMessages();
+            errors.add("mensaje", new ActionMessage("sso.logout.success"));
+            saveMessages(request.getSession(), errors);
         } catch (SSOException e) {
             if (logger.isDebugEnabled())
                 logger.debug(e.getMessage(), e);

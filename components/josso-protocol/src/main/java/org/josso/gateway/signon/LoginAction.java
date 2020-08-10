@@ -97,7 +97,7 @@ public abstract class LoginAction extends SignonBaseAction {
 		            	backToHost = backToHost.substring(backToHost.lastIndexOf("@")+1);
             		} catch (MalformedURLException e) {
             			if (logger.isDebugEnabled())
-            			    logger.debug("BackTo URL is malformed : [backTo=" + backTo + "]");
+            	            logger.debug("BackTo URL is malformed : [backTo=" + backTo + "]");
         			}
             	}
             	for (String trustedHost : cfg.getTrustedHosts()) {
@@ -246,9 +246,9 @@ public abstract class LoginAction extends SignonBaseAction {
 
                 // logs the error
                 ActionErrors errors = new ActionErrors();
-                errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("sso.login.failed"));
-                saveErrors(request, errors);
-
+                errors.add(ActionErrors.GLOBAL_MESSAGE, new ActionMessage("sso.login.failed"));
+                //saveErrors(request, errors); //RPBA
+                saveErrors(request.getSession(), errors);
                 // Invalid login attempt, redirect to ON ERROR URL, if any.
                 boolean ok = this.onLoginAuthenticationException(e, request, response, c);
                 if (ok) {
@@ -391,7 +391,7 @@ public abstract class LoginAction extends SignonBaseAction {
         // Fatal error ...
         logger.error(e.getMessage(), e);
         ActionErrors errors = new ActionErrors();
-        errors.add(ActionMessages.GLOBAL_MESSAGE, new ActionMessage("sso.error", e.getMessage() != null ? e.getMessage() : e.toString()));
+        errors.add(ActionErrors.GLOBAL_MESSAGE, new ActionMessage("sso.error", e.getMessage() != null ? e.getMessage() : e.toString()));
         saveErrors(request, errors);
         return false;
     }

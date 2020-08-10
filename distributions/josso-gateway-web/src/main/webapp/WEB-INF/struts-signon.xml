@@ -66,46 +66,32 @@
         Generic entry point to SSO login, this action will redirect to the propper action
         based on the configured authentication scheme.
         -->
-		<action path="/signon/login" type="org.josso.gateway.signon.LoginSelectorAction">
+		<action path="/signon/login" type="org.josso.gateway.signon.LoginSelectorAction" >
 			<!-- Different login for each authentication scheme -->
 			<forward name="username-password" path="/signon/usernamePasswordLogin.do"/>
 			<forward name="basic-authentication" path="/signon/usernamePasswordLogin.do"/>
 			<!-- Other auth.scheme login pages go here -->
-			<forward name="ldpa-password" path="/signon/interno-password.do"/>
-			<forward name="LDAP-authentication" path="/signon/interno-password.do"/>
 			<!--forward name="strong-authentication" path="8443/josso/signon/strongAuthenticationLogin.do"/-->
 			<!--forward name="strong-authentication" path="/josso/signon/strongAuthenticationLogin.do"/-->
 		</action>
 		<action path="/signon/logout" type="org.josso.gateway.signon.LogoutAction">
-			<forward name="success" path="/signon/usernamePasswordLogin.do"/>
+			<forward name="success" path="/signon/login.do"/>
 		</action>
 		
-		<action path="/signon/logoutInterno" type="org.josso.gateway.signon.LogoutAction">
-			<forward name="success" path="/signon/interno-password.do"/>
-		</action>
+<!-- 		<action path="/signon/logoutInterno" type="org.josso.gateway.signon.LogoutAction">
+			<forward name="success" path="/signon/LDAPPasswordLogin.do"/>
+		</action>-->
 		<!-- ======================================================= -->
 		<!-- Specific action mappings for different auth schemes.    -->
 		<!-- ======================================================= -->
 		<!-- Struts action used for username-password authentication scheme -->
 		<action path="/signon/usernamePasswordLogin" type="org.josso.gateway.signon.UsernamePasswordLoginAction" name="usernamePasswordLoginForm" validate="false">
 			<forward name="login-result" path="/WEB-INF/jsp/signon/habilitado.jsp"/>
-			<!--
 			<forward name="login-page" path="/WEB-INF/jsp/signon/usernamePasswordLogin.jsp"/>
-			<forward name="CambiarPassword-result" path="/WEB-INF/jsp/signon/cambiarPassword.jsp"/>
-			<forward name="Deshabilitado-result" path="/WEB-INF/jsp/signon/desabilitado.jsp"/>
-			<forward name="Habilitado-result" path="/WEB-INF/jsp/signon/habilitado.jsp"/>
-			<forward name="Suspendido-result" path="/WEB-INF/jsp/signon/suspendido.jsp"/>
-			-->
 		</action>
-		<action path="/signon/interno-password" type="org.josso.gateway.signon.UsernamePasswordLoginAction" name="usernamePasswordLoginForm" validate="false">
+		<action path="/signon/LDAPPasswordLogin" type="org.josso.gateway.signon.UsernamePasswordLoginAction" name="usernamePasswordLoginForm" validate="false">
 			<forward name="login-result" path="/WEB-INF/jsp/signon/habilitado.jsp"/>
-			<!--
-			<forward name="login-page" path="/WEB-INF/jsp/signon/usernamePasswordLoginLdap.jsp"/>
-			<forward name="CambiarPassword-result" path="/WEB-INF/jsp/signon/cambiarPassword.jsp"/>
-			<forward name="Deshabilitado-result" path="/WEB-INF/jsp/signon/desabilitado.jsp"/>
-			<forward name="Habilitado-result" path="/WEB-INF/jsp/signon/habilitado.jsp"/>
-			<forward name="Suspendido-result" path="/WEB-INF/jsp/signon/suspendido.jsp"/>
-			-->
+			<forward name="login-page" path="/WEB-INF/jsp/signon/LDAPPasswordLogin.jsp"/>
 		</action>
 		<!-- Struts action used for strong authentication scheme -->
 		<!--action path="/signon/strongAuthenticationLogin" type="org.josso.gateway.signon.StrongLoginAction" name="strongAuthenticationLogin" validate="false">

@@ -37,7 +37,7 @@ import admApli.exceptions.UsuarioNoEncontradoException;
 import admApli.modelo.Usuario;
 
 /**
- * Audita el logout 
+ * Audita el logout
  *
  * @author <a href="mailto:mleiro@rpba.gov.ar">Marcos Leiro</a>
  * @since 1.8.13.RPBA
@@ -45,54 +45,65 @@ import admApli.modelo.Usuario;
  * @org.apache.xbean.XBean element="RPBAaudittrail-logger"
  */
 public class RPBALoggerAuditTrailHandler extends BaseAuditTrailHandler {
-    private Log trailsLogger = LogFactory.getLog(RPBALoggerAuditTrailHandler.class);
-    // The trailsLogger category :
-    private String category;
+	private Log trailsLogger = LogFactory.getLog(RPBALoggerAuditTrailHandler.class);
+	// The trailsLogger category :
+	private String category;
 
-    public int handle(SSOAuditTrail trail) {
-	try {
-	ArrayList<String> aux= new ArrayList<String>();
-        aux.add("destroySession");
-        aux.add("logoutSuccess");
-        StringBuffer line = new StringBuffer();
-        // Append TIME : CATEGORY - SEVERITY -
-        line.append(trail.getTime()).append(" - ").append(trail.getSubject() == null ? "" : trail.getSubject()).append(" - ").append(trail.getAction());
-        Properties properties = trail.getProperties();
-        line.append(" - ssoSessionId - ");
-        line.append(properties.get("ssoSessionId"));
-        trailsLogger.info(line);
-        AdministradorUsuario administradorUsuario = getAdministradorUsuario();
-        Usuario usuario= getUsuario(trail, administradorUsuario);
-        if (aux.contains(trail.getAction()) && "success".equalsIgnoreCase(trail.getOutcome())) {
-            if(usuario!=null) {
-        	administradorUsuario.auditarLogout(usuario);
-            }
-        }
-	}catch (Exception e) {
-	    // TODO: handle exception
+	public int handle(SSOAuditTrail trail) {
+		try {
+			ArrayList<String> aux = new ArrayList<String>();
+			aux.add("destroySession");
+			aux.add("logoutSuccess");
+			if (trailsLogger.isInfoEnabled()) {
+				StringBuffer line = new StringBuffer();
+				//Append TIME : CATEGORY - SEVERITY -
+				line.append(trail.getTime()).append(" - ").append(trail.getSubject() == null ? "" : trail.getSubject())
+					.append(" - ").append(trail.getAction());
+				Properties properties = trail.getProperties();
+				line.append(" - ssoSessionId - ");
+				line.append(properties.get("ssoSessionId"));
+				trailsLogger.info(line);
+			}
+			
+			if (aux.contains(trail.getAction()) && "success".equalsIgnoreCase(trail.getOutcome())) {
+				AdministradorUsuario administradorUsuario = getAdministradorUsuario();
+				Usuario usuario = getUsuario(trail, administradorUsuario);				
+				if (usuario != null) {
+					administradorUsuario.auditarLogout(usuario);
+				}
+			}
+		} catch (Exception e) {
+			if(trailsLogger.isDebugEnabled()) {
+				trailsLogger.debug(e);
+			}
+		}
+		return CONTINUE_PROCESS;
 	}
-        return CONTINUE_PROCESS;
-    }
-    private Usuario getUsuario(SSOAuditTrail trail,AdministradorUsuario administradorUsuario) {
-	 Usuario usuario =null;
-         try {
-		usuario= administradorUsuario.getUsuario(trail.getSubject());
-	    } catch (UsuarioNoEncontradoException | RpbaGeneralException | BrokerExceptionRpba | RpbaSqlException e) {
-		e.printStackTrace();
-	    }
-         return usuario;
-    }
-    private AdministradorUsuario getAdministradorUsuario() {
-	return AdministradorFactory.get(AdministradorUsuario.Constante,AdministradorUsuario.class);
-	
-    }
 
-    public String getCategory() {
-	return category;
-    }
+	private Usuario getUsuario(SSOAuditTrail trail, AdministradorUsuario administradorUsuario) {
+		Usuario usuario = null;
+		try {
+			usuario = administradorUsuario.getUsuario(trail.getSubject());
+		} catch ( RpbaGeneralException | BrokerExceptionRpba | RpbaSqlException e) {
+			e.printStackTrace();
+		} catch (UsuarioNoEncontradoException e) {
+			if(trailsLogger.isDebugEnabled()) {
+				trailsLogger.debug("UserName: "+trail.getSubject(), e);
+			}
+		}
+		return usuario;
+	}
 
-    public void setCategory(String category) {
-	this.category = category;
-	trailsLogger = LogFactory.getLog(category);
-    }
+	private AdministradorUsuario getAdministradorUsuario() {
+		return AdministradorFactory.get(AdministradorUsuario.Constante, AdministradorUsuario.class);
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+		trailsLogger = LogFactory.getLog(category);
+	}
 }

@@ -120,7 +120,7 @@
         <servlet-class>
         org.apache.axis.transport.http.AdminServlet
         </servlet-class>
-        <load-on-startup>100</load-on-startup>
+        <load-on-startup>50</load-on-startup>
     </servlet>
 
     <servlet>
@@ -133,7 +133,7 @@
             <param-name>SOAPMonitorPort</param-name>
             <param-value>5001</param-value>
         </init-param>
-        <load-on-startup>100</load-on-startup>
+        <load-on-startup>50</load-on-startup>
     </servlet>
 
     <!-- ========================================= -->
@@ -247,7 +247,6 @@
 			<url-pattern>/services/*</url-pattern>
 			<url-pattern>/resources/*</url-pattern>
 			<url-pattern>/signon/cambiarPassword.do</url-pattern>
-			<url-pattern>/signon/SiteMeshCabecera.jsp</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
 	<security-constraint>

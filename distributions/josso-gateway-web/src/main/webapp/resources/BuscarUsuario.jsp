@@ -186,7 +186,7 @@
 					<tr>
 						<td class="nombreFormulario">Saldo Cuenta($)</td>
 						<td class="separadorCampoFormulario">:</td>
-						<td class="campoFormulario">${cuenta.saldo}<bean:write name="cuenta" property="saldo" format="###,##0.00" /></td>
+						<td class="campoFormulario"><bean:write name="cuenta" property="saldo" format="###,##0.00" /></td>
 					</tr>
 				</logic:present>				
 				<tr>

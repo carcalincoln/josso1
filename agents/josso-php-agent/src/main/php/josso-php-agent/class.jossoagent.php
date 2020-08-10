@@ -655,8 +655,8 @@ class jossoagent  {
      * @access private
      */
     function getSessionId() {
-        if (isset($_COOKIE['JOSSO_SESSIONID']))
-            return $_COOKIE['JOSSO_SESSIONID'];
+        if (isset($_COOKIE['RPBA_SESSIONID']))
+            return $_COOKIE['RPBA_SESSIONID'];
     }
 
     /**

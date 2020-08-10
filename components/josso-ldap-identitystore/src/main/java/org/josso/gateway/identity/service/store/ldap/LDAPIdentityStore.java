@@ -901,8 +901,8 @@ public class LDAPIdentityStore extends AbstractStore implements ExtendedIdentity
      * @throws NamingException LDAP error obtaining user properties.
      * @throws IOException 
      */
-    protected HashMap selectUserProperties(String uid) throws NamingException, IOException {
-        HashMap userPropertiesResultSet = new HashMap();
+    protected HashMap<String,String> selectUserProperties(String uid) throws NamingException, IOException {
+        HashMap<String,String> userPropertiesResultSet = new HashMap<String,String>();
 
         InitialLdapContext ctx = null;
         try {
@@ -1210,12 +1210,12 @@ public class LDAPIdentityStore extends AbstractStore implements ExtendedIdentity
      * @throws IllegalArgumentException if the query string
      *                                  is invalid
      */
-    protected HashMap parseQueryString(String s) {
+    protected HashMap<String,String> parseQueryString(String s) {
 
         if (s == null) {
             throw new IllegalArgumentException();
         }
-        HashMap hm = new HashMap();
+        HashMap<String,String> hm = new HashMap<String,String>();
 
         StringTokenizer st = new StringTokenizer(s, ",");
         while (st.hasMoreTokens()) {

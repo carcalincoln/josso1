@@ -38,7 +38,7 @@
     </s:bean>
 
 
-    <jdbc-store
+    <jdbc-store 
             id="dbStore"
             driverName="org.hsqldb.jdbcDriver"
             connectionURL="jdbc:hsqldb:mem:jossodb"

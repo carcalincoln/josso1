@@ -169,7 +169,7 @@ DWORD OnPreprocHeaders( HTTP_FILTER_CONTEXT *           pfc,
 
 				jk_log(ssoAgent->logger, JK_LOG_DEBUG, "Cleaning SSO Cookie");
 
-				res->setCookie("JOSSO_SESSIONID", "-", "/", false, true);
+				res->setCookie("RPBA_SESSIONID", "-", "/", false, true);
 				
 			}
 
@@ -545,7 +545,7 @@ DWORD WINAPI HttpExtensionProc(LPEXTENSION_CONTROL_BLOCK lpEcb)
 					bool secure = false;
 					if(https == "on" || https == "ON") secure = true;
 
-					res->setCookie("JOSSO_SESSIONID", ssoSessionId, "/", secure, true);
+					res->setCookie("RPBA_SESSIONID", ssoSessionId, "/", secure, true);
 					res->setCookie("JOSSO_AUTOLOGIN_REFERER", "-", "/", false, true); // Clean stored referer
 
 					// Retrieve and decode splash resource

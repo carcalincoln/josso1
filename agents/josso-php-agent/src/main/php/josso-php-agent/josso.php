@@ -230,8 +230,8 @@ function jossoRequestLogoutForUrl($currentUrl) {
     $logoutUrl = $logoutUrl . createFrontChannelParams();
 
     // Clear SSO Cookie
-    setcookie("JOSSO_SESSIONID", '', 0, "/"); // session cookie ...
-    $_COOKIE['JOSSO_SESSIONID'] = '';
+    setcookie("RPBA_SESSIONID", '', 0, "/"); // session cookie ...
+    $_COOKIE['RPBA_SESSIONID'] = '';
 
 
     forceRedirect($logoutUrl);
@@ -290,9 +290,9 @@ function createFrontChannelParams() {
 }
 
 function prepareNonCacheResponse() {
-    header("Cache-Control", "no-cache");
-    header("Pragma", "no-cache");
-    header("Expires", "0");
+    header("Cache-Control: no-cache");
+    header("Pragma: no-cache");
+    header("Expires: 0");
 }
 
 ?>

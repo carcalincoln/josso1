@@ -66,7 +66,7 @@ public class Tck006Test extends TckTestSupport {
         assert status == HttpStatus.SC_OK : "Unexpected HTTP status " + status;
 
         String body = getMethod.getResponseBodyAsString();
-        assert body.indexOf("JOSSO_SESSIONID=") > 0 : "No JOSSO_SESSIONID= recived in response";
+        assert body.indexOf("RPBA_SESSIONID=") > 0 : "No RPBA_SESSIONID= recived in response";
         assert body.indexOf("default splash resource") > 0 : "Not a default splash resource page";
 	}
 

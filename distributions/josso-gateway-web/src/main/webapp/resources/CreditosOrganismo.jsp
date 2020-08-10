@@ -26,7 +26,7 @@
 	String extension="";
 	String link="";
 	String vacio="";
-	String pathCreditos="/web/tomcat5/logs/creditos/";
+	String pathCreditos="/web/complementos/creditos/";
 %>
 <html>
 <head>

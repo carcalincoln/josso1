@@ -37,11 +37,11 @@ if (isset($_REQUEST['josso_assertion_id'])) {
     $ssoSessionId = $josso_agent->resolveAuthenticationAssertion($assertionId);
 
     if (!empty($_SERVER['HTTPS']) && !$forceUnsecureSSOCookie){
-        setcookie("JOSSO_SESSIONID", $ssoSessionId, 0, "/","",1); // secure session cookie ...
+        setcookie("RPBA_SESSIONID", $ssoSessionId, 0, "/","",1); // secure session cookie ...
     }else{
-        setcookie("JOSSO_SESSIONID", $ssoSessionId, 0, "/"); // session cookie ...                 1
+        setcookie("RPBA_SESSIONID", $ssoSessionId, 0, "/"); // session cookie ...                 1
     }
-    $_COOKIE['JOSSO_SESSIONID'] = $ssoSessionId;
+    $_COOKIE['RPBA_SESSIONID'] = $ssoSessionId;
 }
 
 if (isset($_SESSION['JOSSO_ORIGINAL_URL'])) {

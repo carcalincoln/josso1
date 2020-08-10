@@ -10,7 +10,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
-    Ambiente ambiente = (Ambiente) request.getAttribute(Constantes.ClaveAmbiente);
+	Ambiente ambiente = (Ambiente) request.getAttribute(Constantes.ClaveAmbiente);
 	if (!new admApli.modelo.Intranet().controlar(ambiente)) {
 		response.sendRedirect(request.getAttribute("Host") + admApli.Configuracion.getString("DEFAULT_CONTEXT")	+ "/signon/login.do");
 	}
@@ -37,18 +37,12 @@
 		<a href="#" onClick="window.open('http://babilonia/site/','window',toolbar='yes, location=no, directories=no, status=yes, menubar=no ,scrollbars=yes, resizable=no, left=0,top=0, WIDTH=800 HEIGHT=550');return false" title="Instructivos, Memorandos, Etc."> Digesto  </a-->
 	</div>
 	<div class="main">
-		<html:messages id="errMsg">
-			<li><p>
-					<bean:write name="errMsg" />
-				<p></li>
-		</html:messages>
 	</div>
 	<div id="login">
-		<html:form action="/signon/usernamePasswordLogin"
+		<html:form action="/signon/LDAPPasswordLogin"
 			focus="josso_username"
 		>
 			<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD  %>" value="login"/>
-			<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO %>" value="/RegPropNew/signon/"/>
 			<div class="titulo">Portal de Servicios para Usuarios Internos
 			</div>
 			<table class="formulario">

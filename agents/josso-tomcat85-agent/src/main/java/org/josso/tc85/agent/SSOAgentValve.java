@@ -257,7 +257,6 @@ public class SSOAgentValve extends ValveBase
                 hres.setCharacterEncoding(_agent.getUriEncoding());
             }
             
-            //RPBA request.getSession().setAttribute(org.josso.gateway.signon.Constants.KEY_JOSSO_SECURITY_DOMAIN_NAME, ctx.getSecurityDomain().getName());
             String nodeId = hreq.getParameter("josso_node");
             if (nodeId != null) {
                 log("Storing JOSSO Node id : " + nodeId);
@@ -286,7 +285,7 @@ public class SSOAgentValve extends ValveBase
             // Check if the partner application required the login form
             // ------------------------------------------------------------------
             log("Checking if its a josso_login_request for '" + hreq.getRequestURI() + "'");
-
+            log("_agent.getJossoLoginUri() "+_agent.getJossoLoginUri() + " _agent.getJossoUserLoginUri() "+_agent.getJossoUserLoginUri());
             if (hreq.getRequestURI().endsWith(_agent.getJossoLoginUri()) ||
                     hreq.getRequestURI().endsWith(_agent.getJossoUserLoginUri())) {
                 log("josso_login_request received for uri '" + hreq.getRequestURI() + "'");
@@ -369,7 +368,7 @@ public class SSOAgentValve extends ValveBase
             // Check if the partner application submitted custom login form
             // ------------------------------------------------------------------
 
-            log("Checking if its a josso_authentication for '" + hreq.getRequestURI() + "'");
+            log("Checking if its a josso_authentication for '" + hreq.getRequestURI() + "' - _agent.getJossoAuthenticationUri() "+_agent.getJossoAuthenticationUri() );
             if (hreq.getRequestURI().endsWith(_agent.getJossoAuthenticationUri())) {
                 log("josso_authentication received for uri '" + hreq.getRequestURI() + "'");
 
@@ -395,10 +394,16 @@ public class SSOAgentValve extends ValveBase
                 // We have no cookie, remember me is enabled and a security check without assertion was received ...
                 // This means that the user could not be identified ... go back to the original resource
                 if (hreq.getRequestURI().endsWith(_agent.getJossoSecurityCheckUri()) &&
-                        hreq.getParameter("josso_assertion_id") == null) {
-                    log(_agent.getJossoSecurityCheckUri() + " received without assertion.  Login Optional Process failed");
+                        hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER) == null) {
 
                     String requestURI = this.getSavedRequestURL(hreq, session);
+                    //RPBA nuevo
+                    if (requestURI == null) {
+                        requestURI = cfg.getDefaultResource();
+                        log("Using default resource " + requestURI);
+                    }
+                    //RPBA nuevo
+                    log(_agent.getJossoSecurityCheckUri() + " received without assertion.  Login Optional Process failed, redirecting to ["+ requestURI + "]");
                     _agent.prepareNonCacheResponse(hres);
                     hres.sendRedirect(hres.encodeRedirectURL(requestURI));
                     return;
@@ -438,7 +443,7 @@ public class SSOAgentValve extends ValveBase
                 log("SSO cookie is not present, checking for outbound relaying");
 
                 if (!(hreq.getRequestURI().endsWith(_agent.getJossoSecurityCheckUri()) &&
-                        hreq.getParameter("josso_assertion_id") != null)) {
+                        hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER) != null)) {
                     log("SSO cookie not present and relaying was not requested, skipping");
                     getNext().invoke(request, response);
                     return;
@@ -471,9 +476,9 @@ public class SSOAgentValve extends ValveBase
             log("Checking if its a josso_security_check for '" + hreq.getRequestURI() + "'");
 
             if (hreq.getRequestURI().endsWith(_agent.getJossoSecurityCheckUri()) &&
-                    hreq.getParameter("josso_assertion_id") != null) {
+                    hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER) != null) {
                 log("josso_security_check received for uri '" + hreq.getRequestURI() + "' assertion id '" +
-                        hreq.getParameter("josso_assertion_id")
+                        hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER)
                 );
 
                 String assertionId = hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER);
@@ -623,7 +628,6 @@ public class SSOAgentValve extends ValveBase
             hreq.setAttribute("org.josso.agent.gateway-logout-url", _agent.getGatewayLogoutUrl());
             hreq.setAttribute("org.josso.agent.ssoSessionid", jossoSessionId);
             hreq.setAttribute("org.josso.agent.requester", r.getRequester());
-
 
             // ------------------------------------------------------------------
             // Invoke the next Valve in our pipeline

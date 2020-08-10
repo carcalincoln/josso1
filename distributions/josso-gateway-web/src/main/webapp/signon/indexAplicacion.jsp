@@ -44,11 +44,11 @@
 				+ admApli.Configuracion.getString("DEFAULT_CONTEXT"));
 		return;
 	}
-
+	
 	Ambiente ambiente=(Ambiente)request.getAttribute(Constantes.ClaveAmbiente);
 	pageContext.setAttribute("puede", aplicacion.getAmbiente().controlar(ambiente));
 	
-	pageContext.setAttribute("mostrarChat", idAplicacion == 42);
+	pageContext.setAttribute("mostrarChat", idAplicacion == 21);
 %>
 <html>
 <head>
@@ -99,7 +99,7 @@
 		</tbody>
 	</table>
  	<c:if test="${pageScope.mostrarChat}">
-           <html:link  href='http://desarrollo.rpba.gov.ar/fd/index.php' target="_blank">
+           <html:link  href='http://servicios.rpba.gov.ar/fd/index.php' target="_blank">
                            <img src="/images/comun/chatFD.jpg">
            </html:link>
       </c:if>

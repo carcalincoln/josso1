@@ -75,7 +75,7 @@ public class Tck003Test extends TckTestSupport {
 
         String body = getMethod.getResponseBodyAsString();
 
-        assert body.indexOf("JOSSO_SESSIONID=") > 0 : "No JOSSO_SESSIONID= recived in response boyd";
+        assert body.indexOf("RPBA_SESSIONID=") > 0 : "No RPBA_SESSIONID= recived in response boyd";
         assert body.indexOf("This is a simple JSP") > 0  : "No sample text found in response body";
         assert body.indexOf("role1") > 0 : "Role1 not found in response body";
 
@@ -86,7 +86,7 @@ public class Tck003Test extends TckTestSupport {
         HttpMethod getMethod = doGet("http://localhost:"+getProperty("josso.tck.serverPort")+"/webapp2/protected-delegated.jsp");
         String body = getMethod.getResponseBodyAsString();
 
-        assert body.indexOf("JOSSO_SESSIONID=") > 0 : "No JOSSO_SESSIONID= recived in response boyd";
+        assert body.indexOf("RPBA_SESSIONID=") > 0 : "No RPBA_SESSIONID= recived in response boyd";
         assert body.indexOf("This is a simple JSP") > 0  : "No sample text found in response body";
         assert body.indexOf("role1") > 0 : "Role1 not found in response body";
 

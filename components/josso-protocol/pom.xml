@@ -72,7 +72,7 @@
             <artifactId>josso-rememberme-authscheme</artifactId>
         </dependency>
 
-
+		
         <dependency>
             <groupId>org.josso</groupId>
             <artifactId>josso-ws</artifactId>
@@ -80,6 +80,7 @@
         <dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.struts</groupId>
@@ -92,7 +93,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-				<!-- Struts -->
+		<!-- Struts -->
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts-core</artifactId>
@@ -150,7 +151,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
+       <dependency>
             <groupId>org.apache.axis</groupId>
             <artifactId>axis</artifactId>
             <version>1.4</version>

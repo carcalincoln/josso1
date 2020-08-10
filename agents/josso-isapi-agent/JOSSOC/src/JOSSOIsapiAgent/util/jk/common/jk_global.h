@@ -176,7 +176,7 @@ extern "C"
 #define JK_LF (10)
 #define JK_CR (13)
 
-#define JOSSO_SESSION_IDENTIFIER "JOSSO_SESSIONID"
+#define JOSSO_SESSION_IDENTIFIER "RPBA_SESSIONID"
 
 #if defined(WIN32) || defined(NETWARE)
 #ifdef __GNUC__

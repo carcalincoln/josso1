@@ -628,7 +628,7 @@ bool AbstractSSOAgent::createSecurityContext(SSOAgentRequest *req, PartnerAppCon
 
 	
 	//string appKey(appCfg->getKey());
-	string ssoSession = req->getCookie("JOSSO_SESSIONID");
+	string ssoSession = req->getCookie("RPBA_SESSIONID");
 	string originalResource = req->getCookie("JOSSO_RESOURCE");
 	string plainTextOriginalResource;
 

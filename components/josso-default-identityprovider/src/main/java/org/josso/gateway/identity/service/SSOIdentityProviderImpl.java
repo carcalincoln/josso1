@@ -399,6 +399,9 @@ public class SSOIdentityProviderImpl implements SSOIdentityProvider {
         try {
             // We expect a spetial Event Manager ...
             SSOSecurityEventManager em = (SSOSecurityEventManager) Lookup.getInstance().lookupSecurityDomain().getEventManager();
+            if(logger.isDebugEnabled()) {
+            	logger.debug("fireLogoutSuccessEvent "+session.getUsername());
+            }
             em.fireLogoutSuccessEvent(ctx.getUserLocation(), session.getUsername(), session.getId());
 
         } catch (Exception e) {

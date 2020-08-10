@@ -47,97 +47,108 @@ import admApli.modelo.interfaces.UserLogin;
  * @author <a href="mailto:mleiro@rpba.gov.ar">Marcos Leiro</a>
  */
 public class RPBAAuthenticatorImpl extends AuthenticatorImpl {
-    private static final Log logger = LogFactory.getLog(RPBAAuthenticatorImpl.class);
-    private AdministradorUsuario administradorUsuario;
+	private static final Log logger = LogFactory.getLog(RPBAAuthenticatorImpl.class);
+	private AdministradorUsuario administradorUsuario;
 
-    /**
-     * Validates user identity. Populates the Subject with Principal and Credential
-     * information.
-     *
-     * @param credentials the credentials to be checked
-     * @param schemeName  the authentication scheme to be used to check the supplied
-     *                    credentials.
-     */
-    public Subject check(Credential[] credentials, String schemeName) throws SSOAuthenticationException {
-	String username = null;
-	Subject s = null;
-	SSOContext current = null;
-	try {
-	    current = SSOContext.getCurrent();
-	    for (int i = 0; i < credentials.length; i++) {
-		if (credentials[i] instanceof UsernameCredential) {
-		    username = (String) ((UsernameCredential) credentials[i]).getValue();
-		}
-	    }
-	    // llamo a la implementacion original de JOSSO
-	    s = super.check(credentials, schemeName);
-	    Usuario usuario = getAdministradoUsuario().getUsuario(username);
-	    usuario.login(new UserLoginImp(current));
-	} catch (AuthenticationFailureException e) {
-	    if (username != null) {
+	/**
+	 * Validates user identity. Populates the Subject with Principal and Credential
+	 * information.
+	 *
+	 * @param credentials the credentials to be checked
+	 * @param schemeName  the authentication scheme to be used to check the supplied
+	 *                    credentials.
+	 */
+	public Subject check(Credential[] credentials, String schemeName) throws SSOAuthenticationException {
+		String username = null;
+		Subject s = null;
+		SSOContext current = null;
 		try {
-		    if (getAdministradoUsuario().existeLogon(username)) {
-			getAdministradoUsuario().auditarPasswordInvalida(username, current.getUserLocation());
-		    } else {
-			if (logger.isInfoEnabled()) {
-			    logger.info("Intento de login de usuario inexistente: " + username);
+			current = SSOContext.getCurrent();
+			for (int i = 0; i < credentials.length; i++) {
+				if (credentials[i] instanceof UsernameCredential) {
+					username = (String) ((UsernameCredential) credentials[i]).getValue();
+				}
 			}
-		    }
-		} catch (RpbaDesabilitadoException e1) {
-		    throw new AuthenticationFailureException(e1.getMessage(), "USER_DISABLED");
-		} catch (RpbaException e1) {
-		    throw new AuthenticationFailureException(e1.getMessage());
+			// llamo a la implementacion original de JOSSO
+			s = super.check(credentials, schemeName);
+			Usuario usuario = getAdministradoUsuario().getUsuario(username);
+			usuario.login(new UserLoginImp(current));
+		} catch (AuthenticationFailureException e) {
+			if (username != null) {
+				try {
+					if (getAdministradoUsuario().existeLogon(username)) {
+						getAdministradoUsuario().auditarPasswordInvalida(username, current.getUserLocation());
+					} else {
+						if (logger.isInfoEnabled()) {
+							logger.info("Intento de login de usuario inexistente: " + username);
+						}
+					}
+				} catch (RpbaDesabilitadoException e1) {
+					if (logger.isInfoEnabled()) {
+						logger.info("usuario bloqueado por intento fallido: " + username);
+					}
+					throw new AuthenticationFailureException(e1.getMessage(), "USER_DISABLED");
+				} catch (RpbaException e1) {
+					throw new AuthenticationFailureException(e1.getMessage());
+				}
+			}
+			throw e;
+		} catch (RpbaEstadoException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug(" : " + e.getMessage() );
+			}
+			throw new AuthenticationFailureException(e.getMessage(), "USER_DISABLED");
+		} catch (RpbaException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("RPBAException : " + e.getMessage() );
+			}			
+			throw new AuthenticationFailureException(e.getMessage());
 		}
-	    }
-	    throw e;
-	} catch (RpbaEstadoException e) {
-	    throw new AuthenticationFailureException(e.getMessage(), "USER_DISABLED");
-	} catch (RpbaException e) {
-	    throw new AuthenticationFailureException(e.getMessage());
-	}
-	return s;
-    }
-
-    /**
-     * @return the administradoUsuario
-     */
-    public AdministradorUsuario getAdministradoUsuario() {
-	if (administradorUsuario == null) {
-	    administradorUsuario = AdministradorFactory.get(AdministradorUsuario.Constante, AdministradorUsuario.class);
-	}
-	return administradorUsuario;
-    }
-
-    /**
-     * @param administradoUsuario the administradoUsuario to set
-     */
-    public void setAdministradoUsuario(AdministradorUsuario administradoUsuario) {
-	this.administradorUsuario = administradoUsuario;
-    }
-
-    class UserLoginImp implements UserLogin {
-	SSOContext context;
-	
-
-	public String getSessionId() {
-	    return context.getSession().getId();
+		return s;
 	}
 
-	public UserLoginImp(SSOContext current) {
-	    context = current;
+	/**
+	 * @return the administradoUsuario
+	 */
+	public AdministradorUsuario getAdministradoUsuario() {
+		if (administradorUsuario == null) {
+			administradorUsuario = AdministradorFactory.get(AdministradorUsuario.Constante, AdministradorUsuario.class);
+		}
+		return administradorUsuario;
 	}
 
-	public void login(Usuario usuario) {
-	    if (logger.isDebugEnabled()) {
-		logger.debug("LOGIN: " + usuario.getLogon());
-	    }
+	/**
+	 * @param administradoUsuario the administradoUsuario to set
+	 */
+	public void setAdministradoUsuario(AdministradorUsuario administradoUsuario) {
+		this.administradorUsuario = administradoUsuario;
 	}
 
-	public void logout(Usuario usuario) {
-	}
+	class UserLoginImp implements UserLogin {
+		SSOContext context;
 
-	public String getIp() {
-	    return context.getUserLocation();
+		public String getSessionId() {
+			return context.getSession().getId();
+		}
+
+		public UserLoginImp(SSOContext current) {
+			context = current;
+		}
+
+		public void login(Usuario usuario) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("LOGIN Exitoso: " + usuario.getLogon());
+			}
+		}
+
+		public void logout(Usuario usuario) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Logout : " + usuario.getLogon());
+			}
+		}
+
+		public String getIp() {
+			return context.getUserLocation();
+		}
 	}
-    }
 }

@@ -107,10 +107,9 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
 
         // Store current SD name in session
         request.getSession().setAttribute(org.josso.gateway.signon.Constants.KEY_JOSSO_SECURITY_DOMAIN_NAME, ctx.getSecurityDomain().getName());
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled())
             logger.debug("[prepareContext()] Storing security domain name in session [" + KEY_JOSSO_SECURITY_DOMAIN_NAME + "] : " +
                     ctx.getSecurityDomain().getName() + " (" + request.getSession().getId() + ")");
-        }
 
         // SSO Session
         String sessionId = getJossoSessionId(request);
@@ -119,17 +118,14 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
                 // If session is not valid, no current session will be available in context.
                 ctx.setCurrentSession(gwy.findSession(sessionId));
             } catch (NoSuchSessionException e) {
-                if (logger.isDebugEnabled()) {
+                if (logger.isDebugEnabled())
                     logger.debug("NoSuchSessionException : " + sessionId + " " + e.getMessage());
-                }
             }
         }
 
         // TODO : Detect Authentication scheme when user is already logged ...!
         String scheme = getSchemeName(request);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Using authentication scheme : " + scheme);
-        }
+        logger.debug("Using authentication scheme : " + scheme);
 
         ctx.setScheme(scheme);
 
@@ -155,18 +151,16 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
         String back_to = request.getParameter(PARAM_JOSSO_BACK_TO);
         if (back_to != null && !"".equals(back_to)) {
             s.setAttribute(KEY_JOSSO_BACK_TO, back_to);
-            if (logger.isDebugEnabled()) {
+            if (logger.isDebugEnabled())
                 logger.debug("[storeSSOParameters()] Storing back-to url in session [" + KEY_JOSSO_BACK_TO + "] : " + back_to + " (" + s.getId() + ")");
-            }
         }
 
         // Store on_error url if present.
         String on_error = request.getParameter(PARAM_JOSSO_ON_ERROR);
         if (on_error != null && !"".equals(on_error)) {
             s.setAttribute(KEY_JOSSO_ON_ERROR, on_error);
-            if (logger.isDebugEnabled()) {
+            if (logger.isDebugEnabled())
                 logger.debug("[storeSSOParameters()] Storing on-error url in session [" + KEY_JOSSO_ON_ERROR + "] : " + on_error + " (" + s.getId() + ")");
-            }
         }
 
     }
@@ -179,19 +173,16 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
     protected void clearSSOParameters(HttpServletRequest req) {
 
         req.getSession().removeAttribute(KEY_JOSSO_BACK_TO);
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled())
             logger.debug("[clearSSOParameters()] Removing " + KEY_JOSSO_BACK_TO + " from session (" + req.getSession().getId() + ")");
-        }
 
         req.getSession().removeAttribute(KEY_JOSSO_ON_ERROR);
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled())
             logger.debug("[clearSSOParameters()] Removing " + KEY_JOSSO_ON_ERROR + " from session (" + req.getSession().getId() + ")");
-        }
 
         req.getSession().removeAttribute(KEY_JOSSO_SECURITY_DOMAIN_NAME);
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled())
             logger.debug("[clearSSOParameters()] Removing " + KEY_JOSSO_SECURITY_DOMAIN_NAME + " from session (" + req.getSession().getId() + ")");
-        }
     }
 
 
@@ -205,15 +196,15 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
             try {
                 SSOWebConfiguration cfg = Lookup.getInstance().lookupSSOWebConfiguration();
 
-                if (logger.isDebugEnabled()) {
+                if (logger.isDebugEnabled())
                     logger.debug("  No 'BACK TO' URL found in session " + httpSession.getId());
+
+                if (logger.isDebugEnabled())
                     logger.debug("  Using configured 'BACK TO' URL : " + cfg.getLoginBackToURL());
-                }                    
                 back_to = cfg.getLoginBackToURL();
             } catch (Exception ex) {
-                if (logger.isDebugEnabled()) {
+                if (logger.isDebugEnabled())
                     logger.debug("  [getBackTo()] cant find SSOWebConfiguration");
-                }
             }
         }
 
@@ -243,15 +234,15 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
             try {
                 SSOWebConfiguration cfg = Lookup.getInstance().lookupSSOWebConfiguration();
 
-                if (logger.isDebugEnabled()) {
+                if (logger.isDebugEnabled())
                     logger.debug("  No 'BACK TO' URL found in session " + httpSession.getId());
+
+                if (logger.isDebugEnabled())
                     logger.debug("  Using configured 'BACK TO' URL : " + cfg.getLoginBackToURL());
-                }
                 back_to = cfg.getLoginBackToURL();
             } catch (Exception ex) {
-                if (logger.isDebugEnabled()) {
+                if (logger.isDebugEnabled())
                     logger.debug("  [getBackTo()] cant find SSOWebConfiguration");
-                }
             }
         }
 
@@ -294,6 +285,7 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
             }
         }
         return null;
+
     }
 
 
@@ -342,34 +334,27 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
             SSOWebConfiguration cfg = Lookup.getInstance().lookupSSOWebConfiguration();
 
             if (cfg.isSessionTokenOnClient()) {
-        	if (logger.isDebugEnabled()) {
-        	    logger.debug("Storing SSO Session ID on clinet");
-        	}
+                logger.debug("Storing SSO Session ID on clinet");
                 Cookie ssoCookie = newJossoCookie(
                         request.getContextPath(),
                         JOSSO_SINGLE_SIGN_ON_COOKIE + "_" + ctx.getSecurityDomain().getName(),
                         session.getId());
-                
                 response.addCookie(ssoCookie);
             } else {
-        	if (logger.isDebugEnabled()) {
-        	    logger.debug("Storing SSO Session ID on server");
-        	}
+                logger.debug("Storing SSO Session ID on server");
                 HttpSession hsession = request.getSession();
                 hsession.setAttribute(JOSSO_SINGLE_SIGN_ON_COOKIE + "_" + ctx.getSecurityDomain().getName(), session.getId());
             }
-            if (logger.isDebugEnabled()) {
-        	logger.debug("Remember Me:" + request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_REMEMBERME));
-            	logger.debug("Command:" + request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD));
-            }
+
+            logger.debug("Remember Me:" + request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_REMEMBERME));
+            logger.debug("Command:" + request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD));
 
             // Remember user authentication.
             if (cfg.isRememberMeEnabled() && request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_REMEMBERME) != null) {
 
                 // Storing remember me information (always on client)
-        	if (logger.isDebugEnabled()) {
-        	    logger.debug("Storing SSO Rememberme Token on Client");
-        	}
+                logger.debug("Storing SSO Rememberme Token on Client");
+
                 String cipherSuite = (String) request.getAttribute
                     ("javax.servlet.request.cipher_suite");
 
@@ -436,9 +421,8 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
                 response.addCookie(rememberMeCookie);
             }
         } catch (Exception ex) {
-            if (logger.isDebugEnabled()) {
+            if (logger.isDebugEnabled())
                 logger.debug("  [removeJossoSessionId()] cant find SSOWebConfiguration");
-            }
         }
     }
 

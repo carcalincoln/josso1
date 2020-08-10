@@ -20,10 +20,10 @@
   ~
   --%>
 
-<%@page contentType="text/html; charset=UTF-8" language="java" session="true" %>
+<%@page contentType="text/html; charset=UTF-8" language="java"  %>
 <!--
 Redirects the user to the proper login page.  Configured as the login url the web.xml for this application.
 -->
 <%
-    response.sendRedirect(request.getContextPath() + "/rpba_login/");
+	response.sendRedirect(request.getContextPath() + "/rpba_login/");
 %>

@@ -13,13 +13,19 @@
 	<meta content="/" name="volver"/> 
 </head>
 <body>
-<logic:empty name="usuario">
-	<%
-    response.sendRedirect(request.getContextPath() + "/rpba_login/");
-	%>
-</logic:empty>
-<logic:notEmpty name="usuario">
-	<jsp:include page="/WEB-INF/jsp/signon/habilitado.jsp" />
-</logic:notEmpty>
+	<logic:empty name="usuario">
+		<%
+    	response.sendRedirect(request.getContextPath() + "/signon/login.do");
+		%>
+	</logic:empty>
+	<logic:notEmpty name="usuario">
+		<c:choose>
+        	<c:when test="${sessionScope.usuario.estadoUsuario.id == 1}"><jsp:include page="/WEB-INF/jsp/signon/suspendido.jsp" /></c:when>
+        	<c:when test="${sessionScope.usuario.estadoUsuario.id == 2}"><jsp:include page="/WEB-INF/jsp/signon/habilitado.jsp" /></c:when>
+        	<c:when test="${sessionScope.usuario.estadoUsuario.id == 3}"><jsp:include page="/WEB-INF/jsp/signon/cambiarPassword.jsp" /></c:when>
+        	<c:when test="${sessionScope.usuario.estadoUsuario.id == 4}"><jsp:include page="/WEB-INF/jsp/signon/desabilitado.jsp" /></c:when>
+        	<c:otherwise><jsp:include page="/WEB-INF/jsp/signon/habilitado.jsp" /></c:otherwise>
+    	</c:choose>
+	</logic:notEmpty>
 </body>
 </html>

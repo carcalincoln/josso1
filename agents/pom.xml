@@ -46,33 +46,33 @@
                 <module>josso-servlet-agent</module>
                 <module>josso-liferay5-agent</module>
                 <module>josso-liferay6-agent</module>
-                <module>josso-alfresco-agent</module>
+                <!--<module>josso-alfresco-agent</module>-->
                 <module>josso-tomcat50-agent</module>
                 <module>josso-tomcat55-agent</module>
                 <module>josso-tomcat60-agent</module>
                 <module>josso-tomcat70-agent</module>
                 <module>josso-tomcat80-agent</module>
                 <module>josso-tomcat85-agent</module>
-                <module>josso-jboss32-agent</module>
+                <!--<module>josso-jboss32-agent</module>
                 <module>josso-jboss40-agent</module>
                 <module>josso-jboss42-agent</module>
                 <module>josso-jboss5-agent</module>
                 <module>josso-jboss7-agent</module>
                 <module>josso-jbportal27-agent</module>
                 <module>josso-geronimo2-agent</module>
-                <!--module>josso-weblogic81-agent</module-->
+                <module>josso-weblogic81-agent</module>
                 <module>josso-weblogic92-agent</module>
                 <module>josso-weblogic10-agent</module>
-                <module>josso-weblogic12-agent</module>
+                <module>josso-weblogic12-agent</module>-->
                 <module>josso-php-agent</module>
                 <module>josso-phpBB-agent</module>
                 <module>josso-microsoft-agent</module>
                 <module>josso-apache22-agent</module>
-                <module>josso-wasce2-agent</module>
-                <module>josso-jaspi-agent</module>
+                <!--<module>josso-wasce2-agent</module>
+                <module>josso-jaspi-agent</module>-->
                 <module>josso-applet-agent</module>
-                <module>josso-gatein-agent</module>
-                <module>josso-jetty6-agent</module>
+                <!--<module>josso-gatein-agent</module>
+                <module>josso-jetty6-agent</module>-->
             </modules>
         </profile>
         <profile>
@@ -84,34 +84,40 @@
                 <module>josso-agent-shared</module>
                 <!--module>josso-agentj14-shared</module-->
                 <module>josso-servlet-agent</module>
-                <module>josso-liferay5-agent</module>
+                <!-- //RPBA 
+				<module>josso-liferay5-agent</module>
                 <module>josso-liferay6-agent</module>
                 <module>josso-alfresco-agent</module>
+				-->
                 <module>josso-tomcat50-agent</module>
                 <module>josso-tomcat55-agent</module>
                 <module>josso-tomcat60-agent</module>
                 <module>josso-tomcat70-agent</module>
                 <module>josso-tomcat80-agent</module>
                 <module>josso-tomcat85-agent</module>
-                <module>josso-jboss32-agent</module>
+                <!-- //RPBA
+				<module>josso-jboss32-agent</module>
                 <module>josso-jboss40-agent</module>
                 <module>josso-jboss42-agent</module>
                 <module>josso-jboss7-agent</module>
                 <module>josso-jbportal27-agent</module>
                 <module>josso-geronimo2-agent</module>
+				-->
                 <module>josso-php-agent</module>
                 <module>josso-phpBB-agent</module>
-                <module>josso-microsoft-agent</module>
+                <!-- //RPBA <module>josso-microsoft-agent</module>-->
                 <module>josso-apache22-agent</module>
-                <module>josso-wasce2-agent</module>
+                <!--//RPBA 
+				<module>josso-wasce2-agent</module>
                 <module>josso-jaspi-agent</module>
-                <module>josso-jboss5-agent</module>
+                <module>josso-jboss5-agent</module>-->
                 <module>josso-applet-agent</module>
-                <module>josso-gatein-agent</module>
-                <module>josso-jetty6-agent</module>
+                <!-- //RPBA 
+				<module>josso-gatein-agent</module>
+                <module>josso-jetty6-agent</module>-->
             </modules>
         </profile>
-        <profile>
+		<!--<profile>
             <id>weblogic81</id>
             <modules>
                 <module>josso-weblogic81-agent</module>
@@ -141,7 +147,7 @@
                 <module>josso-servlet-agent</module>
                 <module>josso-weblogic12-agent</module>
             </modules>
-        </profile>
+        </profile>-->
 
         <profile>
             <id>php</id>

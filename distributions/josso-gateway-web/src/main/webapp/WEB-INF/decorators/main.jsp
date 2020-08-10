@@ -109,52 +109,6 @@
 					<div id="backups">Intente más tarde estamos realizando tareas
 						de mantenimiento</div>
 				</c:if>
-				<logic:notPresent parameter="rpbadebug">
-					<h2>
-						<a href="?rpbadebug=1"> RPBADEBUG </a>
-					</h2>
-				</logic:notPresent>
-				<logic:present parameter="rpbadebug">
-					<h2>
-						<a href="?"> ocultar </a>
-					</h2>
-					<%
-					    String cooki=request.getHeader("cookie");
-					    String[] aux3=cooki.split(";");
-					    for(int i=0; i< aux3.length;i++){
-							String[] aux2=aux3[i].split("=");
-							out.println(aux2[0] +" - " + aux2[1]);
-					    }
-					    
-					    Cookie[] cookies = request.getCookies();
-					    boolean foundCookie = false;
-					    out.print("usu: " + request.getUserPrincipal());
-					    out.println("<h1>COOKIE</h1>");
-					    for (int i = 0; i < cookies.length; i++) {
-						Cookie c = cookies[i];
-						out.println("<br><b>name</b>= " + c.getName() + " <br>");
-						out.println("path= " + c.getPath() + " <br>");
-						out.println("comment= " + c.getComment() + " <br>");
-						out.println("domain= " + c.getDomain() + " <br>");
-						out.println("value = " + c.getValue() + " <br>");
-						out.println("secure = " + c.getSecure() + " <br>");
-					    }
-					    out.println("<h1>attribute</h1>");
-					    java.util.Enumeration<String> aux;
-					    aux = (java.util.Enumeration<String>) request.getAttributeNames();
-					    String clave;
-					    while (aux.hasMoreElements()) {
-						clave = aux.nextElement();
-						out.println(clave + ":  " + request.getAttribute(clave) + "<br>");
-					    }
-					    out.print("<h1>session</h1>");
-					    aux = (java.util.Enumeration<String>) request.getSession().getAttributeNames();
-					    while (aux.hasMoreElements()) {
-						clave = aux.nextElement();
-						out.println(clave + ":  " + request.getSession().getAttribute(clave) + "<br>");
-					    }
-					%>
-				</logic:present>
 				<decorator:body />
 				<logic:equal value="true" name="mostrarObligatorio">
 					<c:import url="${pageScope.obligatorio}">

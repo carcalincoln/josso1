@@ -25,5 +25,6 @@
 			Por comuníquese con atención a Usuario Tel:221 - 429-2576 / 77.
 		</c:if>		
 	</logic:notEmpty>
+	<c:remove var="usuario" scope="session" />
 </body>
 </html>

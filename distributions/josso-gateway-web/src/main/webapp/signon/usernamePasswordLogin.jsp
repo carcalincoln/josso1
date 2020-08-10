@@ -1,6 +1,7 @@
-
+<%@ page pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@page import="admApli.Configuracion"%>
-<%@page contentType="text/html; charset=UTF-8"  language="java"  errorPage="/Error.jsp"%>
+<%@page language="java"  errorPage="/Error.jsp"%>
 
 <%@ taglib uri="http://rpba.gov.ar/tagLib/comun" prefix="comun"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
@@ -14,19 +15,14 @@
 	</script>
 	<meta name="volver" content="/">
 	<title>Login</title>
+	
 	<html:javascript formName="usernamePasswordLoginForm" staticJavascript="false" />
 </head>
 <body id="login">
     <div id="login" >
-		<html:form action="/signon/usernamePasswordLogin" focus="josso_username"  styleClass="formulario" onsubmit="return validateUsernamePasswordLoginForm(this);" method="post">
+		<html:form action="/signon/usernamePasswordLogin" focus="josso_username"  styleClass="formulario" method="get" onsubmit="return validateUsernamePasswordLoginForm(this);">
 			<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD %>" value="login"/>
-			<logic:equal value="externos" name="org.josso.gateway.securityDomainName">
-				<html:hidden property="RPBAExterno" value="externo"/>
-				<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO %>" value="/RegPropNew/signon/?RPBAExterno=externo"/>
-			</logic:equal>
-			<logic:notEqual value="externos" name="org.josso.gateway.securityDomainName">
-				<html:hidden property="<%=org.josso.gateway.signon.Constants.PARAM_JOSSO_BACK_TO %>" value="/RegPropNew/signon/"/>
-			</logic:notEqual>
+			<html:hidden property="RPBAExterno" value="externo"/>
 			<div class="titulo">
 				Portal de Servicios para Usuarios Suscriptos
 			</div>

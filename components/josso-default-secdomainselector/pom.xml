@@ -83,6 +83,12 @@
             <groupId>org.josso</groupId>
             <artifactId>josso-core</artifactId>
         </dependency>
+		<dependency>
+			<groupId>rpba</groupId>
+			<artifactId>utils</artifactId>
+			<version>0.0.1</version>
+			<scope>provided</scope>
+		</dependency>
     </dependencies>
 
 

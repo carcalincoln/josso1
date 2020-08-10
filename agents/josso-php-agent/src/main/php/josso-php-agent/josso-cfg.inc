@@ -43,8 +43,12 @@
 */
 
 // Josso agent configuration
-$josso_gatewayLoginUrl = 'http://localhost:8080/josso/signon/login.do';
-$josso_gatewayLogoutUrl = 'http://localhost:8080/josso/signon/logout.do';
+//RPBA valores originales
+//$josso_gatewayLoginUrl = 'http://localhost:8080/josso/signon/login.do';
+//$josso_gatewayLogoutUrl = 'http://localhost:8080/josso/signon/logout.do';
+
+$josso_gatewayLoginUrl = 'http://localhost:8080/RegPropNew/signon/login.do';
+$josso_gatewayLogoutUrl = 'http://localhost:8080/RegPropNew/signon/logout.do';
 
 // JOSSO 2 aplliance urls
 //$josso_gatewayLoginUrl = 'http://localhost:8081/IDBUS/TEST/APACHE/JOSSO/SSO/REDIR';

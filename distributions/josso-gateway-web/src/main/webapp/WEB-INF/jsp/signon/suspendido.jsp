@@ -21,7 +21,7 @@
 		<logic:notEmpty name="usuario">
 			<c:if test="${sessionScope.usuario.interno }" >
 				Logon suspendido.<br>
-				Comuníquese con el administrador del Portal.
+				Comuníquese con atención a Usuario.
 			</c:if>
 			<c:if test="${sessionScope.usuario.titular}" >
 				El Administrador de ( <b><bean:write name="usuario" property="organismo"  /></b> ) suspendió su cuenta.
@@ -29,12 +29,14 @@
 				Por favor comuníquese con el mismo.
 			</c:if>
 			<c:if test="${pageScope.isAutorizado}" >
-				Su titular(<b><bean:write name="usuario" property="titular.nombre"/> <bean:write name="usuario" property="titular.nombre"/>  </b>) suspendió su cuenta.<br></br>
+				Su titular ( <b><bean:write name="usuario" property="titular.nombre"/> <bean:write name="usuario" property="titular.nombre"/>  </b>) suspendió su cuenta.<br></br>
 			</c:if>
 			<c:if test="${sessionScope.usuario.admOrganismo}">
-				Su cuenta ha sido suspendida.<br> Por comuníquese con atención a Usuario Tel:221 - 429-2576 / 77
+				Su cuenta ha sido suspendida.<br>
+				Por favor comuníquese con atención a Usuario Tel:221 - 429-2576 / 77
 			</c:if>		
 		</logic:notEmpty>
 	</div>
+	<c:remove var="usuario" scope="session" />
 </body>
 </html>

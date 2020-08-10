@@ -341,4 +341,26 @@ public class SSOGatewayLoginModuleImpl implements LoginModule {
             throw new LoginException("Session login failed for Principal : " + _ssoUserPrincipal);
         }
 
-    }}
+    }
+
+    protected SSOIdentityManagerService lookupSsoIdentityManager(String requester) throws Exception {
+
+        SSOAgent agent = Lookup.getInstance().lookupSSOAgent();
+
+        if (requester != null) {
+            List<SSOPartnerAppConfig> appCfs = agent.getConfiguration().getSsoPartnerApps();
+            for (SSOPartnerAppConfig appCfg  : appCfs) {
+                if (appCfg.getId().equals(requester)) {
+                    if (appCfg.getIdentityManagerService() != null)
+                        return appCfg.getIdentityManagerService();
+                    break;
+                }
+
+            }
+        }
+
+        return agent.getSSOIdentityManager();
+    }
+
+
+}

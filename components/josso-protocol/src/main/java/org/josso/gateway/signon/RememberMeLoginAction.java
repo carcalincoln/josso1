@@ -59,9 +59,8 @@ public class RememberMeLoginAction extends LoginAction {
 
     @Override
     protected boolean onLoginAuthenticationException(AuthenticationFailureException e, HttpServletRequest request, HttpServletResponse response, Credential[] credentials) throws IOException {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Removing cookie with 'JOSSO_REMEMBERME_TOKEN' (login auth exception)");
-        }
+
+        logger.debug("Removing cookie with 'JOSSO_REMEMBERME_TOKEN' (login auth exception)");
 
         // Clear the remember me cookie
         Cookie ssoCookie = new Cookie(org.josso.gateway.Constants.JOSSO_REMEMBERME_TOKEN + "_" + SSOContext.getCurrent().getSecurityDomain().getName(), "-");
@@ -77,9 +76,8 @@ public class RememberMeLoginAction extends LoginAction {
 
     @Override
     protected boolean onFatalError(Exception e, HttpServletRequest request, HttpServletResponse response) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Removing cookie with 'JOSSO_REMEMBERME_TOKEN' (fatal error)");
-        }
+
+        logger.debug("Removing cookie with 'JOSSO_REMEMBERME_TOKEN' (fatal error)");
 
         // Clear the remember me cookie
         Cookie ssoCookie = new Cookie(Constants.JOSSO_REMEMBERME_TOKEN + "_" + SSOContext.getCurrent().getSecurityDomain().getName(), "-");
@@ -104,9 +102,9 @@ public class RememberMeLoginAction extends LoginAction {
         Cookie remembermeTokenCookie = getCookie(request, Constants.JOSSO_REMEMBERME_TOKEN + "_" + SSOContext.getCurrent().getSecurityDomain().getName());
         String remembermeToken = remembermeTokenCookie.getValue();
 
-        if (logger.isDebugEnabled()) {
+        if (logger.isDebugEnabled())
             logger.debug("Found 'Remember Me' Token ["+remembermeToken+"]");
-        }
+
         if (remembermeToken != null && remembermeToken.length() >= 1) {
 
             SSOGateway g = getSSOGateway();

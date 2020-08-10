@@ -75,13 +75,13 @@ public class LoginSelectorAction extends SignonBaseAction {
 	
 	            String path = af.getPath();
 	            String host = request.getHeader("Host");
-	            String strongAuthLoginUrl = "https://" + host + request.getContextPath() + path + "?"+org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD+"=login" +
-	                    (request.getQueryString() != null ?"&" + request.getQueryString() : "");
+	            String strongAuthLoginUrl = "https://" + host + request.getContextPath() + path + "?josso_cmd=login" +
+	                    (request.getQueryString() != null ?
+	                            "&" + request.getQueryString() : ""
+	                    );
 	
 	            try {
-	                if (logger.isDebugEnabled()) {
-	                    logger.debug("Triggering 'strong-authentication'.  Redirecting to: " + strongAuthLoginUrl);
-	                }
+	                logger.debug("Triggering 'strong-authentication'.  Redirecting to: " + strongAuthLoginUrl);
 	                response.sendRedirect(strongAuthLoginUrl);
 	                return null;
 	
@@ -109,14 +109,10 @@ public class LoginSelectorAction extends SignonBaseAction {
 	
                 String cmd = getSSOCmd(request);
                 if ((cmd == null) || (cmd != null && !cmd.equals("login_optional"))) {
-                    if (logger.isDebugEnabled()) {
-                	logger.debug("Triggering 'rememberme-authentication'");
-                    }
+                    logger.debug("Triggering 'rememberme-authentication'");
                     return mapping.findForward("rememberme-authentication");
                 } else {
-                    if (logger.isDebugEnabled()) {
-                	logger.debug("Not triggering remember me authentication since login is optional");
-                    }
+                    logger.debug("Not triggering remember me authentication since login is optional");
                 }
 	        }
 	
@@ -137,9 +133,7 @@ public class LoginSelectorAction extends SignonBaseAction {
 	
 	        if (ntlmAuth) {
 	            try {
-	                if (logger.isDebugEnabled()) {
-	                    logger.debug("Triggering 'ntlm-authentication'");
-	                }
+	                logger.debug("Triggering 'ntlm-authentication'");
 	                return mapping.findForward("ntlm-authentication");
 	            } catch (Exception e) {
 	                logger.error(e.getMessage(), e);
@@ -154,10 +148,8 @@ public class LoginSelectorAction extends SignonBaseAction {
 
         // Basic Authentication
         if (cfg.isBasicAuthenticationEnabled()) {
-            if (logger.isDebugEnabled()) {
         	logger.debug("Triggering 'basic-authentication'");
-            }
-            return mapping.findForward("basic-authentication");
+        	return mapping.findForward("basic-authentication");
         }
 
         response.setHeader("Cache-Control", "no-cache");

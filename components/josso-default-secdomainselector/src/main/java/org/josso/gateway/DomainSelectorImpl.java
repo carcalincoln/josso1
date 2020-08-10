@@ -29,6 +29,8 @@ import org.apache.commons.logging.LogFactory;
 import org.josso.SecurityDomain;
 import org.josso.gateway.identity.exceptions.NoSuchDomainException;
 
+import rpba.Config;
+
 /**
  *
  * @org.apache.xbean.XBean element="default-domain-selector"
@@ -38,7 +40,7 @@ import org.josso.gateway.identity.exceptions.NoSuchDomainException;
  * @version $Rev: 574 $ $Date: 2008-08-01 18:14:27 -0300 (Fri, 01 Aug 2008) $
  */
 public class DomainSelectorImpl implements SSOSecurityDomainSelector {
-
+	
     private static final Log logger = LogFactory.getLog(DomainSelectorImpl.class);
 
     /**
@@ -49,22 +51,21 @@ public class DomainSelectorImpl implements SSOSecurityDomainSelector {
      * 2. The GWY uses the configured domain selector to find the domain.
      */
     public SecurityDomain selectDomain(SSORequest req, List<SecurityDomain> domains) throws NoSuchDomainException {
-	SecurityDomain sd=selectByName(req, domains);
-	if (sd == null) {
+		SecurityDomain sd=null;
 	    sd= matchDomain(req, domains);
-	}
-	if (logger.isDebugEnabled()) {
-            logger.debug("Selected domain is " + (sd != null ? sd.getName() : null));
-	}
-
+		if (sd == null) {
+			sd=selectByName(req, domains);
+		}
+		if (logger.isDebugEnabled()) {
+	            logger.debug("Selected domain is " + (sd != null ? sd.getName() : null));
+		}
         if (sd == null)
             throw new NoSuchDomainException(req);
 
         return sd;	
     }
 
-
-    /**
+	/**
      * Select a domain by invoking domains matchers, ALL matchers must match to select a SecurityDomain.
      * <p/>
      * The first SecurityDomain that matches ALL matchers will be returned.
@@ -117,7 +118,7 @@ public class DomainSelectorImpl implements SSOSecurityDomainSelector {
      * @see org.josso.gateway.signon.Constants#KEY_JOSSO_SECURITY_DOMAIN_NAME
      */
     protected SecurityDomain selectByName(SSORequest req, List<SecurityDomain> domains) throws NoSuchDomainException {
-	String name = req.getAttribute(org.josso.gateway.signon.Constants.KEY_JOSSO_SECURITY_DOMAIN_NAME);
+    	String name = req.getAttribute(org.josso.gateway.signon.Constants.KEY_JOSSO_SECURITY_DOMAIN_NAME);
         if (logger.isDebugEnabled()) {
             logger.debug("SecurityDomain by name : " + name + " req "+ req);
         }

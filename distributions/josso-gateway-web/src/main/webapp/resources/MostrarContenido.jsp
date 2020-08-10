@@ -83,7 +83,7 @@
 
 	int idOrg=Integer.parseInt(request.getParameter("idOrg"));
 	String tipo=request.getParameter("tipo");
-	String camino="/web/tomcat5/logs/creditos/";
+	String camino="/web/complementos/creditos/";
 	if("procesados".equals(tipo)){
 		camino+="Procesados/";
 	}

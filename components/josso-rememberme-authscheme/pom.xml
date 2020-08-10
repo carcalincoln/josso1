@@ -57,7 +57,8 @@
     <packaging>jar</packaging>
     <name>JOSSO :: Remember Me Authentication Scheme</name>
     <description>Remember Me Authentication Scheme</description>
-
+	<properties>
+	</properties>
     <build>
         <plugins>
             <plugin>
@@ -100,12 +101,7 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
-            <scope>provided</scope>
-        </dependency>
+
 
         <dependency>
             <groupId>junit</groupId>
@@ -113,11 +109,24 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>log4j</groupId>
+        <!--//RPBA
+		<dependency>
+            <groupId>apache-log4j</groupId>
             <artifactId>log4j</artifactId>
-            <scope>test</scope>
+            <version>${log4j.version}</version>
         </dependency>
+		-->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+			
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>			
+		</dependency>
     </dependencies>
 
 
