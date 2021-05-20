@@ -32,8 +32,8 @@
 		}
 	}
 
-	if ((request.getParameter("volver") == null)
-			|| ("".equals(request.getParameter("volver")))) {
+	if ((request.getAttribute("volver") == null)
+			|| ("".equals(request.getAttribute("volver")))) {
 		//no manda donde volver
 		if (aplicacion == null) { //como no hay aplicacion lo mando al menu de aplicaciones
 			volver = Path.getRecurso()+Configuracion.getString("DEFAULT_CONTEXT")
@@ -45,7 +45,7 @@
 		}
 	}
 	else {
-		volver = request.getParameter("volver");
+		volver = request.getAttribute("volver").toString();
 	}
 	admApli.modelo.Usuario user = (admApli.modelo.Usuario) session.getAttribute(admApli.Constantes.ClaveUsuario);
 	if (user == null) {

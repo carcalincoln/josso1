@@ -20,7 +20,7 @@
     pageContext.setAttribute("legal", pathInterno + "/includes/comun/SiteMeshLegal.htm");
     pageContext.setAttribute("notaLegal", pathInterno + "/includes/comun/SiteMeshNotaLegal.htm");
     pageContext.setAttribute("pdf", pathInterno + "/includes/comun/SiteMeshPDF.htm");
-    pageContext.setAttribute("volver", currentPage.getProperty("meta.volver"));
+    request.setAttribute("volver", currentPage.getProperty("meta.volver"));
     boolean obligatorio;
     if (currentPage.isPropertySet("meta.obligatorio")) {
 		obligatorio = true;

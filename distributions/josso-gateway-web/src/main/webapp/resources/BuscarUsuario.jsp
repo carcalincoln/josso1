@@ -128,7 +128,7 @@
 						<td class="separadorCampoFormulario">:</td>
 						<td class="campoFormulario">
 							<logic:present parameter="autorizados">
-								<display:table name="resultado.autorizados" export="false" defaultorder="descending">						
+								<display:table name="pageScope.resultado.autorizados" export="false" defaultorder="descending">														
 									<display:column title="Logon" property="logon" sortable="true" href="BuscarUsuario.jsp" paramId="logon" paramProperty="logon"/>
 									<display:column title="Nombre" property="persona.nombre" />
 									<display:column title="Apellido" property="persona.apellido" />
@@ -183,6 +183,11 @@
 					<td class="campoFormulario">${resultado.estadoUsuario}</td>
 				</tr>
 				<logic:present name="cuenta" scope="page">
+					<tr>
+						<td class="nombreFormulario">Id_Cuenta</td>
+						<td class="separadorCampoFormulario">:</td>
+						<td class="campoFormulario"><bean:write name="cuenta" property="id" /></td>
+					</tr>
 					<tr>
 						<td class="nombreFormulario">Saldo Cuenta($)</td>
 						<td class="separadorCampoFormulario">:</td>
