@@ -88,10 +88,12 @@
 		<action path="/signon/usernamePasswordLogin" type="org.josso.gateway.signon.UsernamePasswordLoginAction" name="usernamePasswordLoginForm" validate="false">
 			<forward name="login-result" path="/WEB-INF/jsp/signon/habilitado.jsp"/>
 			<forward name="login-page" path="/WEB-INF/jsp/signon/usernamePasswordLogin.jsp"/>
+			<forward name="diferent_user" path="/WEB-INF/jsp/signon/diferentUser.jsp"></forward>
 		</action>
 		<action path="/signon/LDAPPasswordLogin" type="org.josso.gateway.signon.UsernamePasswordLoginAction" name="usernamePasswordLoginForm" validate="false">
 			<forward name="login-result" path="/WEB-INF/jsp/signon/habilitado.jsp"/>
 			<forward name="login-page" path="/WEB-INF/jsp/signon/LDAPPasswordLogin.jsp"/>
+			<forward name="diferent_user" path="/WEB-INF/jsp/signon/diferentUser.jsp"></forward>
 		</action>
 		<!-- Struts action used for strong authentication scheme -->
 		<!--action path="/signon/strongAuthenticationLogin" type="org.josso.gateway.signon.StrongLoginAction" name="strongAuthenticationLogin" validate="false">

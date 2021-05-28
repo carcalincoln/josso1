@@ -125,7 +125,9 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
 
         // TODO : Detect Authentication scheme when user is already logged ...!
         String scheme = getSchemeName(request);
-        logger.debug("Using authentication scheme : " + scheme);
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Using authentication scheme : " + scheme);
+        }
 
         ctx.setScheme(scheme);
 
@@ -234,11 +236,10 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
             try {
                 SSOWebConfiguration cfg = Lookup.getInstance().lookupSSOWebConfiguration();
 
-                if (logger.isDebugEnabled())
+                if (logger.isDebugEnabled()) {
                     logger.debug("  No 'BACK TO' URL found in session " + httpSession.getId());
-
-                if (logger.isDebugEnabled())
                     logger.debug("  Using configured 'BACK TO' URL : " + cfg.getLoginBackToURL());
+                }
                 back_to = cfg.getLoginBackToURL();
             } catch (Exception ex) {
                 if (logger.isDebugEnabled())
@@ -334,26 +335,33 @@ public abstract class SignonBaseAction extends Action implements org.josso.gatew
             SSOWebConfiguration cfg = Lookup.getInstance().lookupSSOWebConfiguration();
 
             if (cfg.isSessionTokenOnClient()) {
-                logger.debug("Storing SSO Session ID on clinet");
+            	if (logger.isDebugEnabled()) {
+            		logger.debug("Storing SSO Session ID on clinet");
+            	}
                 Cookie ssoCookie = newJossoCookie(
                         request.getContextPath(),
                         JOSSO_SINGLE_SIGN_ON_COOKIE + "_" + ctx.getSecurityDomain().getName(),
                         session.getId());
                 response.addCookie(ssoCookie);
             } else {
-                logger.debug("Storing SSO Session ID on server");
+            	if (logger.isDebugEnabled()) {
+            		logger.debug("Storing SSO Session ID on server");
+            	}
                 HttpSession hsession = request.getSession();
                 hsession.setAttribute(JOSSO_SINGLE_SIGN_ON_COOKIE + "_" + ctx.getSecurityDomain().getName(), session.getId());
             }
-
-            logger.debug("Remember Me:" + request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_REMEMBERME));
-            logger.debug("Command:" + request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD));
+            if (logger.isDebugEnabled()) {
+            	logger.debug("Remember Me:" + request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_REMEMBERME));
+            	logger.debug("Command:" + request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_CMD));
+            }
 
             // Remember user authentication.
             if (cfg.isRememberMeEnabled() && request.getParameter(org.josso.gateway.signon.Constants.PARAM_JOSSO_REMEMBERME) != null) {
 
                 // Storing remember me information (always on client)
-                logger.debug("Storing SSO Rememberme Token on Client");
+            	if (logger.isDebugEnabled()) {
+            		logger.debug("Storing SSO Rememberme Token on Client");
+            	}
 
                 String cipherSuite = (String) request.getAttribute
                     ("javax.servlet.request.cipher_suite");

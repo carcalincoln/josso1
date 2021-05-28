@@ -52,8 +52,8 @@
 		<xbean-version>3.4.3</xbean-version>
 		<spring-version>2.5.6</spring-version>
 		<junit-version>4.4</junit-version>
-		<!--  //RPBA <cxf-version>2.2.2</cxf-version>-->
-		<cxf-version>2.7.10</cxf-version>
+		<cxf-version>2.2.2</cxf-version>
+		<!-- //RPBA <cxf-version>2.7.10</cxf-version>-->
 		<log4j.version>2.12.0</log4j.version>
 		<!-- //RPBA<spring-security-v3-version>3.1.3.RELEASE</spring-security-v3-version> -->
 		<spring-security-v3-version>3.1.7.RELEASE</spring-security-v3-version>
@@ -334,7 +334,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<source>1.5</source>
+							<source>1.6</source>
 							<attach>true</attach>
 						</configuration>
 					</plugin>
@@ -948,11 +948,11 @@
 				<version>${project.version}</version> </dependency> <dependency> <groupId>org.josso</groupId> 
 				<artifactId>josso-jboss7-agent</artifactId> <version>${project.version}</version> 
 				</dependency> -->
-			<dependency>
+			<!--<dependency>
 				<groupId>org.josso</groupId>
 				<artifactId>josso-applet-agent</artifactId>
 				<version>${project.version}</version>
-			</dependency>
+			</dependency>-->
 			<!-- <dependency> <groupId>org.josso</groupId> <artifactId>josso-jetty6-agent</artifactId> 
 				<version>${project.version}</version> </dependency> -->
 			<!-- JOSSO Reference Console -->
@@ -1360,7 +1360,7 @@
 					<breakiterator>true</breakiterator>
 					<quiet>true</quiet>
 					<verbose>false</verbose>
-					<source>1.5</source>
+					<source>1.6</source>
 					<!-- FIXME: This worked in m1, but m2 complains about it being an invalid 
 						flag <additionalparam>-J-Djava.awt.headless=true</additionalparam> -->
 					<linksource>true</linksource>

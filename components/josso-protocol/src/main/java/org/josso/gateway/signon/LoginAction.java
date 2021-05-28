@@ -125,8 +125,13 @@ public abstract class LoginAction extends SignonBaseAction {
         }
 
 
-        if (canRelay(request))
+        if (canRelay(request)) {
+            ActionForward aux = sameUser(request,mapping);
+            if (aux!=null) {
+        	return aux;
+            }
             return relay(mapping, form, request, response);
+        }
 
         // If no command was specified, "ask-for-login" is the default value.
         if (cmd == null) {
@@ -137,6 +142,9 @@ public abstract class LoginAction extends SignonBaseAction {
         return login(mapping, form, request, response);
 
 
+    }
+    protected ActionForward sameUser(HttpServletRequest request,ActionMapping mapping) {
+	return null;
     }
 
     /**
@@ -247,8 +255,7 @@ public abstract class LoginAction extends SignonBaseAction {
                 // logs the error
                 ActionErrors errors = new ActionErrors();
                 errors.add(ActionErrors.GLOBAL_MESSAGE, new ActionMessage("sso.login.failed"));
-                //saveErrors(request, errors); //RPBA
-                saveErrors(request.getSession(), errors);
+                saveErrors(request, errors); 
                 // Invalid login attempt, redirect to ON ERROR URL, if any.
                 boolean ok = this.onLoginAuthenticationException(e, request, response, c);
                 if (ok) {
@@ -323,14 +330,19 @@ public abstract class LoginAction extends SignonBaseAction {
             // Add error type and received username to ERROR URL.
             SSOGateway g = getSSOGateway();
             on_error += (on_error.indexOf("?") >= 0 ? "&" : "?") + "josso_error_type=" + e.getErrorType();
+            String userName=null;
             try {
                 SSOContext ctx = SSOContext.getCurrent();
-                on_error += "&josso_username=" + g.getPrincipalName(ctx.getScheme(), credentials);
+                userName=g.getPrincipalName(ctx.getScheme(), credentials);
+                on_error += "&josso_username=" + userName;
             } catch (Exception ex) {
                 if (logger.isDebugEnabled())
                     logger.error("  [onLoginAuthenticationException()] cant find PrincipalName");
             }
-
+            // logs the error
+            ActionErrors errors = new ActionErrors();
+            errors.add(ActionErrors.GLOBAL_MESSAGE, new ActionMessage("sso.login.usernameFailed",userName));
+            saveErrors(request.getSession(), errors); 
             response.sendRedirect(response.encodeRedirectURL(on_error));
             if (logger.isDebugEnabled())
                 logger.debug("[login()], authentication failure. Redirecting user to : " + on_error);

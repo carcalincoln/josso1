@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="org.apache.commons.lang3.math.NumberUtils"%>
 <%@page import="rpba.PrintStackTrace"%>
 <%@page import="cuenta.dao.AdministradorDeCuenta"%>
@@ -16,46 +17,43 @@
     AdministradorUsuario administardorUsuario = AdministradorFactory.get(AdministradorUsuario.Constante,
 		    AdministradorUsuario.class);
     admApli.modelo.Usuario usuario = null;
-%>
-<bean:parameter name="logon" id="logon" value="" />
-<logic:notEmpty name="logon">
-	<%
-	
+
 	try {
-		String userName=request.getParameter("logon").trim();
-		if (NumberUtils.isCreatable(userName)){
-			PrintStackTrace.printStackTrace("Busco por ID");
-			Integer logoId=NumberUtils.createInteger(userName);			
+	    if (StringUtils.isNotBlank(request.getParameter("logon"))){
+			usuario = administardorUsuario.getUsuario(request.getParameter("logon"));
+	    }
+	    if (StringUtils.isNotBlank(request.getParameter("idUsuario"))){
+			Integer logoId=NumberUtils.createInteger(request.getParameter("idUsuario"));			
 			usuario=administardorUsuario.getUsuario(logoId,false);
-		}
-		else{
-			usuario = administardorUsuario.getUsuario(userName);
-		}
-		pageContext.setAttribute("resultado", usuario);
-		ArrayList<Conexion> con=administardorUsuario.getConexiones(usuario);
-		BeanComparator.Sort(con, Conexion.class, "inicio",false);
-		pageContext.setAttribute("conexiones", con);
-		if (usuario.isInterno()) {
-			HashMap<?, ?> esquemaPerfil = usuario.esquemaDePosiblePerfil();
-			request.setAttribute("esquema", esquemaPerfil);
-		} else {
-			request.setAttribute("esquema", usuario.getPerfil().getEsquema());
-		}
-		request.setAttribute("perfil", usuario.getPerfil());
-		cuenta.modelo.Cuenta cuenta=null;
-		if (!usuario.getTipoUsuario().isExcento()){
-			AdministradorDeCuenta administardorDeCuenta= AdministradorFactory.get(AdministradorDeCuenta.Constante,AdministradorDeCuenta.class);
-			if(!usuario.isAdmOrganismo()){
-		    	cuenta =administardorDeCuenta.getCuenta(usuario);
+	    }
+		if(usuario!=null){
+			pageContext.setAttribute("resultado", usuario);
+			ArrayList<Conexion> con=administardorUsuario.getConexiones(usuario);
+			BeanComparator.Sort(con, Conexion.class, "inicio",false);
+			pageContext.setAttribute("conexiones", con);
+			if (usuario.isInterno()) {
+				HashMap<?, ?> esquemaPerfil = usuario.esquemaDePosiblePerfil();
+				request.setAttribute("esquema", esquemaPerfil);
+			} else {
+				request.setAttribute("esquema", usuario.getPerfil().getEsquema());
 			}
-			pageContext.setAttribute("cuenta", cuenta);
+			request.setAttribute("perfil", usuario.getPerfil());
+			cuenta.modelo.Cuenta cuenta=null;
+			if (!usuario.getTipoUsuario().isExcento()){
+				AdministradorDeCuenta administardorDeCuenta= AdministradorFactory.get(AdministradorDeCuenta.Constante,AdministradorDeCuenta.class);
+				if(!usuario.isAdmOrganismo()){
+			    	cuenta =administardorDeCuenta.getCuenta(usuario);
+				}
+				pageContext.setAttribute("cuenta", cuenta);
+			}
 		}
 	} catch (Exception e) {
 		PrintStackTrace.printStackTrace("Logon: " + request.getParameter("logon"));
+		PrintStackTrace.printStackTrace("idUsuario: " + request.getParameter("idUsuario"));
 		PrintStackTrace.printStackTrace(e);
 	}
 	%>
-</logic:notEmpty>
+
 <html>
 <head>
 <meta name="volver" content="/RegPropNew/resources/" />
@@ -67,9 +65,14 @@
 		<FORM action="/RegPropNew/resources/BuscarUsuario.jsp" method="get">
 			<table class="formulario">
 				<tr>
-					<td class="nombreFormulario">Logon/ID</td>
+					<td class="nombreFormulario">Logon</td>
 					<td class="separadorCampoFormulario">:</td>
 					<td class="campoFormulario"><INPUT type="text" name="logon" maxlength="15" /></td>
+				</tr>
+				<tr>
+					<td class="nombreFormulario">Id</td>
+					<td class="separadorCampoFormulario">:</td>
+					<td class="campoFormulario"><INPUT type="number" max="99999999" name="idUsuario" maxlength="15"  /></td>
 				</tr>
 			</table>
 			<div id="botonera">
@@ -79,8 +82,14 @@
 		<logic:empty name="resultado">
 			<logic:notEmpty name="logon">
 				<div class="txtAdvertencia">
-					No existe usuario con logon/id:
+					No existe usuario con logon:
 					<bean:write name="logon" />
+				</div>
+			</logic:notEmpty>
+			<logic:notEmpty name="idUsuario">
+				<div class="txtAdvertencia">
+					No existe usuario con ID:
+					<bean:write name="idUsuario" />
 				</div>
 			</logic:notEmpty>
 		</logic:empty>

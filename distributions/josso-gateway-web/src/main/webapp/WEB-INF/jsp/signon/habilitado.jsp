@@ -5,7 +5,6 @@
 <%@ page language="java" errorPage="/Error.jsp" import="admApli.*"%>
 <%@ page import="admApli.Constantes"%>
 <%@ page import="admApli.Configuracion"%>
-<%@ taglib uri="http://rpba.gov.ar/tagLib/comun" prefix="comun"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>

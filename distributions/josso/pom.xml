@@ -243,11 +243,12 @@
             <artifactId>josso-jboss7-agent</artifactId>
         </dependency>
 		-->
+		<!--
         <dependency>
             <groupId>org.josso</groupId>
             <artifactId>josso-applet-agent</artifactId>
         </dependency>
-
+		-->
         <!-- JOSSO Client dependency -->
         <dependency>
             <groupId>org.josso</groupId>

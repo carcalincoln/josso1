@@ -22,6 +22,9 @@
 
 package org.josso.gateway.signon;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -32,10 +35,6 @@ import org.josso.gateway.SSOGateway;
 import org.josso.gateway.identity.SSORole;
 import org.josso.gateway.identity.SSOUser;
 import org.josso.gateway.session.SSOSession;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
 
 /**
  * @author <a href="mailto:sgonzalez@josso.org">Sebastian Gonzalez Oyuela</a>
@@ -67,12 +66,10 @@ public class InfoAction extends SignonBaseAction {
                 request.setAttribute(KEY_JOSSO_USER_ROLES, roles);
                 request.setAttribute(KEY_JOSSO_SESSION, session);
 
-                if (logger.isDebugEnabled())
+                if (logger.isDebugEnabled()) {
                     logger.debug("[execute()] stored user : " + user + " under key : " + KEY_JOSSO_USER);
-
-                if (logger.isDebugEnabled())
                     logger.debug("[execute()] stored session : " + session + " under key : " + KEY_JOSSO_SESSION);
-
+                }
             } catch (SSOException e) {
                 if (logger.isDebugEnabled())
                     logger.error(e.getMessage(), e);
