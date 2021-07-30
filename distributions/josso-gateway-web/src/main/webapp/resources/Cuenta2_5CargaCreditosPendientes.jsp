@@ -60,7 +60,8 @@
 		    AdministradorCredito administradorCredito = AdministradorFactory.get(AdministradorCredito.Constante,
 				    AdministradorCredito.class);
 		    TipoOperacion tipoOperacion = administardorTipoOperacion.get(AdministradorTipoOperacion.ID_COMPRA_MODULO);
-		    Servicio servicio = AdministradorFactory.get(AdministradorServicio.Constante, AdministradorServicio.class).getServicio(405);
+		    //Servicio servicio = AdministradorFactory.get(AdministradorServicio.Constante, AdministradorServicio.class).getServicio(405);
+		    Servicio servicio = AdministradorFactory.get(AdministradorServicio.Constante, AdministradorServicio.class).getServicio(174);
 
 		    out.println("<br>");
 

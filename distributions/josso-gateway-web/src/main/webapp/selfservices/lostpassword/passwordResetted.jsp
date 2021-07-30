@@ -37,7 +37,7 @@
 
                 <p><strong><bean:message key="sso.text.passwordResetted"/></strong></p>
 
-                <html:link forward="login" styleClass="button"><bean:message key="sso.button.login" /></html:link>
+                <html:link forward="login" styleClass="button"> <html:param name="RPBAExterno" value="1"/><bean:message key="sso.button.login" /></html:link>
 
 
             </div><!-- /main -->

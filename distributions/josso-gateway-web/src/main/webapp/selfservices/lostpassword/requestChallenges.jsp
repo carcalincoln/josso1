@@ -33,19 +33,20 @@
         <div id="subwrapper">
 
             <div class="main">
-                <h2><bean:message key="sso.title.lostPassword"/></h2>
-
+                <h2><bean:message key="sso.title.lostPassword" /></h2>
                 <p><bean:message key="sso.text.lostPassword"/></p>
 
                 <html:form action="/selfservices/lostpassword/processChallenges" focus="email" >
+					<html:hidden property="RPBAExterno" value="externo"/>
                     <div><label for="email"><bean:message key="sso.label.email"/></label> <html:text styleClass="text" property="email" /></div>
-                    <div><input class="button medium" type="submit" value="Reset password"/></div>
+                    <br>
+					<div><input class="button medium" type="submit" value="Reestablecer contrase&ntilde;a"/></div>
                 </html:form>
 
                 <p class="note"><bean:message key="sso.text.buttonOnlyOnce"/></p>
 
                 <div class="highlight">
-                    <h3 class="help"><bean:message key="sso.title.help"/></h3>
+                    
                     <p><bean:message key="sso.text.lostPassword.help"/></p>
                     <div class="footer"></div>
                 </div><!-- /highlight -->

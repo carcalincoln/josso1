@@ -84,13 +84,21 @@ public class LostPasswordAction extends SelfServicesBaseAction {
         try {
 
             String processId = null;
-
+            
             // We are starting a new lost password process.
             if (josso_cmd != null && josso_cmd.equals(JOSSO_CMD_LOST_PASSWORD)) {
-        	if(log.isDebugEnabled()) {
-        	    log.debug("Initializing lost password process");
+        	if(pwdService==null) {
+        	    if(log.isDebugEnabled()) {
+            	    	log.debug("Lost password process not config for domain: "+ ctx.getSecurityDomain().getName()  );
+            	    }
+        	    return mapping.findForward("lostPasswordNotConfig");
         	}
-                ProcessResponse pr = pwdService.startProcess("josso-simple-lostpassword");
+        	if(log.isDebugEnabled()) {
+        	    log.debug("Initializing lost password process "+ ctx.getSecurityDomain().getName()  );
+        	}
+
+        	ProcessResponse pr = pwdService.startProcess(ctx.getSecurityDomain().getName()+"-simple-lostpassword");
+        	
                 processId = pr.getProcessId();
 
                 // Register a new url provider for this process

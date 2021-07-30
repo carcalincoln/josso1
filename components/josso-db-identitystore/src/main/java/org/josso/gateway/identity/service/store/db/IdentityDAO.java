@@ -307,7 +307,8 @@ public class IdentityDAO {
             stmt.setString( 1, newPassword.getValue().toString() );
             stmt.setString( 2, key.getId() );
             stmt.execute();
-            _conn.commit();
+            //RPBA esto da error de base por eso se comento
+            //_conn.commit();
 
         } catch (SQLException e) {
             logger.error("SQLException while updating user credential", e);

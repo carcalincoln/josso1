@@ -171,10 +171,14 @@ public class PasswordGeneratorImpl implements
             // We don't want to expose this to spring
 
             passwordFlags |= PW_UPPERS;
-            log.debug(Messages.getString("PwGenerator.debug_UPPERCASE_ON"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.debug_UPPERCASE_ON"));
+            }
 
             passwordFlags |= PW_DIGITS;
-            log.debug(Messages.getString("PwGenerator.debug_DIGITS_ON"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.debug_DIGITS_ON"));
+            }
             // passwordFlags |= PW_SYMBOLS;
             // passwordFlags |= PW_AMBIGUOUS;
 
@@ -198,7 +202,9 @@ public class PasswordGeneratorImpl implements
     }
 
     public String generateClearPassword(SSOUser user, Set<ChallengeResponseCredential> challenges) {
-        log.debug("User and challenges ignored!");
+        if (log.isDebugEnabled()) {
+            log.debug("User and challenges ignored!");
+        }
         List<String> pwds = this.process(1);
         return pwds.get(0);
     }
@@ -217,15 +223,21 @@ public class PasswordGeneratorImpl implements
     public String generatePassword(int passwordLength, int passwordFlags) {
         if (passwordLength <= 2) {
             passwordFlags &= ~PW_UPPERS;
-            log.warn(Messages.getString("PwGenerator.WARN_PL_UPERCASE_OFF")); //$NON-NLS-1$
+            if(log.isWarnEnabled()) {
+        	log.warn(Messages.getString("PwGenerator.WARN_PL_UPERCASE_OFF")); //$NON-NLS-1$
+            }
         }
         if (passwordLength <= 2) {
             passwordFlags &= ~PW_SYMBOLS;
-            log.warn(Messages.getString("PwGenerator.WARN_PL_SYMBOLS_OFF")); //$NON-NLS-1$
+            if(log.isWarnEnabled()) {
+        	log.warn(Messages.getString("PwGenerator.WARN_PL_SYMBOLS_OFF")); //$NON-NLS-1$
+            }
         }
         if (passwordLength <= 1) {
             passwordFlags &= ~PW_DIGITS;
-            log.warn(Messages.getString("PwGenerator.WARN_PL_DIGITS_OFF")); //$NON-NLS-1$
+            if(log.isWarnEnabled()) {
+        	log.warn(Messages.getString("PwGenerator.WARN_PL_DIGITS_OFF")); //$NON-NLS-1$
+            }
         }
 
         String password = null;
@@ -243,10 +255,10 @@ public class PasswordGeneratorImpl implements
 
             if (password != null)
                 break;
-
-            log
-                    .debug(Messages.getString("PwGenerator.debug_ATTEMPT") + i + Messages.getString("PwGenerator.debug_ATTEMPT_GENERATE") //$NON-NLS-1$ //$NON-NLS-2$
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.debug_ATTEMPT") + i + Messages.getString("PwGenerator.debug_ATTEMPT_GENERATE") //$NON-NLS-1$ //$NON-NLS-2$
                             + passwordFlags);
+            }
         }
 
         return password;
@@ -258,58 +270,83 @@ public class PasswordGeneratorImpl implements
      *         could be generated.
      */
     public List<String> process(int numberOfPasswords) {
-
-        log.debug(Messages.getString("PwGenerator.PASSWORD_GENERATOR"));
+	if(log.isDebugEnabled()) {
+	    log.debug(Messages.getString("PwGenerator.PASSWORD_GENERATOR"));
+	}
 
         ArrayList<String> passwords = new ArrayList<String>();
 
         if (isUseSimpleRandom()) {
             random = randomFactory.getRandom();
-            log.debug(Messages.getString("PwGenerator.NORMAL_RANDOM"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.NORMAL_RANDOM"));
+            }
         }
 
 
         try {
             random = randomFactory.getSecureRandom(getSecureRandomAlgorithm(), getSecureRandomProvider());
-            log.debug(Messages.getString("PwGenerator.SEC_ALG") + getSecureRandomAlgorithm() + Messages.getString("PwGenerator.PROV") + getSecureRandomProvider() + Messages.getString("PwGenerator.DOR"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.SEC_ALG") + getSecureRandomAlgorithm() + Messages.getString("PwGenerator.PROV") + getSecureRandomProvider() + Messages.getString("PwGenerator.DOR"));
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error(Messages.getString("PwGenerator.ERROR") + e.getMessage() + Messages.getString("PwGenerator.NEW_LINE"));
-            log.debug(Messages.getString("PwGenerator.DEFAUL_RANDOM"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.DEFAUL_RANDOM"));
+            }
         } catch (NoSuchProviderException e) {
             log.error(Messages.getString("PwGenerator.ERROR") + e.getMessage() + Messages.getString("PwGenerator.NEW_LINE"));
-            log.error(Messages.getString("PwGenerator.DEFAUL_RANDOM"));
+            if(log.isDebugEnabled()) {
+        	log.error(Messages.getString("PwGenerator.DEFAUL_RANDOM"));
+            }
         }
 
         if (isGenerateNumerals()) {
             passwordFlags |= PW_DIGITS;
-            log.debug(Messages.getString("PwGenerator.DIGITS_ON"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.DIGITS_ON"));
+            }
         } else {
             passwordFlags &= ~PW_DIGITS;
-            log.debug(Messages.getString("PwGenerator.DIGITS_OFF"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.DIGITS_OFF"));
+            }
         }
 
         if (isGenerateCapitalLetters()) {
             passwordFlags |= PW_UPPERS;
-            log.debug(Messages.getString("PwGenerator.UPPERCASE_ON"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.UPPERCASE_ON"));
+            }
         } else {
             passwordFlags &= ~PW_UPPERS;
-            log.debug(Messages.getString("PwGenerator.UPPERCASE_OFF"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.UPPERCASE_OFF"));
+            }
         }
 
         if (isIncludeAmbigousChars()) {
             passwordFlags |= PW_AMBIGUOUS;
-            log.debug(Messages.getString("PwGenerator.AMBIGOUS_ON"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.AMBIGOUS_ON"));
+            }
         } else {
             passwordFlags &= ~PW_AMBIGUOUS;
-            log.debug(Messages.getString("PwGenerator.AMBIGOUS_OFF"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.AMBIGOUS_OFF"));
+            }
         }
 
         if (isIncludeSpecialSymbols()) {
             passwordFlags |= PW_SYMBOLS;
-            log.debug(Messages.getString("PwGenerator.SYMBOLS_ON"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.SYMBOLS_ON"));
+            }
         } else {
             passwordFlags &= ~PW_SYMBOLS;
-            log.debug(Messages.getString("PwGenerator.SYMBOLS_OFF"));
+            if(log.isDebugEnabled()) {
+        	log.debug(Messages.getString("PwGenerator.SYMBOLS_OFF"));
+            }
         }
 
         if (isRegexStartsNoSmallLetter())
@@ -351,22 +388,29 @@ public class PasswordGeneratorImpl implements
         if (isRegexAtLeastTwoDigits())
             passwordFlags |= REGEX_AT_LEAST_2_DIGITS_FLAG;
         // -------------------------------------------------------------------
-
-        log.debug(Messages.getString("PwGenerator.GENRIC_FLAGS"));
+        if(log.isDebugEnabled()) {
+            log.debug(Messages.getString("PwGenerator.GENRIC_FLAGS"));
+        }
 
         int res = passwordFlags & PW_DIGITS;
-        log.debug(Messages.getString("PwGenerator.DIGITS") + (res != 0));
+        if(log.isDebugEnabled()) {
+            log.debug(Messages.getString("PwGenerator.DIGITS") + (res != 0));
+        }
         res = passwordFlags & PW_AMBIGUOUS;
-        log.debug(Messages.getString("PwGenerator.AMBIGOUS") + (res != 0));
+        if(log.isDebugEnabled()) {
+            log.debug(Messages.getString("PwGenerator.AMBIGOUS") + (res != 0));
+        }
         res = passwordFlags & PW_SYMBOLS;
-        log.debug(Messages.getString("PwGenerator.SYMBOLS") + (res != 0));
+        if(log.isDebugEnabled()) {
+            log.debug(Messages.getString("PwGenerator.SYMBOLS") + (res != 0));
+        }
         res = passwordFlags & PW_UPPERS;
-        log.debug(Messages.getString("PwGenerator.UPPERS") + (res != 0));
-        log.debug(Messages.getString("PwGenerator.SEPARATOR"));
-
-        log.debug(Messages.getString("PwGenerator.GENERATING") + numberOfPasswords + Messages.getString("PwGenerator.PW_LENGTH") + passwordLength);
-        log.debug(Messages.getString("PwGenerator.PW"));
-
+        if(log.isDebugEnabled()) {
+            log.debug(Messages.getString("PwGenerator.UPPERS") + (res != 0));
+            log.debug(Messages.getString("PwGenerator.SEPARATOR"));
+            log.debug(Messages.getString("PwGenerator.GENERATING") + numberOfPasswords + Messages.getString("PwGenerator.PW_LENGTH") + passwordLength);
+            log.debug(Messages.getString("PwGenerator.PW"));
+        }
         int i;
         for (i = 0; i < numberOfPasswords; i++) {
             String password = generatePassword(passwordLength,

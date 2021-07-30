@@ -57,8 +57,8 @@
     <!-- Global forwards common to all auth. schemes -->
     <!-- ======================================================= -->
     <global-forwards>
-        <forward name="fatalError" path="josso.error"/>
-        <forward name="authError" path="josso.error"/>
+        <forward name="fatalError" path="/Error.jsp"/>
+        <forward name="authError" path="/Error.jsp"/>
         <forward name="requestConfirmPassword" path="/selfservices/lostpassword/confirmPassword.do" redirect="true"/>
     </global-forwards>
 
@@ -67,7 +67,8 @@
         <!-- This will require basic challenges like e-mail address -->
         <action path="/selfservices/lostpassword/lostPassword"
                 type="org.josso.selfservices.password.LostPasswordAction">
-            <forward name="requestChallenges" path="josso.selfservices.requestChallenges"/>
+            <forward name="requestChallenges" path="/selfservices/lostpassword/requestChallenges.jsp"/>
+			<forward name="lostPasswordNotConfig" path="/selfservices/lostpassword/lostPasswordNotConfig.jsp"/>
         </action>
 
         <!-- This is where challenges form (email, etc) submites results -->
@@ -77,16 +78,16 @@
                 name="requestChallengesForm">
 
             <!-- We may need to require challenges again -->
-            <forward name="requestChallenges" path="josso.selfservices.requestChallenges"/>
+            <forward name="requestChallenges" path="/selfservices/lostpassword/requestChallenges.jsp"/>
 
             <!-- If basic challenges are ok, we may want to ask for additional challenges like secret answers -->
-            <forward name="requestAdditionalChallenges" path="josso.selfservices.requestAdditionalChallenges"/>
+            <forward name="requestAdditionalChallenges" path="/selfservices/lostpassword/requestAdditionalChallenges.jsp"/>
 
             <!-- If all challenges are ok , we want to confirm the password -->
-            <forward name="confirmPassword" path="josso.selfservices.passwordDistributed"/>
+            <forward name="confirmPassword" path="/selfservices/lostpassword/passwordDistributed.jsp"/>
 
             <!-- Hide auth errors from password reset requestor so the cannot guess emails, etc -->
-            <forward name="authError" path="josso.selfservices.passwordDistributed"/>
+            <forward name="authError" path="/selfservices/lostpassword/passwordNotDistributed.jsp"/>
 
         </action>
 
@@ -96,10 +97,10 @@
                 type="org.josso.selfservices.password.LostPasswordAction"
                 name="requestAdditionalChallengesForm">
 
-            <forward name="requestAdditionalChallenges" path="josso.selfservices.requestAdditionalChallenges"/>
+            <forward name="requestAdditionalChallenges" path="/selfservices/lostpassword/requestAdditionalChallenges.jsp"/>
 
             <!-- If all challenges are ok , we want to confirm the password -->
-            <forward name="confirmPassword" path="josso.selfservices.passwordDistributed"/>
+            <forward name="confirmPassword" path="/selfservices/lostpassword/passwordDistributed.jsp"/>
         </action>
 
         <!-- This handles password confirmation -->
@@ -109,10 +110,10 @@
                 name="confirmPasswordForm">
 
             <!-- We may require more chalenges than the ones recieved with the confirmation URL (assertion ,etc). -->
-            <forward name="requestAdditionalConfirmationChallenges" path="josso.selfservices.requestAdditionaConfirmationChallenges"/>
+            <forward name="requestAdditionalConfirmationChallenges" path="/selfservices/lostpassword/requestAdditionalChallenges.jsp"/>
 
             <!-- If all challenges are ok, go to final state -->
-            <forward name="passwordReseted" path="josso.selfservices.passwordResetted"/>
+            <forward name="passwordReseted" path="/selfservices/lostpassword/passwordResetted.jsp"/>
         </action>
 
         <!-- Used in more complex scenarios -->
@@ -120,8 +121,8 @@
                 validate="false"
                 type="org.josso.selfservices.password.LostPasswordAction"
                 name="requestAdditionalChallengesForm">
-            <forward name="requestAdditionalConfirmationChallenges" path="josso.selfservices.requestAdditionaConfirmationChallenges"/>
-            <forward name="passwordReseted" path="josso.selfservices.passwordResetted"/>
+            <forward name="requestAdditionalConfirmationChallenges" path="/selfservices/lostpassword/requestAdditionalConfirmationChallenges.jsp"/>
+            <forward name="passwordReseted" path="j/selfservices/lostpassword/passwordResetted.jsp"/>
         </action>
 
     </action-mappings>
