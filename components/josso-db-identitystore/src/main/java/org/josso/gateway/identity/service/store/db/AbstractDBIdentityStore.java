@@ -171,6 +171,18 @@ public abstract class AbstractDBIdentityStore extends AbstractStore implements E
         }
     }
 
+    public String loadUsernameByRelayCredential ( ChallengeResponseCredential[] cred ) throws SSOIdentityException {
+        Connection c = null;
+        try {
+            c = getDBConnection();
+            IdentityDAO dao = getIdentityDAO(c);
+            return dao.resolveUsernameByRelayCredential( cred );
+
+        } finally {
+            closeDBConnection(c);
+        }
+    }
+    
     public void updateAccountPassword ( UserKey key, Credential newPassword ) throws SSOIdentityException {
         Connection c = null;
         try {

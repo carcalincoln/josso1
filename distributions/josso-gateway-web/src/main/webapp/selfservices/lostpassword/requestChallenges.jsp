@@ -25,9 +25,6 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
-
-    <html:errors/>
-
     <div id="lost-password">
 
         <div id="subwrapper">

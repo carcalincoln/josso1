@@ -25,18 +25,30 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 
-    <div id="password-distributed">
+    <div id="lost-password">
 
         <div id="subwrapper">
 
             <div class="main">
+                <h2><bean:message key="sso.title.complexLostPassword" /></h2>
+                <p><bean:message key="sso.text.complexLostPassword" arg0="${param.email }"/></p>
 
-                <h2><bean:message key="sso.title.passwordResetted"/></h2>
+                <html:form action="/selfservices/lostpassword/complexProcessChallenges" method="GET" focus="logon" >
+					<html:hidden property="RPBAExterno" value="externo"/>
+					<html:hidden property="email" value="${param.email}"/>
+					
+                    <div><label for="userName"><bean:message key="sso.label.username"/></label> <input type="text" name="logon" value="${param.logon }"/></div>
+                    <br>                    
+					<div><input class="button medium" type="submit" value="Reestablecer contrase&ntilde;a"/></div>
+                </html:form>
 
-                <p><strong><bean:message key="sso.text.passwordResetted"/></strong></p>
+                <p class="note"><bean:message key="sso.text.buttonOnlyOnce"/></p>
 
-                <html:link forward="login" styleClass="button"> <html:param name="RPBAExterno" value="1"/><bean:message key="sso.button.login" /></html:link>
-
+                <div class="highlight">
+                    
+                    <p><bean:message key="sso.text.complexLostPassword.help"/></p>
+                    <div class="footer"></div>
+                </div><!-- /highlight -->
 
             </div><!-- /main -->
 

@@ -102,6 +102,8 @@ public class EMailPasswordDistributor implements PasswordDistributor {
                 mimeMessage.setFrom(new InternetAddress(mailFrom));
                 mimeMessage.setSubject(getMailSubject());
                 mimeMessage.setText(text);
+                mimeMessage.setContent(text, "text/html");
+
             }
         };
 

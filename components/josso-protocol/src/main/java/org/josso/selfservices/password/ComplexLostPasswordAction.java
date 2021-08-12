@@ -1,25 +1,3 @@
-/*
- * JOSSO: Java Open Single Sign-On
- *
- * Copyright 2004-2009, Atricore, Inc.
- *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
- */
-
 package org.josso.selfservices.password;
 
 import java.util.ArrayList;
@@ -47,12 +25,7 @@ import org.josso.selfservices.password.lostpassword.Constants;
 import org.josso.selfservices.password.lostpassword.LostPasswordProcessState;
 import org.josso.selfservices.password.lostpassword.LostPasswordUrlProvider;
 
-/**
- * @author <a href="mailto:sgonzalez@josso.org">Sebastian Gonzalez Oyuela</a>
- * @version $Id: LostPasswordAction.java 974 2009-01-14 00:39:45Z sgonzalez $
- */
-public class LostPasswordAction extends SelfServicesBaseAction {
-
+public class ComplexLostPasswordAction extends SelfServicesBaseAction {
     public static final String JOSSO_CMD_CONFIRM_PASSWORD = "confirmPwd";
 
     public static final String JOSSO_CMD_LOST_PASSWORD = "lostPwd";
@@ -64,7 +37,7 @@ public class LostPasswordAction extends SelfServicesBaseAction {
 
     public static final String ATTR_LAST_PROCESS_RESPONSE = "org.josso.selfservices.lostpassword.processResponse";
 
-    private static Log log = LogFactory.getLog(LostPasswordAction.class);
+    private static Log log = LogFactory.getLog(ComplexLostPasswordAction.class);
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -95,10 +68,10 @@ public class LostPasswordAction extends SelfServicesBaseAction {
         	    return mapping.findForward("lostPasswordNotConfig");
         	}
         	if(log.isDebugEnabled()) {
-        	    log.debug("Initializing lost password process "+ ctx.getSecurityDomain().getName()  );
+        	    log.debug("Initializing complex lost password process "+ ctx.getSecurityDomain().getName()  );
         	}
 
-        	ProcessResponse pr = pwdService.startProcess(ctx.getSecurityDomain().getName()+"-simple-lostpassword");
+        	ProcessResponse pr = pwdService.startProcess(ctx.getSecurityDomain().getName()+"-complex-lostpassword");
         	
                 processId = pr.getProcessId();
 
@@ -201,17 +174,25 @@ public class LostPasswordAction extends SelfServicesBaseAction {
         // Check request parameter values:
         HttpSession session = request.getSession();
         ProcessResponse previousProcessResponse = (ProcessResponse) session.getAttribute(ATTR_LAST_PROCESS_RESPONSE);
-
+        
+        
         Set<ChallengeResponseCredential> challenges = state.getChallenges();
         if (challenges == null || challenges.size() == 0) {
             if (log.isDebugEnabled())
                 log.debug("No challenges requested");
-
             return null;
+        }
+        else {
+            if(log.isDebugEnabled()) {
+        	log.debug("Challenges requested state: "+state);
+        	 for (ChallengeResponseCredential challenge : challenges) {
+        	     log.debug(challenge.getId() +" : "+challenge.getValue());
+        	 }
+            }
         }
 
         // Fill challenges
-        for (ChallengeResponseCredential challenge : state.getChallenges()) {
+        for (ChallengeResponseCredential challenge : challenges) {
 
             String challengeId = challenge.getId();
 

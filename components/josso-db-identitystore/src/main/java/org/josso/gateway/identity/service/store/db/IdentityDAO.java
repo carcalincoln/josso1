@@ -31,6 +31,7 @@ import org.josso.auth.BaseCredential;
 import org.josso.auth.exceptions.SSOAuthenticationException;
 import org.josso.auth.scheme.AuthenticationScheme;
 import org.josso.gateway.SSONameValuePair;
+import org.josso.gateway.identity.exceptions.MultipleUsersException;
 import org.josso.gateway.identity.exceptions.SSOIdentityException;
 import org.josso.gateway.identity.service.BaseRole;
 import org.josso.gateway.identity.service.BaseRoleImpl;
@@ -38,6 +39,7 @@ import org.josso.gateway.identity.service.BaseUser;
 import org.josso.gateway.identity.service.BaseUserImpl;
 import org.josso.gateway.identity.service.store.CertificateUserKey;
 import org.josso.gateway.identity.service.store.SimpleUserKey;
+import org.josso.selfservices.ChallengeResponseCredential;
 import org.w3c.dom.Element;
 
 import java.io.IOException;
@@ -318,6 +320,54 @@ public class IdentityDAO {
         }
     }
 
+    public String resolveUsernameByRelayCredential(ChallengeResponseCredential[] cred) throws SSOIdentityException {
+	PreparedStatement stmt = null;
+	ResultSet result = null;
+	try {
+	    if (logger.isDebugEnabled()) {
+		logger.debug("[resolveUsernameByRelayCredential(ChallengeResponseCredential[] cred)]]");
+	    }
+	    String aux=_relayCredentialQueryString;
+	    if (aux.contains("#?#")) {
+		StringBuilder search= new StringBuilder();
+		for (int i = 0; i < cred.length; i++) {
+		    search.append(" and ");
+		    search.append(cred[i].getId());
+		    search.append(" = ?");
+		}
+		aux=aux.replace("and #?# = ?",search);
+		if(logger.isDebugEnabled()) {
+		    logger.debug("query: "+ aux);
+		}
+		stmt = createPreparedStatement(aux);
+		for (int i = 0; i < cred.length; i++) {
+		    stmt.setString(i+1, cred[i].getValue().toString());
+		}
+	    }
+	    else {
+		
+	    }
+	   
+	    result = stmt.executeQuery();
+	    String username = result.next() ? result.getString(1) : null;
+	    if (result.next()) {
+		throw new MultipleUsersException("Statement " + stmt + " returned more than one row");
+	    }
+	    return username;
+	} catch (MultipleUsersException e) {
+	    logger.error("Exception while loading user with relay credential returned more than one row", e);
+	    throw e;
+	} catch (SQLException sqlE) {
+	    logger.error("SQLException while loading user with relay credential", sqlE);
+	    throw new SSOIdentityException("During load user with relay credential: " + sqlE.getMessage());
+	} catch (Exception e) {
+	    logger.error("Exception while loading user with relay credential", e);
+	    throw new SSOIdentityException("During load user with relay credential: " + e.getMessage());
+	} finally {
+	    closeResultSet(result);
+	    closeStatement(stmt);
+	}
+    }
     public String resolveUsernameByRelayCredential(String name, String value) throws SSOIdentityException {
         PreparedStatement stmt = null;
         ResultSet result = null;
@@ -338,10 +388,13 @@ public class IdentityDAO {
 
             String username = result.next() ? result.getString( 1 ) : null;
             if( result.next() ){
-                throw new SSOIdentityException( "Statement " + stmt + " returned more than one row" );
+                throw new MultipleUsersException( "Statement " + stmt + " returned more than one row" );
             }
             return username; 
 
+        } catch (MultipleUsersException e) {
+            logger.error("Exception while loading user with relay credential returned more than one row", e);
+            throw e;
         } catch (SQLException sqlE) {
             logger.error("SQLException while loading user with relay credential", sqlE);
             throw new SSOIdentityException("During load user with relay credential: " + sqlE.getMessage());
@@ -560,6 +613,8 @@ public class IdentityDAO {
         }
         return count;
     }
+
+    
 
 
 }

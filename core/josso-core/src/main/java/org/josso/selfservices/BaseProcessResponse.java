@@ -22,10 +22,8 @@
 
 package org.josso.selfservices;
 
-import org.josso.selfservices.ProcessResponse;
-
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author <a href="mailto:sgonzalez@josso.org">Sebastian Gonzalez Oyuela</a>

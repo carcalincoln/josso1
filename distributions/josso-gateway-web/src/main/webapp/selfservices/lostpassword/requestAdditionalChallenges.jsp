@@ -19,35 +19,6 @@
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   ~
   --%>
-
-<%@ page contentType="text/html; charset=iso-8859-1" language="java" %>
-<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
-<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-
-    <table width="100%" cellpadding="0" cellspacing="0">
-        <tr>
-            <td align="center"><html:errors/></td>
-        </tr>
-    </table>
-
-    <html:form action="/selfservices/lostpassword/requestAdditionalChallenges" focus="email" >
-
-    <table width="100%" cellpadding="0" cellspacing="0">
-		<tr>
-            <td align="center" valign="middle" >
-                <table cellspacing="0" class="login-form">
-                    <tbody>
-                        <tr>
-                            <td align="center"><bean:message key="sso.label.secretQuestion"/></td>
-                            <td><html:password property="secretAnswer" /><br></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" align="center"><input type="submit" value="Reset Password" ></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-	<table>
-    </html:form>
+<%
+	response.sendRedirect(request.getContextPath() + "/selfservices/lostpassword/complexLostPassword.do?RPBAExterno=1&josso_cmd=lostPwd&email="+request.getParameter("email"));
+%>

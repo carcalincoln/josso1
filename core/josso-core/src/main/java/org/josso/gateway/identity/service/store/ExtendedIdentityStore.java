@@ -22,10 +22,9 @@
 
 package org.josso.gateway.identity.service.store;
 
-import org.josso.selfservices.ChallengeResponseCredential;
-import org.josso.gateway.identity.SSOUser;
-import org.josso.gateway.identity.exceptions.SSOIdentityException;
 import org.josso.auth.Credential;
+import org.josso.gateway.identity.exceptions.SSOIdentityException;
+import org.josso.selfservices.ChallengeResponseCredential;
 
 /**
  * @author <a href="mailto:sgonzalez@josso.org">Sebastian Gonzalez Oyuela</a>
@@ -40,11 +39,21 @@ public interface ExtendedIdentityStore {
      * @return
      */
     String loadUsernameByRelayCredential(ChallengeResponseCredential cred) throws SSOIdentityException;
-
+    
+    /**
+     * Loads a username using a challenge / response list relay credential list.
+     *
+     * @param cred
+     * @return
+     */
+    String loadUsernameByRelayCredential(ChallengeResponseCredential[] relayCredential) throws SSOIdentityException;
+    
     /**
      * Updates a user account, setting a new password.  The password has been already processed for storage (hashes, etc)
      *
      * @param newPassword
      */
     void updateAccountPassword (UserKey key, Credential newPassword) throws SSOIdentityException;
+
+    
 }

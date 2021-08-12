@@ -105,4 +105,6 @@ public interface SSOIdentityManager {
 
 
     public String findUsernameByRelayCredential(ChallengeResponseCredential relayCredential) throws SSOIdentityException;
+    
+    public String findUsernameByRelayCredential(ChallengeResponseCredential[] relayCredential) throws SSOIdentityException;
 }

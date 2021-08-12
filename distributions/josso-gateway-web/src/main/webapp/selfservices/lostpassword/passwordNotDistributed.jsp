@@ -30,13 +30,10 @@
         <div id="subwrapper">
 
             <div class="main">
+                
+                <h2><bean:message key="sso.title.passwordDistributed"/></h2>
 
-                <h2><bean:message key="sso.title.passwordResetted"/></h2>
-
-                <p><strong><bean:message key="sso.text.passwordResetted"/></strong></p>
-
-                <html:link forward="login" styleClass="button"> <html:param name="RPBAExterno" value="1"/><bean:message key="sso.button.login" /></html:link>
-
+                <p><strong>NO <bean:message key="sso.text.passwordDistributed"/></strong></p>
 
             </div><!-- /main -->
 

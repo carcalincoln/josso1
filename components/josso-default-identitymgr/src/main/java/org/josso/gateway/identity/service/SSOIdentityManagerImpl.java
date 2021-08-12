@@ -162,7 +162,18 @@ public class SSOIdentityManagerImpl implements SSOIdentityManager {
         }
 
     }
+    @Override
+    public String findUsernameByRelayCredential(ChallengeResponseCredential[] relayCredential)
+	    throws SSOIdentityException {
+	 if (this._store instanceof ExtendedIdentityStore) {
 
+            ExtendedIdentityStore eStore = (ExtendedIdentityStore) _store;
+            return eStore.loadUsernameByRelayCredential(relayCredential);
+        } else {
+            throw new UnsupportedOperationException("The configured identity store implementatino does not support account update.");
+        }
+
+    }
 
 
     // --------------------------------------------------------------------
@@ -211,6 +222,5 @@ public class SSOIdentityManagerImpl implements SSOIdentityManager {
 
         return _sessionManager;
     }
-
 
 }

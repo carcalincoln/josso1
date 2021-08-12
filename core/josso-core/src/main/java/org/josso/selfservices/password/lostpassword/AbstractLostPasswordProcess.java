@@ -37,12 +37,15 @@ import org.josso.selfservices.ProcessState;
 import org.josso.auth.Credential;
 import org.josso.auth.CredentialProvider;
 import org.josso.auth.exceptions.AuthenticationFailureException;
+import org.josso.auth.exceptions.MultipleUsersAuthenticationException;
 import org.josso.util.id.IdGenerator;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
 import java.util.Set;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Base service class with standard utils.
@@ -137,6 +140,9 @@ public abstract class AbstractLostPasswordProcess extends BasePasswordManagement
 
             // Store already received challenges
             ChallengeResponseCredential[] c = (ChallengeResponseCredential[]) request.getAttribute(ATTR_CHALLENGES);
+            if (log.isDebugEnabled()) {
+        	log.debug("Challenges in request: "+c.length);
+            }
             if (c == null) {
 
                 if (log.isDebugEnabled())
@@ -201,7 +207,15 @@ public abstract class AbstractLostPasswordProcess extends BasePasswordManagement
 
             return response;
 
-        } catch (AuthenticationFailureException e) {
+        }
+        catch (MultipleUsersAuthenticationException e) {
+            log.error("Authentication error " + e.getMessage(), e);
+            ProcessResponse response = createResponse(STEP_REQUEST_ADDITIONAL_CHALLENGES);
+            //RPBA ver de agregar el email como attribute
+            response.setAttribute("error", e);
+            return response;
+	}
+        catch (AuthenticationFailureException e) {
             log.error("Authentication error " + e.getMessage(), e);
             ProcessResponse response = createFinalResponse(STEP_AUTH_ERROR);
             response.setAttribute("error", e);
@@ -454,19 +468,18 @@ public abstract class AbstractLostPasswordProcess extends BasePasswordManagement
         }
         return null;
     }
-
+   
     protected void storeAllChallenges(ChallengeResponseCredential[] challenges) {
 
         if (challenges == null)
             return;
-
-        for (int i = 0; i < challenges.length; i++) {
-            ChallengeResponseCredential challenge = challenges[i];
-            getLostPasswordState().getChallenges().add(challenge);
-
-            if (log.isDebugEnabled())
-                log.debug("Storing challenge : " + challenge.getId() + " ["+challenge.getResponse()+"]");
+        
+        Set<ChallengeResponseCredential> challenges2 = new HashSet<ChallengeResponseCredential>(Arrays.asList(challenges));
+        if(log.isDebugEnabled()) {
+            log.debug("size of challenges: "+ challenges.length + " size of challenges2: "+challenges2.size());
         }
+        getLostPasswordState().setChallenges(challenges2);
+        
     }
 
     protected void clearChallenges() {
@@ -474,6 +487,9 @@ public abstract class AbstractLostPasswordProcess extends BasePasswordManagement
     }
 
     protected Set<ChallengeResponseCredential> retrieveAllChallenges() {
+        if(log.isDebugEnabled()) {
+            log.debug("retrieveAllChallenges LostPasswordState ProcessId "+getLostPasswordState().getProcessId() + " class: "+ getLostPasswordState().getClass()+ " size: "+getLostPasswordState().getChallenges().size());
+        }
         return getLostPasswordState().getChallenges();
     }
 

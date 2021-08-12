@@ -77,4 +77,22 @@ public class ChallengeResponseCredential extends BaseCredential {
     public Object getValue() {
         return this.getResponse();
     }
+
+    @Override
+    public boolean equals(Object another) {
+	if(another instanceof ChallengeResponseCredential) {
+	    ChallengeResponseCredential aux= (ChallengeResponseCredential) another;
+	    return this.getId().equals(aux.getId()) && this.getChallenge().equals(aux.getChallenge());
+	}
+	else {
+	    return super.equals(another);
+	}
+    }
+
+    @Override
+    public int hashCode() {
+	return getId().hashCode() + getChallenge().hashCode();
+    }
+  
+    
 }

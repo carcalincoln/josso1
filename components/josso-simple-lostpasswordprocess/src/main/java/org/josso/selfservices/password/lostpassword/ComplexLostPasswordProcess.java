@@ -22,52 +22,70 @@
 
 package org.josso.selfservices.password.lostpassword;
 
-import org.josso.selfservices.ChallengeResponseCredential;
-import org.josso.selfservices.password.PasswordManagementProcess;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.josso.auth.exceptions.AuthenticationFailureException;
+import org.josso.auth.exceptions.MultipleUsersAuthenticationException;
+import org.josso.gateway.SSOException;
 import org.josso.gateway.identity.SSOUser;
 import org.josso.gateway.identity.exceptions.MultipleUsersException;
 import org.josso.gateway.identity.exceptions.SSOIdentityException;
-import org.josso.gateway.SSOException;
-import org.josso.auth.exceptions.AuthenticationFailureException;
-import org.josso.auth.exceptions.MultipleUsersAuthenticationException;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
-
-import java.util.Set;
+import org.josso.selfservices.ChallengeResponseCredential;
+import org.josso.selfservices.password.PasswordManagementProcess;
 
 /**
- * @org.apache.xbean.XBean element="lostpassword-process"
+ * @org.apache.xbean.XBean element="complexlostpassword-process"
  *
- * @author <a href="mailto:sgonzalez@josso.org">Sebastian Gonzalez Oyuela</a>
- * @version $Id: SimpleLostPasswordProcess.java 789 2008-11-27 14:58:26Z sgonzalez $
+ * @author <a href="mailto:mleiro@rpba.gob.ar">Marcos Leiro</a>
  */
-public class SimpleLostPasswordProcess extends AbstractLostPasswordProcess {
+public class ComplexLostPasswordProcess extends AbstractLostPasswordProcess {
 
-    private static final Log log = LogFactory.getLog(SimpleLostPasswordProcess.class);
+    private static final Log log = LogFactory.getLog(ComplexLostPasswordProcess.class);
 
     private String challengeId= "email";
 
     private String challengeText = "Email Address";
+    
+    private String challenge2Id= "logon";
+
+    private String challenge2Text = "nombre de Usuario";    
 
     @Override
     public PasswordManagementProcess createNewProcess(String id) throws SSOException {
-        SimpleLostPasswordProcess p = (SimpleLostPasswordProcess) super.createNewProcess(id);
+        ComplexLostPasswordProcess p = (ComplexLostPasswordProcess) super.createNewProcess(id);
         p.setChallengeId(challengeId);
         p.setChallengeText(challengeText);
+        
+        p.setChallenge2Id(challenge2Id);
+        p.setChallenge2Text(challenge2Text);
 
         return p;
     }
+
+    
+     @Override
+    protected ChallengeResponseCredential[] createAdditionalChallenges(Set<ChallengeResponseCredential> challenges) {
+	 return null;
+    }
+
 
     /**
      * This creates a single challenge using the value of the 'challengeId' and 'challengeText' properties.
      */
     protected ChallengeResponseCredential[] createInitilaChallenges() {
 
-        if (log.isDebugEnabled())
-            log.debug("Creating challenge ["+challengeId+"] " + challengeText);
-
         ChallengeResponseCredential email = new ChallengeResponseCredential(challengeId, challengeText);
-        return new ChallengeResponseCredential[] {email};
+	ChallengeResponseCredential userName = new ChallengeResponseCredential(challenge2Id, challenge2Text);
+	ChallengeResponseCredential[] aux=new ChallengeResponseCredential[] {userName,email};
+        if (log.isDebugEnabled()) {
+            log.debug("Create Initial Challenges ");
+            for (int i = 0; i < aux.length; i++) {
+		log.debug("id: "+aux[i].getId() + " value: "+aux[i].getValue());
+	    }
+        }
+        return aux;
     }
 
     /**
@@ -81,10 +99,15 @@ public class SimpleLostPasswordProcess extends AbstractLostPasswordProcess {
         ChallengeResponseCredential challenge = getChallenge(challengeId, challenges);
         if (challenge == null)
             throw new AuthenticationFailureException("No challenge received : " + challengeId);
+        
+        ChallengeResponseCredential challenge2 = getChallenge(challenge2Id, challenges);
+        if (challenge2 == null)
+            throw new AuthenticationFailureException("No challenge received : " + challenge2Id);        
 
         try {
-
-            String username = getIdentityManager().findUsernameByRelayCredential(challenge);
+            ChallengeResponseCredential[] aux = new ChallengeResponseCredential[challenges.size()];
+            aux= challenges.toArray(aux);
+            String username = getIdentityManager().findUsernameByRelayCredential(aux);
             if (username == null)
                 throw new AuthenticationFailureException("No user found for provided challenges");
 
@@ -129,5 +152,28 @@ public class SimpleLostPasswordProcess extends AbstractLostPasswordProcess {
 
     public void setChallengeText(String challengeText) {
         this.challengeText = challengeText;
+    }
+    /**
+     * @org.apache.xbean.Property alias="challeng-id2"
+     *
+     * @return
+     */
+    public String getChallenge2Id() {
+	return challenge2Id;
+    }
+
+    public void setChallenge2Id(String challenge2Id) {
+	this.challenge2Id = challenge2Id;
+    }
+    /**
+     * @org.apache.xbean.Property alias="challenge-text2"
+     * @return
+     */
+    public String getChallenge2Text() {
+	return challenge2Text;
+    }
+
+    public void setChallenge2Text(String challenge2Text) {
+	this.challenge2Text = challenge2Text;
     }
 }

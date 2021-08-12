@@ -336,6 +336,38 @@ public class MemoryIdentityStore extends AbstractStore implements ExtendedIdenti
 
         return roles.toArray(new BaseRole[roles.size()]);
     }
+    @Override
+    public String loadUsernameByRelayCredential(ChallengeResponseCredential[] relayCredential)
+	    throws SSOIdentityException {
+	if (logger.isDebugEnabled()) {
+	    logger.debug("Looking for user with ");
+	}
+	Collection<BaseUser> users = listUsers();
+	for (BaseUser user : users) {
+	    SSONameValuePair[] props = user.getProperties();
+	    if (logger.isDebugEnabled())
+		logger.debug("Checking user : " + user.getName() + " with " + props.length + " properties.");
+	    if (props == null)
+		continue;
+	    int cant=0;
+	    for (int i = 0; i < relayCredential.length; i++) {
+		ChallengeResponseCredential cred = relayCredential[i];
+		for (SSONameValuePair prop : props) {
+		    if (logger.isDebugEnabled()) {
+			logger.debug("Checking property : " + prop.getName() + "=[" + prop.getValue() + "]");
+		    }
+		    if (prop.getName().equals(cred.getId()) && prop.getValue().equals(cred.getResponse())) {
+			cant++;
+		    }
+		}
+	    }
+	    if (cant==relayCredential.length) {
+		return user.getName();
+	    }
+	}
+	//
+	return null;
+    }
 
     public String loadUsernameByRelayCredential(ChallengeResponseCredential cred) throws SSOIdentityException {
 
@@ -742,5 +774,7 @@ public class MemoryIdentityStore extends AbstractStore implements ExtendedIdenti
         }
         return null;
     }
+
+   
 
 }
