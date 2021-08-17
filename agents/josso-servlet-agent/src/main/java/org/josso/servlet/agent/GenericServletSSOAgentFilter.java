@@ -322,7 +322,7 @@ public class GenericServletSSOAgentFilter implements Filter {
                 // We have no cookie, remember me is enabled and a security check without assertion was received ...
                 // This means that the user could not be identified ... go back to the original resource
                 if (hreq.getRequestURI().endsWith(agent.getJossoSecurityCheckUri()) &&
-                    hreq.getParameter("josso_assertion_id") == null) {
+                    hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER) == null) {
 
                 	 if (log.isDebugEnabled())
                 		 log.debug(agent.getJossoSecurityCheckUri() + " received without assertion.  Login Optional Process failed");
@@ -375,7 +375,7 @@ public class GenericServletSSOAgentFilter implements Filter {
                 	log.debug("SSO cookie is not present, checking for outbound relaying");
 
                 if (!(hreq.getRequestURI().endsWith(agent.getJossoSecurityCheckUri()) &&
-                    hreq.getParameter("josso_assertion_id") != null)) {
+                    hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER) != null)) {
                     log.debug("SSO cookie not present and relaying was not requested, skipping");
                     filterChain.doFilter(hreq, hres);
                     return;
@@ -408,11 +408,11 @@ public class GenericServletSSOAgentFilter implements Filter {
                 log.debug("Checking if its a josso_security_check for '" + hreq.getRequestURI() + "'");
 
             if (hreq.getRequestURI().endsWith(agent.getJossoSecurityCheckUri()) &&
-                hreq.getParameter("josso_assertion_id") != null) {
+                hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER) != null) {
 
                 if (log.isDebugEnabled())
                     log.debug("josso_security_check received for uri '" + hreq.getRequestURI() + "' assertion id '" +
-                            hreq.getParameter("josso_assertion_id")
+                            hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER)
                     );
 
                 String assertionId = hreq.getParameter(Constants.JOSSO_ASSERTION_ID_PARAMETER);

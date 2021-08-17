@@ -36,11 +36,13 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.tools.generic.DateTool;
 
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.InternetAddress;
 import javax.mail.Message;
 import java.io.StringWriter;
+import java.util.Date;
 
 /**
  * @org.apache.xbean.XBean element="email-password-distributor"
@@ -149,6 +151,8 @@ public class EMailPasswordDistributor implements PasswordDistributor {
             ctx.put("jossoClearPassword", clearPassword);
             ctx.put("jossoProcessState", state);
             ctx.put("jossoConfirmUrl", url);
+            ctx.put("date", new Date());
+            ctx.put("dateTool", new DateTool());
 
             // Find our template
             Template template = ve.getTemplate(this.template);

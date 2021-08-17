@@ -133,6 +133,11 @@
 						<td class="campoFormulario">${resultado.organismoProfesional}</td>
 					</tr>
 					<tr>
+						<td class="nombreFormulario">${resultado.organismoProfesional.cuio}(CUIO)</td>
+						<td class="separadorCampoFormulario">:</td>
+						<td class="campoFormulario">${resultado.cuio}</td>
+					</tr>
+					<tr>
 						<td class="nombreFormulario">Autorizados</td>
 						<td class="separadorCampoFormulario">:</td>
 						<td class="campoFormulario">
@@ -144,7 +149,7 @@
 								</display:table>
 							</logic:present>	
 							<logic:notPresent parameter="autorizados">
-								<a href="?autorizados=1&logon=${resultado.id}">Ver Autorizados</a>
+								<a href="?autorizados=1&idUsuario=${resultado.id}">Ver Autorizados</a>
 							</logic:notPresent>						
 						</td>
 					</tr>					
@@ -156,6 +161,11 @@
 						<td class="campoFormulario">${resultado.organismo}</td>
 					</tr>
 				</logic:equal>
+				<tr>
+					<td class="nombreFormulario">Email</td>
+					<td class="separadorCampoFormulario">:</td>
+					<td class="campoFormulario">${resultado.email}</td>
+				</tr>
 				<tr>
 					<td class="nombreFormulario">Id_Persona</td>
 					<td class="separadorCampoFormulario">:</td>

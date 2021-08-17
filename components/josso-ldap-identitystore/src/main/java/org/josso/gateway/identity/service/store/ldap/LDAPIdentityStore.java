@@ -308,16 +308,32 @@ public class LDAPIdentityStore extends AbstractStore implements ExtendedIdentity
     // ----------------------------------------------------- Extended IdentityStore Methods
 
     public String loadUsernameByRelayCredential ( ChallengeResponseCredential cred ) throws SSOIdentityException {
-        try {
-            return this.selectUser( cred.getId(), cred.getResponse() );
-        } catch(NamingException e) {
-            logger.error("NamingException while obtaining user with relay credential", e);
-            throw new SSOIdentityException("Error obtaining user with relay credential: ID[" + cred.getId() + "] = RESPONSE[" + cred.getResponse() + "]");
-        } catch (IOException e) {
-        	logger.error("StartTLS error", e);
-            throw new SSOIdentityException("StartTLS error : " + e.getMessage());
-		}
+	try {
+	    return this.selectUser(cred.getId(), cred.getResponse());
+	} catch (NamingException e) {
+	    logger.error("NamingException while obtaining user with relay credential", e);
+	    throw new SSOIdentityException("Error obtaining user with relay credential: ID[" + cred.getId()
+		    + "] = RESPONSE[" + cred.getResponse() + "]");
+	} catch (IOException e) {
+	    logger.error("StartTLS error", e);
+	    throw new SSOIdentityException("StartTLS error : " + e.getMessage());
+	}
     }
+
+
+    public String loadUsernameByRelayCredential(ChallengeResponseCredential[] relayCredential)
+	    throws SSOIdentityException {
+	try {
+	    return this.selectUser(relayCredential);
+	} catch (NamingException e) {
+	    logger.error("NamingException while obtaining user with relay credential", e);
+	    throw new SSOIdentityException("Error obtaining user with relay credential: ");
+	} catch (IOException e) {
+	    logger.error("StartTLS error", e);
+	    throw new SSOIdentityException("StartTLS error : " + e.getMessage());
+	}
+    }
+   
 
     public void updateAccountPassword ( UserKey key, Credential newPassword ) throws SSOIdentityException {
         try {
@@ -634,6 +650,7 @@ public class LDAPIdentityStore extends AbstractStore implements ExtendedIdentity
         try {
             // NamingEnumeration answer = ctx.search(usersCtxDN, matchAttrs, principalAttr);
             // This gives more control over search behavior :
+            
             NamingEnumeration answer = ctx.search(usersCtxDN, "(&(" + attrId + "=" + attrValue + "))", getSearchControls());
 
             while (answer.hasMore()) {
@@ -670,6 +687,52 @@ public class LDAPIdentityStore extends AbstractStore implements ExtendedIdentity
         return uidValue;
     }
 
+    private String selectUser(ChallengeResponseCredential[] relayCredential) throws NamingException, IOException {
+	String uidValue = null;
+	InitialLdapContext ctx = createLdapInitialContext(false);
+	StartTlsResponse tls = null;
+	if (getEnableStartTls()) {
+	    tls = startTls(ctx);
+	}
+	Attributes matchAttrs = new BasicAttributes(true);
+	String uidAttrName = this.getPrincipalUidAttributeID();
+	String usersCtxDN = this.getUsersCtxDN();
+	String[] principalAttr = new String[relayCredential.length];
+	for (int i = 0; i < relayCredential.length; i++) {
+	    principalAttr[i] = relayCredential[i].getId();
+	    matchAttrs.put(relayCredential[i].getId(), relayCredential[i].getValue());
+	}
+	try {
+	    NamingEnumeration answer = ctx.search(usersCtxDN, matchAttrs, principalAttr);
+	    while (answer.hasMore()) {
+		SearchResult sr = (SearchResult) answer.next();
+		Attributes attrs = sr.getAttributes();
+		Attribute uidAttr = attrs.get(uidAttrName);
+		if (uidAttr == null) {
+		    logger.warn("Invalid user attrValue attribute '" + uidAttrName + "'");
+		    continue;
+		}
+		uidValue = uidAttr.get().toString();
+		if (uidValue != null) {
+		    if (logger.isDebugEnabled())
+			logger.debug("Found user '" + uidAttrName + "=" + uidValue + "' for user '*RPBA'");
+		} else {
+		    if (logger.isDebugEnabled())
+			logger.debug("User not found for user '*RPBA'");
+		}
+	    }
+	} catch (NamingException e) {
+	    if (logger.isDebugEnabled())
+		logger.debug("Failed to locate user", e);
+	} finally {
+	    // Close the context to release the connection
+	    if (tls != null) {
+		tls.close();
+	    }
+	    ctx.close();
+	}
+	return uidValue;
+    }
     /**
      * Fetch the Ldap user attributes to be used as credentials.
      *
@@ -1425,4 +1488,6 @@ public class LDAPIdentityStore extends AbstractStore implements ExtendedIdentity
 	public void setTrustStorePassword(String trustStorePassword) {
 		_trustStorePassword = trustStorePassword;
 	}
+
+	
 }

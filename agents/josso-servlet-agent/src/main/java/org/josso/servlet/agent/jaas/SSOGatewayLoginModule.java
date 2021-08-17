@@ -137,8 +137,9 @@ public class SSOGatewayLoginModule  implements LoginModule {
                     " not available to garner authentication information " +
                     "from the user");
         }
-
-        logger.debug("Requested authentication to gateway by " + _requester + " using sso session " + ssoSessionId + "/" + ssoSessionId2 );
+        if(logger.isDebugEnabled()) {
+            logger.debug("Requested authentication to gateway by " + _requester + " using sso session " + ssoSessionId + "/" + ssoSessionId2 );
+        }
 
         try {
 
@@ -147,7 +148,9 @@ public class SSOGatewayLoginModule  implements LoginModule {
 
             // If no session is found, ignore this module.
             if (ssoSessionId == null) {
-                logger.debug("Session authentication failed : " + ssoSessionId);
+        	if(logger.isDebugEnabled()) {
+        	    logger.debug("Session authentication failed : " + ssoSessionId);
+        	}
                 _succeeded = false;
                 return false;
             }
@@ -166,8 +169,9 @@ public class SSOGatewayLoginModule  implements LoginModule {
             }
 
             ssoUser = im.findUserInSession(_requester, ssoSessionId);
-
-            logger.debug("Session authentication succeeded : " + ssoSessionId);
+            if(logger.isDebugEnabled()) {
+        	logger.debug("Session authentication succeeded : " + ssoSessionId);
+            }
             _ssoUserPrincipal = ssoUser;
             _succeeded = true;
 
@@ -212,9 +216,9 @@ public class SSOGatewayLoginModule  implements LoginModule {
                 if (!_subject.getPrincipals().contains(_ssoUserPrincipal)) {
                     _subject.getPrincipals().add(_ssoUserPrincipal);
                 }
-
-                logger.debug("Added SSOUser Principal to the Subject : " + _ssoUserPrincipal);
-
+                if(logger.isDebugEnabled()) {
+                    logger.debug("Added SSOUser Principal to the Subject : " + _ssoUserPrincipal);
+                }
                 _ssoRolePrincipals = getRoleSets();
 
                 // Add to the Subject the SSORoles associated with the SSOUser .
@@ -223,7 +227,9 @@ public class SSOGatewayLoginModule  implements LoginModule {
                         continue;
 
                     _subject.getPrincipals().add(_ssoRolePrincipals [i]);
-                    logger.debug("Added SSORole Principal to the Subject : " + _ssoRolePrincipals [i]);
+                    if(logger.isDebugEnabled()) {
+                	logger.debug("Added SSORole Principal to the Subject : " + _ssoRolePrincipals [i]);
+                    }
                 }
 
                 commitSucceeded = true;
@@ -276,12 +282,16 @@ public class SSOGatewayLoginModule  implements LoginModule {
      */
     public boolean logout() throws LoginException {
         _subject.getPrincipals().remove(_ssoUserPrincipal);
-        logger.debug("Removed SSOUser Principal from Subject : " + _ssoUserPrincipal);
+        if(logger.isDebugEnabled()) {
+            logger.debug("Removed SSOUser Principal from Subject : " + _ssoUserPrincipal);
+        }
 
         // Remove all the SSORole Principals from the Subject.
         for (int i=0; i < _ssoRolePrincipals.length; i++) {
             _subject.getPrincipals().remove(_ssoRolePrincipals[i]);
-            logger.debug("Removed SSORole Principal from Subject : " + _ssoRolePrincipals[i]);
+            if(logger.isDebugEnabled()) {
+        	logger.debug("Removed SSORole Principal from Subject : " + _ssoRolePrincipals[i]);
+            }
         }
 
         _succeeded = commitSucceeded;

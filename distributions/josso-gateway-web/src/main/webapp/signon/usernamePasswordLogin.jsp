@@ -74,7 +74,7 @@
 				<a id="pregunta" href="javascript:mostrar()">Mostrar teclado</a><br/>
 			</div>
 		</html:form>
-		<a href="<%=request.getContextPath()%>/selfservices/lostpassword/lostPassword.do?josso_cmd=lostPwd&RPBAExterno=1">Olvidé mi contraseña</a>
+		<a href="<%=request.getContextPath()%>/selfservices/lostpassword/lostPassword.do?josso_cmd=lostPwd&RPBAExterno=1">Olvidé mi contraseña / Usuario bloqueado</a>
 	</div>
 	<script type="JavaScript">
 		anadir('!!','josso_password');

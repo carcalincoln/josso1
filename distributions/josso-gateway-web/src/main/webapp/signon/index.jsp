@@ -19,6 +19,11 @@
 		%>
 	</logic:empty>
 	<logic:notEmpty name="usuario">
+		<c:if test="${empty URLLogout}">
+			<%
+    			response.sendRedirect(request.getContextPath() + "/signon/");
+			%>
+		</c:if>
 		<c:choose>
         	<c:when test="${sessionScope.usuario.estadoUsuario.id == 1}"><jsp:include page="/WEB-INF/jsp/signon/suspendido.jsp" /></c:when>
         	<c:when test="${sessionScope.usuario.estadoUsuario.id == 2}"><jsp:include page="/WEB-INF/jsp/signon/habilitado.jsp" /></c:when>

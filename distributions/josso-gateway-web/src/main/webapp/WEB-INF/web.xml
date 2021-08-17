@@ -245,6 +245,7 @@
 			<url-pattern>/signon/LDAPPasswordLogin.do</url-pattern>
 			<url-pattern>/signon/LDAPPasswordLogin.jsp</url-pattern>
 			<url-pattern>/services/*</url-pattern>
+			<url-pattern>/selfservices/*</url-pattern>
 			<url-pattern>/resources/*</url-pattern>
 			<url-pattern>/signon/cambiarPassword.do</url-pattern>
 		</web-resource-collection>

@@ -31,10 +31,10 @@
 
             <div class="main">
                 
-                <h2><bean:message key="sso.title.passwordDistributed"/></h2>
+                <h2><bean:message key="sso.title.passwordNotDistributed"/></h2>
 
-                <p><strong>NO <bean:message key="sso.text.passwordDistributed"/></strong></p>
-
+                <p><strong><bean:message key="sso.text.passwordNotDistributed"/></strong></p>
+                <html:link forward="lostPassword" styleClass="button"><bean:message key="sso.button.passwordNotDistributed"/></html:link>
             </div><!-- /main -->
 
         </div><!-- /subwrapper -->

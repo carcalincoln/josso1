@@ -50,8 +50,8 @@ sso.title.userLogin=User Login
 sso.text.userLogin=Please sign in. Enter your username and password.
 
 
-sso.label.username=Username:
-sso.label.password=Password:
+sso.label.username=Nombre Usuario:
+sso.label.password=Contraseña:
 
 sso.button.login=Login
 
@@ -86,21 +86,28 @@ sso.button.details=Details
 
 # ---------------------- Self services
 
-sso.title.lostPassword=Lost password
-sso.text.lostPassword=Please enter your email address to start the password reset process.
+sso.title.lostPassword = Contraseña perdida
+sso.text.lostPassword = Ingrese su dirección de correo electrónico para iniciar el proceso de restablecimiento de contraseña.
 
-sso.text.lostPassword.help=An e-mail will be sent to you with a new password.  Follow instructions to complete the password reset process.  
+sso.text.lostPassword.help = Se le enviará un correo electrónico con una nueva contraseña. Siga las instrucciones para completar el proceso de restablecimiento de contraseña.
 
-sso.title.passwordDistributed=Password Reset
-sso.text.passwordDistributed=A new password has been sent to your e-mail account with instructions to activate it.
+sso.title.complexLostPassword = Contraseña perdida
+sso.text.complexLostPassword = La dirección de correo electrónico {0} esta asociada a mas de un usuario por favor ingrese el nombre de usuario para el cual desea restablecer la contraseña.
 
-sso.title.passwordResetted=Password Reset
-sso.text.passwordResetted=Your new password has been confirmed, you can login now!
+sso.text.complexLostPassword.help = Se le enviará un correo electrónico con una nueva contraseña. Siga las instrucciones para completar el proceso de restablecimiento de contraseña.
 
-sso.label.rememberme=Remember Me:
-sso.label.forgotPassword=Forgot your Username or Password?
-sso.label.email=Type Your Email Address Here:
+sso.title.passwordDistributed = Restablecer contraseña
+sso.text.passwordDistributed = Se ha enviado una nueva contraseña a su cuenta de correo electrónico con instrucciones para activarla.
 
+sso.title.passwordResetted = Restablecer contraseña
+sso.text.passwordResetted = Su nueva contraseña ha sido confirmada, ¡puede iniciar sesión ahora!
 
+sso.title.passwordNotResetted = Restablecer contraseña
+sso.text.passwordNotResetted = Enlace ya usado o caducado.
+sso.button.passwordNotResetted= Solicitar
 
+sso.label.rememberme = Recuérdame:
+sso.label.forgotPassword = ¿Olvidó su nombre de usuario o contraseña?
+sso.label.email = Escriba aquí su dirección de correo electrónico:
 
+sso.label.secretQuestion=Nombre de usuario
